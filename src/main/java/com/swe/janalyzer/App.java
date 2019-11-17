@@ -8,6 +8,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        if(args.length > 0){
+            System.out.println("Handle Args cli");
+        }else{
+            System.out.println("Gui starten");
+        }
     }
 }
