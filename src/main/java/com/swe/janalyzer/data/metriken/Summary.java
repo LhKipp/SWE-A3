@@ -1,43 +1,34 @@
 package com.swe.janalyzer.data.metriken;
 
-import com.swe.janalyzer.data.metriken.cc.CC;
-import com.swe.janalyzer.data.metriken.dit.DIT;
-import com.swe.janalyzer.data.metriken.loc.LOC;
+import com.swe.janalyzer.util.ClassSpecifier;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Simple Struct holding all metrics
  */
 public class Summary {
-    private CC cc;
-    private DIT dit;
-    private LOC loc;
+    private List<FileMetrics> fileMetrics;
+    private Map<ClassSpecifier, ClassMetrics> classMetrics;
 
-    //Shouldnt be necessary
-    //private WMC wmcValue;
-    //WMC if needed can be computed by CC
-
-
-    public CC getCC() {
-        return cc;
+    public Summary() {
     }
 
-    public void setCC(CC cc) {
-        this.cc = cc;
+    public List<FileMetrics> getFileMetrics() {
+        return fileMetrics;
     }
 
-    public DIT getDIT() {
-        return dit;
+    public void setFileMetrics(List<FileMetrics> fileMetrics) {
+        this.fileMetrics = fileMetrics;
     }
 
-    public void setDIT(DIT dit) {
-        this.dit = dit;
+    public Map<ClassSpecifier, ClassMetrics> getClassMetrics() {
+        return classMetrics;
     }
 
-    public LOC getLOC() {
-        return loc;
-    }
-
-    public void setLOC(LOC loc) {
-        this.loc = loc;
+    public void setClassMetrics(Map<ClassSpecifier, ClassMetrics> classMetrics) {
+        this.classMetrics = classMetrics;
     }
 }
+
