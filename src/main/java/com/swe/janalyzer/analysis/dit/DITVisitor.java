@@ -19,6 +19,7 @@ class DITVisitor extends VoidVisitorAdapter<Void> {
 
     @Override
     public void visit(ClassOrInterfaceDeclaration decl, Void arg){
+        super.visit(decl, arg);
 
         if(decl.isInterface()){
             return;

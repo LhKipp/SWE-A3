@@ -3,6 +3,7 @@ package com.swe.janalyzer.analysis;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
+import com.swe.janalyzer.analysis.cc.CCCalculator;
 import com.swe.janalyzer.analysis.dit.DITCalculator;
 import com.swe.janalyzer.analysis.util.FileUtil;
 import com.swe.janalyzer.data.metriken.FileMetrics;
@@ -37,11 +38,15 @@ public class MetricCalculatorImpl implements MetricCalculator{
             summary.setClassMetrics(new HashMap<>(estimatedClassCount));
         }
         DITCalculator ditCalc = new DITCalculator(estimatedClassCount);
+        CCCalculator ccCalc= new CCCalculator(summary.getClassMetrics());
 
         for (Path p : javaFiles){
             CompilationUnit cu = StaticJavaParser.parse(p);
-            VoidVisitor<Void> visitor = ditCalc.getASTVisitor();
-            visitor.visit(cu, null);
+            VoidVisitor<Void> ditVisitor = ditCalc.getASTVisitor();
+            ditVisitor.visit(cu, null);
+
+            VoidVisitor<Void> ccVisitor = ccCalc.getASTVisitor();
+            ccVisitor.visit(cu, null);
         }
         ditCalc.injectResultsIn(summary.getClassMetrics());
 

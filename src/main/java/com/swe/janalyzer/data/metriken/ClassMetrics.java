@@ -15,7 +15,12 @@ public class ClassMetrics {
    public ClassMetrics(int dit) {
       this.dit=dit;
    }
-   public int getDit() {
+
+    public ClassMetrics(List<FunctionCC> functionCCs) {
+      this.functionCCs = functionCCs;
+    }
+
+    public int getDit() {
       return dit;
    }
 
