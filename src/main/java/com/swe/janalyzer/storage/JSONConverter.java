@@ -29,7 +29,7 @@ public class JSONConverter {
 		 * @param filePath - Der Pfad zur zu speichernden Datei.
 		 * @throws IOException Wird ausgelöst, wenn das Programm nicht in die Datei schreiben kann.
 		 */
-		public static void save(Summary summary, Path filePath) throws IOException {
+		public static void save(Summary summary, Path filePath) throws IOException, NullPointerException {
 				Gson gson = new GsonBuilder()
 						.setPrettyPrinting()
 						.create();
@@ -47,7 +47,7 @@ public class JSONConverter {
 		 * @return Gibt die ausgelesene Datei als Summary zurück
 		 * @throws IOException Wird ausgelöst, wenn das Programm die Datei nicht lesen konnte.
 		 */
-		public static Summary load (Path filePath) throws IOException {
+		public static Summary load (Path filePath) throws IOException, NullPointerException {
 				Gson gson = new Gson();
 
 				Stream<String> lines = Files.lines(filePath);
