@@ -12,6 +12,9 @@ public class ClassMetrics {
    public ClassMetrics() {
    }
 
+   public ClassMetrics(int dit) {
+      this.dit=dit;
+   }
    public int getDit() {
       return dit;
    }
