@@ -6,3 +6,6 @@
 ## Metriken
 ### CC
 #### Sollen try statements mitgezählt werden?
+
+### WMC
+#### Wenn  ein Konstruktoraufruf in der Klasse aber außerhalb der Methoden steht wird dieser bei WMC mitgezählt?
