@@ -2,6 +2,11 @@ package com.swe.janalyzer.data.metriken;
 
 import java.nio.file.Path;
 
+/**
+ * Datenmodell für die Metriken eines Files.
+ * {@link FileMetrics#file} ist der Pfad zum .java-File.
+ * {@link FileMetrics#sloc} ist die Anzahl an Codezeilen im entsprechenden File.
+ */
 public class FileMetrics {
     private Path file;
 
