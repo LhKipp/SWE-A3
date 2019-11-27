@@ -30,18 +30,16 @@ public class ClassMetrics {
 
    /**
     * Setter für {@link ClassMetrics#functionCCs}
-    * Im Anschluss wird der wmc berechnet, der sich aus der Summe des MacCabe der einzelnen Methoden zusammensetzt
     * @param functionCCs
     */
    public void setFunctionCCs(List<FunctionCC> functionCCs) {
       this.functionCCs = functionCCs;
-      for(FunctionCC curFunction : this.functionCCs) {
-         wmcValue += curFunction.getCCValue();
-      }
    }
 
    public int getWmcValue() {
-      return wmcValue;
+       return functionCCs.stream()
+               .mapToInt(FunctionCC::getCCValue)
+               .sum();
    }
 
 }
