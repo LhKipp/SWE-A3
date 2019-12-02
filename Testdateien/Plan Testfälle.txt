@@ -1,0 +1,60 @@
+﻿Test Dateien zu:
+
+LOC Lines of Code
+	Soll Anzahl an Linien die tatsächlich Code enthalten zählen.
+	1 mal pro Datei, Kumuliert im Projekt
+
+Fälle:
+Kommentar 0
+Leere Zeile 0
+Code Zeile 1
+Code Zeile & Kommentar dran 1
+öffnende und schließende Klammer ?
+
+--------------------------------------------------------------------
+
+DIT Depth of inheritance
+	Anzahl der Beerbungen einer Klasse.
+	DIT MAX: Max DIT innerhalb des Projekts (wenn leer 0)
+	
+Fälle:
+Interface einbinden 0
+Erben von einer Class 1
+Erben von einer Class außerhalb des Projekts 1
+Erben von Abstract Class 1
+
+--------------------------------------------------------------------
+
+CC The McCabe's cyclomatic complexity pro FUNKTION
+	Summe von Funktionsaufrufen, Methodenaufrufen inkl. Konstruktoraufrufen
+	CC MAX: Maximum aller CC Werte (wenn keine Fkt. 0)
+	
+Fälle:
+if 1
+else 1
+Funktionsaufruf 1
+Methodenaufruf 1
+Konstruktoraufruf 1
+switch-cases 1
+Schleifen 1
+
+--------------------------------------------------------------------
+
+WMC Weighted methods per class
+	Summe der cyclomatic complexities aller Methoden auch Konstruktoraufrufe einer Klasse
+	WMC Max: maximaler WMC Wert innerhalb des Projektes
+	
+
+
+
+1. Leeres Projekt
+	- komplett leer
+	- mit leerer Klasse / Kommentare
+2. Lines of Codes Projekt
+	- Code mit bestimmter Anzahl an Zeilen, mehrere Klassen
+3. Depth of inheritance Projekt
+	- Code mit Vererbungen, auch von außerhalb, mehrere Klassen
+4. The McCabe's cyclomatic complexity Projekt
+	- Code mit vielen aufrufen und Konstrukten
+5. Weighted methods per class Projekt
+	- Code mit vielen vielen Konstrukten innerhalb Methoden
