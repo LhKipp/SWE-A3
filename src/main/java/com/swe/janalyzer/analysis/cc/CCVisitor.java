@@ -45,10 +45,6 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
                 .sum();
 
         ClassSpecifier classSpecifier = new ClassSpecifier(parentClass.getNameAsString());
-        FunctionCC funcCC = new FunctionCC(
-                decl.getNameAsString(),
-                totalCCValue
-        );
 
         if(!classMetrics.containsKey(classSpecifier)){
            //Compute count of methods in class, so that array is allocated correctly
@@ -58,9 +54,13 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
                     classSpecifier,
                     new ClassMetrics(functionCCs)
             );
-        }else{//if class is already found just add this method
-            classMetrics.get(classSpecifier).getFunctionCCs().add(funcCC);
         }
+
+        FunctionCC funcCC = new FunctionCC(
+                decl.getNameAsString(),
+                totalCCValue
+        );
+        classMetrics.get(classSpecifier).getFunctionCCs().add(funcCC);
     }
 
     /*
@@ -106,7 +106,6 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
                 || clazz == ForStmt.class
                 || clazz == IfStmt.class
                 || clazz == WhileStmt.class
-                || clazz == TryStmt.class
                 || clazz == MethodCallExpr.class
                 || clazz == CatchClause.class
             ){
