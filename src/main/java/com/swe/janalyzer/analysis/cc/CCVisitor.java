@@ -32,8 +32,19 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
         //TODO Test this code
         super.visit(decl, arg);
 
+        Optional<Node> parentNode = decl.getParentNode();
+        if(!parentNode.isPresent()){
+            //This MethodDeclaration has no parent- This should never happen
+            return;
+        }
+        Node parent = parentNode.get();
+
+        if(parent.getClass() != ClassOrInterfaceDeclaration.class){
+            //If this function is not a sippling of a class
+            return;
+        }
         ClassOrInterfaceDeclaration parentClass =
-                (ClassOrInterfaceDeclaration)decl.getParentNode().get();
+                (ClassOrInterfaceDeclaration) parentNode.get();
         
         if(parentClass.isInterface()){
             return;
@@ -100,7 +111,7 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
     private int toCCValue(Node node){
         Class clazz = node.getClass();
         if(clazz == DoStmt.class
-                ||clazz == ExplicitConstructorInvocationStmt.class
+                || clazz == ExplicitConstructorInvocationStmt.class
                 || clazz == ObjectCreationExpr.class
                 || clazz == ForEachStmt.class
                 || clazz == ForStmt.class
