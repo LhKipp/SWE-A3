@@ -25,7 +25,7 @@ public class TestdateienTests {
         Files.createDirectories(calcPath.getParent());
         Files.createDirectories(expectedPath.getParent());
         JSONConverter.save(calculated, calcPath);
-        JSONConverter.save(expected, expectedPath);
+        JSONConverter.save(expected, expectedPath); //Stackoverflow error
         assertEquals(expected, calculated);
     }
 
