@@ -1,0 +1,89 @@
+EditorPreferenceFragment.java
+LOC: 71
+DIT: 2, Zeile 34
+WMC: 33 (1 String-Konstruktoraufruf außerhalb der Methoden)
+CC pro Funktion: 
+new OnPreferenceChangeListener(){public boolean onPreferenceChange(final Preference preference, Object newValue) {12}(1 String-Konstruktoraufruf)} (im Konstruktoraufruf)
+public void onCreate(Bundle savedInstanceState) {18}
+public CharSequence getTitle() {1}
+
+
+EditorSHColorSchemePreferenceFragment.Java
+LOC: 172
+DIT: 2, Zeile 39
+WMC: 99 (2 String-Konstruktoraufruf außerhalb der Methoden)
+CC pro Funktion:
+new OnPreferenceChangeListener() {public boolean onPreferenceChange(final Preference preference, final Object newValue) {19}(2 Sting-Konstruktoraufruf)} (im Konstruktoraufruf)
+new OnPreferenceClickListener() {public boolean onPreferenceClick(Preference preference) {5} (1 String-Konstruktoraufruf) }(im Konstruktoraufruf)
+public void onCreate(Bundle savedInstanceState) {9}
+public CharSequence getTitle() {1}
+void loadDefaultColorScheme(boolean reset) {18} (1 Sting-Konstruktoraufruf)
+void setColorScheme(HighlightColors color, int[] colorScheme, int pos) {10}
+static boolean isColorSchemePreference(final Preference preference) {9} (1 Sting-Konstruktoraufruf)
+public static int[] toColorShemeArray(String value) {12} (1 Sting-Konstruktoraufruf)
+String toColorSchemeSet(final Preference preference, final int newValue) {12} (2 String-Konstruktoraufruf)
+
+
+GeneralPreferenceFragment.java
+LOC: 201
+DIT: 2, Zeile 44
+WMC: 146 (1 String-Konstruktoraufruf außerhalb der Methoden)
+CC pro Funktion: 
+new OnPreferenceChangeListener() {public boolean onPreferenceChange(final Preference preference, Object newValue) {68}(7 String-Konstruktoraufruf)}(im Konstruktoraufruf)
+public void onCreate(Bundle savedInstanceState) {65}
+private void updateAccessModeStatus() {10}
+public CharSequence getTitle() {1}
+
+
+SearchPreferenceFragment.java
+LOC: 121
+DIT: 2, Zeile 41
+WMC: 69 (2 String-Konstruktoraufruf außerhalb der Methoden)
+CC pro Funktion:
+new OnPreferenceChangeListener() {public boolean onPreferenceChange(Preference preference, Object newValue) {25} (2 String-Konstruktoraufruf) }(im Konstruktoraufruf)
+new Preference.OnPreferenceClickListener() {public boolean onPreferenceClick(Preference preference) {8}} (im Konstruktoraufruf)
+public void onCreate(Bundle savedInstanceState) {27}
+void clearRecentSearchTerms() {4 (1 davon im Konstruktoraufruf innerhalb der Meth.)}
+public CharSequence getTitle() {1}
+
+
+SettingsPreferences.java
+LOC: 118
+DIT: 1, Zeile 45
+WMC: 67 (1 String-Konstruktoraufruf außerhalb der Methoden)
+CC pro Funktion:
+new BroadcastReceiver() {public void onReceive(Context context, Intent intent) {5}}(im Konstruktoraufruf)
+protected void onCreate(Bundle savedInstanceState) {10}
+protected void onDestroy() {4}
+private void initTitleActionBar() {16}
+public void onBuildHeaders(List<Header> target) {5 (1 davon im Konstruktoraufruf)}
+public boolean onOptionsItemSelected(MenuItem item) {7}
+public void onAttachFragment(Fragment fragment) {7}
+protected void onResume() {2}
+void applyTheme() {9}
+protected boolean isValidFragment(String fragmentName) {0}
+
+
+StoragePreferenceFragment.java
+LOC: 113
+DIT: 2, Zeile 38
+WMC: 63 (3 String-Konstruktoraufruf außerhalb der Methoden)
+CC pro Funktion: 
+new BroadcastReceiver() {public void onReceive(Context context, Intent intent) {4}} (im Konstruktoraufruf)
+new OnPreferenceChangeListener() {public boolean onPreferenceChange(Preference preference, Object newValue) {6}(1 String-Konstruktoraufruf)} (im Konstruktoraufruf)
+new OnPreferenceClickListener() {public boolean onPreferenceClick(Preference preference) {9}} (im Konstruktoraufruf)
+public void onStart() {5}
+public void onStop() {3}
+public void onResume() {2}
+public void onPause() {1}
+public void onCreate(Bundle savedInstanceState) {14}
+public CharSequence getTitle() {1}
+private SecureConsole getSecureConsole() {5}
+private void updatePreferences() {7}
+
+
+TitlePreferenceFragment.java
+LOC: 5
+DIT: 1, Zeile 24
+WMC: 0
+CC pro Funktion: 0
