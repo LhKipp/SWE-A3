@@ -11,6 +11,7 @@ Pro Catch cc += 1
 #### Beeinflussen anonyme Klassen den CC?
 Nein. Anonyme Klassen haben keinen Einfluss.
 
+
 ### WMC
 #### Wenn  ein Konstruktoraufruf in der Klasse aber außerhalb der Methoden steht wird dieser bei WMC mitgezählt?
 Attribute beeinflussen WMC nicht.
