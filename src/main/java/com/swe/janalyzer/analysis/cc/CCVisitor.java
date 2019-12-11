@@ -79,7 +79,7 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
             ConstructorDeclaration decl1 = (ConstructorDeclaration) decl;
             return decl1.getNameAsString();
         }
-        return "ERROR IN CC VISITOR";
+        throw new IllegalArgumentException("Node was of an unsupported type");
     }
 
     /*

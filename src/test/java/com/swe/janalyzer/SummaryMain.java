@@ -223,7 +223,7 @@ public class SummaryMain {
 
 		// Funktionen der Klasse in einer Arraylist / Leer => WMC 0
 		//ArrayList<FunctionCC> functionCCs7 = new ArrayList<FunctionCC>();
-		titlePreferenceFragmentClass.setFunctionCCs(null); //NULL richtig?
+		titlePreferenceFragmentClass.setFunctionCCs(new ArrayList<>()); //NULL richtig?
 
 
 		// Projekt Preferences Objekt:
@@ -275,10 +275,10 @@ public class SummaryMain {
 
 		// Funktionen der Klasse in einer Arraylist
 		ArrayList<FunctionCC> Proj2File1Class1functionCCs = new ArrayList<FunctionCC>();
-		FunctionCC proj2File1Class1funcCC1 = new FunctionCC("BellmanFord", 2);
+		FunctionCC proj2File1Class1funcCC1 = new FunctionCC("BellmanFord", 1);
 		FunctionCC proj2File1Class1funcCC2 = new FunctionCC("printPath", 4);
 		FunctionCC proj2File1Class1funcCC3 = new FunctionCC("main", 3);
-		FunctionCC proj2File1Class1funcCC4 = new FunctionCC("go", 28);
+		FunctionCC proj2File1Class1funcCC4 = new FunctionCC("go", 27);
 		FunctionCC proj2File1Class1funcCC5 = new FunctionCC("show", 14);
 		FunctionCC proj2File1Class1funcCC6 = new FunctionCC("addEdge", 2);
 		FunctionCC proj2File1Class1funcCC7 = new FunctionCC("getEdgeArray", 1);
@@ -296,15 +296,7 @@ public class SummaryMain {
 		Proj2File1Class1.setFunctionCCs(Proj2File1Class1functionCCs);
 
 
-		// Klasse(Class Edge) in Klasse BellmanFord
-		ClassMetrics Proj2File1Class2 = new ClassMetrics();
-		Proj2File1Class2.setDit(0);
-		// Funktionen der Klasse in einer Arraylist
-		ArrayList<FunctionCC> Proj2File1Class2functionCCs = new ArrayList<FunctionCC>();
-		FunctionCC proj2File1Class2funcCC1 = new FunctionCC("Edge", 1);
-		// definierte Funktionen der Liste hinzuf�gen
-		Proj2File1Class2functionCCs.add(proj2File1Class2funcCC1);
-		Proj2File1Class2.setFunctionCCs(Proj2File1Class2functionCCs);
+		// Klasse(Class Edge) in Klasse BellmanFord -- gelöscht, da classe doppelt
 
 
 		// ----------------------------------------------------
@@ -404,15 +396,9 @@ public class SummaryMain {
 
 		// Funktionen der Klasse in einer Arraylist
 		ArrayList<FunctionCC> Proj2File4Class1functionCCs = new ArrayList<FunctionCC>();
-<<<<<<< variant A
-		FunctionCC proj2File4Class1funcCC1 = new FunctionCC("FloydWarshall", 1);
-		FunctionCC proj2File4Class1funcCC2 = new FunctionCC("floydwarshall", 14);
-		FunctionCC proj2File4Class1funcCC3 = new FunctionCC("main", 12); //13 wenn continue zählt
->>>>>>> variant B
 		FunctionCC proj2File4Class1funcCC1 = new FunctionCC("FloydWarshall", 2);
 		FunctionCC proj2File4Class1funcCC2 = new FunctionCC("floydwarshall", 15);
 		FunctionCC proj2File4Class1funcCC3 = new FunctionCC("main", 14);
-======= end
 		// definierte Funktionen der Liste hinzuf�gen
 		Proj2File4Class1functionCCs.add(proj2File4Class1funcCC1);
 		Proj2File4Class1functionCCs.add(proj2File4Class1funcCC2);
@@ -546,6 +532,7 @@ public class SummaryMain {
 		Proj2File7Class1functionCCs.add(proj2File7Class1funcCC2);
 		Proj2File7Class1functionCCs.add(proj2File7Class1funcCC3);
 		Proj2File7Class1functionCCs.add(proj2File7Class1funcCC4);
+		Proj2File7Class1.setFunctionCCs(Proj2File7Class1functionCCs );
 
 
 		// Projekt Graphs Objekt:
@@ -583,7 +570,6 @@ public class SummaryMain {
 		ClassSpecifier p2Cs14 = new ClassSpecifier("PrimMST");
 
 		classMetrics2.put(p2Cs1, Proj2File1Class1);
-		classMetrics2.put(p2Cs2, Proj2File1Class2);
 		classMetrics2.put(p2Cs3, Proj2File2Class1);
 		classMetrics2.put(p2Cs4, Proj2File2Class2);
 		classMetrics2.put(p2Cs5, Proj2File2Class3);
@@ -691,7 +677,7 @@ public class SummaryMain {
 
 		ClassMetrics Proj3File2Class2 = new ClassMetrics(); //class Node in class BinaryTree
 		Proj3File2Class2.setDit(0);
-		Proj3File2Class2.setFunctionCCs(null);
+		Proj3File2Class2.setFunctionCCs(new ArrayList<>());
 
 
 		// ----------------------------------------------------
@@ -749,7 +735,7 @@ public class SummaryMain {
 
 		ClassMetrics Proj3File3Class2 = new ClassMetrics(); //class Node in class GenericTree
 		Proj3File3Class2.setDit(0);
-		Proj3File3Class2.setFunctionCCs(null); //enth�lt 1 Konstruktoraufruf ?!
+		Proj3File3Class2.setFunctionCCs(new ArrayList<>()); //enth�lt 1 Konstruktoraufruf ?!
 
 
 		// ----------------------------------------------------
@@ -779,7 +765,7 @@ public class SummaryMain {
 
 		ClassMetrics Proj3File4Class2 = new ClassMetrics(); //class Node in class LevelOrderTraversal
 		Proj3File4Class2.setDit(0);
-		Proj3File4Class2.setFunctionCCs(null);
+		Proj3File4Class2.setFunctionCCs(new ArrayList<>());
 
 
 		// ----------------------------------------------------
@@ -801,7 +787,7 @@ public class SummaryMain {
 
 		ClassMetrics Proj3File5Class2 = new ClassMetrics(); //class Node in class LevelOrderTraversalQueue
 		Proj3File5Class2.setDit(0);
-		Proj3File5Class2.setFunctionCCs(null);
+		Proj3File5Class2.setFunctionCCs(new ArrayList<>());
 
 
 		// ----------------------------------------------------
@@ -823,11 +809,11 @@ public class SummaryMain {
 
 		ClassMetrics Proj3File6Class2 = new ClassMetrics(); //class TreeNode
 		Proj3File6Class2.setDit(0);
-		Proj3File6Class2.setFunctionCCs(null);  // cc == 0
+		Proj3File6Class2.setFunctionCCs(new ArrayList<>());  // cc == 0
 
 		ClassMetrics Proj3File6Class3 = new ClassMetrics(); //class QItem
 		Proj3File6Class3.setDit(0);
-		Proj3File6Class3.setFunctionCCs(null);  // cc == 0
+		Proj3File6Class3.setFunctionCCs(new ArrayList<>());  // cc == 0
 
 		ClassMetrics Proj3File6Class4 = new ClassMetrics(); //class Tree
 		Proj3File6Class4.setDit(0);
@@ -888,7 +874,7 @@ public class SummaryMain {
 
 		ClassMetrics Proj3File7Class2 = new ClassMetrics(); //class Node in class RedBlackBST
 		Proj3File7Class2.setDit(0);
-		Proj3File7Class2.setFunctionCCs(null);
+		Proj3File7Class2.setFunctionCCs(new ArrayList<>());
 
 
 		// ----------------------------------------------------
@@ -988,7 +974,7 @@ public class SummaryMain {
 
 		ClassMetrics Proj3File10Class2 = new ClassMetrics(); //class Node in class ValidBSTOrNot
 		Proj3File10Class2.setDit(0);
-		Proj3File10Class2.setFunctionCCs(null);
+		Proj3File10Class2.setFunctionCCs(new ArrayList<>());
 
 
 		// Projekt Trees Objekt:
