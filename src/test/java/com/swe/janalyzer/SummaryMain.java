@@ -318,9 +318,9 @@ public class SummaryMain {
 
 		// Funktionen der Klasse in einer Arraylist
 		ArrayList<FunctionCC> Proj2File2Class1functionCCs = new ArrayList<FunctionCC>();
-		FunctionCC proj2File2Class1funcCC1 = new FunctionCC("Graph", 3);
-		FunctionCC proj2File2Class1funcCC2 = new FunctionCC("addEdge", 14);
-		FunctionCC proj2File2Class1funcCC3 = new FunctionCC("countGraphs", 6);
+		FunctionCC proj2File2Class1funcCC1 = new FunctionCC("Graph", 2);
+		FunctionCC proj2File2Class1funcCC2 = new FunctionCC("addEdge", 13);
+		FunctionCC proj2File2Class1funcCC3 = new FunctionCC("countGraphs", 8);
 		FunctionCC proj2File2Class1funcCC4 = new FunctionCC("depthFirstSearch", 6);
 
 		// definierte Funktionen der Liste hinzuf�gen
@@ -331,8 +331,9 @@ public class SummaryMain {
 
 		// setzen der funcCC Liste bei dem ClassMetrics Objekt
 		Proj2File2Class1.setFunctionCCs(Proj2File2Class1functionCCs);
-		Proj2File2Class2.setFunctionCCs(null);
-		Proj2File2Class3.setFunctionCCs(null);
+		Proj2File2Class2.setFunctionCCs(new ArrayList<>()); //Node
+		Proj2File2Class2.getFunctionCCs().add(new FunctionCC("Node", 1));
+		Proj2File2Class3.setFunctionCCs(new ArrayList<>());
 
 
 		// ----------------------------------------------------
@@ -362,10 +363,10 @@ public class SummaryMain {
 
 		// Func. von Klasse Cycle
 		ArrayList<FunctionCC> Proj2File3Class2functionCCs = new ArrayList<FunctionCC>();
-		FunctionCC proj2File3Class2funcCC1 = new FunctionCC("Cycle", 12);
+		FunctionCC proj2File3Class2funcCC1 = new FunctionCC("Cycle", 13); 
 		FunctionCC proj2File3Class2funcCC2 = new FunctionCC("start", 4);
-		FunctionCC proj2File3Class2funcCC3 = new FunctionCC("dfs", 12);
-		FunctionCC proj2File3Class2funcCC4 = new FunctionCC("printAll", 5);
+		FunctionCC proj2File3Class2funcCC3 = new FunctionCC("dfs", 13);
+		FunctionCC proj2File3Class2funcCC4 = new FunctionCC("printAll", 12);
 		// definierte Funktionen der Liste hinzuf�gen
 		Proj2File3Class2functionCCs.add(proj2File3Class2funcCC1);
 		Proj2File3Class2functionCCs.add(proj2File3Class2funcCC2);
@@ -387,9 +388,9 @@ public class SummaryMain {
 
 		// Funktionen der Klasse in einer Arraylist
 		ArrayList<FunctionCC> Proj2File4Class1functionCCs = new ArrayList<FunctionCC>();
-		FunctionCC proj2File4Class1funcCC1 = new FunctionCC("FloydWarshall", 2);
+		FunctionCC proj2File4Class1funcCC1 = new FunctionCC("FloydWarshall", 1);
 		FunctionCC proj2File4Class1funcCC2 = new FunctionCC("floydwarshall", 14);
-		FunctionCC proj2File4Class1funcCC3 = new FunctionCC("main", 14);
+		FunctionCC proj2File4Class1funcCC3 = new FunctionCC("main", 12); //13 wenn continue zählt
 		// definierte Funktionen der Liste hinzuf�gen
 		Proj2File4Class1functionCCs.add(proj2File4Class1funcCC1);
 		Proj2File4Class1functionCCs.add(proj2File4Class1funcCC2);
@@ -418,7 +419,7 @@ public class SummaryMain {
 
 
 		ClassMetrics Proj2File5Class2 = new ClassMetrics(); //Class AdjacencyListGraph
-		Proj2File5Class2.setDit(1);
+		Proj2File5Class2.setDit(0);
 		// Funktionen der Klasse in einer Arraylist
 		ArrayList<FunctionCC> Proj2File5Class2functionCCs = new ArrayList<FunctionCC>();
 		FunctionCC proj2File5Class2funcCC1 = new FunctionCC("AdjacencyListGraph", 1);
@@ -478,11 +479,11 @@ public class SummaryMain {
 		FunctionCC proj2File6Class2funcCC5 = new FunctionCC("numberOfEdges", 0);
 		FunctionCC proj2File6Class2funcCC6 = new FunctionCC("setAdjacency", 0);
 		FunctionCC proj2File6Class2funcCC7 = new FunctionCC("adjacency", 0);
-		FunctionCC proj2File6Class2funcCC8 = new FunctionCC("adjacencyOfEdgeDoesExist", 0);
+		FunctionCC proj2File6Class2funcCC8 = new FunctionCC("adjacencyOfEdgeDoesExist", 1);
 		FunctionCC proj2File6Class2funcCC9 = new FunctionCC("vertexDoesExist", 3);
 		FunctionCC proj2File6Class2funcCC10 = new FunctionCC("edgeDoesExist", 4);
-		FunctionCC proj2File6Class2funcCC11 = new FunctionCC("addEdge", 8);
-		FunctionCC proj2File6Class2funcCC12 = new FunctionCC("removeEdge", 8);
+		FunctionCC proj2File6Class2funcCC11 = new FunctionCC("addEdge", 9);
+		FunctionCC proj2File6Class2funcCC12 = new FunctionCC("removeEdge", 9);
 		FunctionCC proj2File6Class2funcCC13 = new FunctionCC("toString", 10);
 		// definierte Funktionen der Liste hinzuf�gen
 		Proj2File6Class2functionCCs.add(proj2File6Class2funcCC1);
@@ -516,8 +517,8 @@ public class SummaryMain {
 		ArrayList<FunctionCC> Proj2File7Class1functionCCs = new ArrayList<FunctionCC>();
 		FunctionCC proj2File7Class1funcCC1 = new FunctionCC("minKey", 2);
 		FunctionCC proj2File7Class1funcCC2 = new FunctionCC("printMST", 3);
-		FunctionCC proj2File7Class1funcCC3 = new FunctionCC("primMST", 9);
-		FunctionCC proj2File7Class1funcCC4 = new FunctionCC("main", 3);
+		FunctionCC proj2File7Class1funcCC3 = new FunctionCC("primMST", 6); //7 wenn Boolean mstSet[] = new Boolean[V]; zählt
+		FunctionCC proj2File7Class1funcCC4 = new FunctionCC("main", 2);
 		// definierte Funktionen der Liste hinzuf�gen
 		Proj2File7Class1functionCCs.add(proj2File7Class1funcCC1);
 		Proj2File7Class1functionCCs.add(proj2File7Class1funcCC2);
@@ -547,30 +548,32 @@ public class SummaryMain {
 		ClassSpecifier p2Cs1 = new ClassSpecifier("BellmanFord");
 		ClassSpecifier p2Cs2 = new ClassSpecifier("Edge");
 		ClassSpecifier p2Cs3 = new ClassSpecifier("Graph");
-		ClassSpecifier p2Cs4 = new ClassSpecifier("Edge");
-		ClassSpecifier p2Cs5 = new ClassSpecifier("Cycles");
-		ClassSpecifier p2Cs6 = new ClassSpecifier("Cycle");
-		ClassSpecifier p2Cs7 = new ClassSpecifier("FloydWarshall");
-		ClassSpecifier p2Cs8 = new ClassSpecifier("Graphs");
-		ClassSpecifier p2Cs9 = new ClassSpecifier("AdjacencyListGraph");
-		ClassSpecifier p2Cs10 = new ClassSpecifier("Vertex");
-		ClassSpecifier p2Cs11 = new ClassSpecifier("MatrixGraphs");
-		ClassSpecifier p2Cs12 = new ClassSpecifier("AdjacencyMatrixGraph");
-		ClassSpecifier p2Cs13 = new ClassSpecifier("PrimMST");
+		ClassSpecifier p2Cs4 = new ClassSpecifier("Node");
+		ClassSpecifier p2Cs5 = new ClassSpecifier("Edge");
+		ClassSpecifier p2Cs6 = new ClassSpecifier("Cycles");
+		ClassSpecifier p2Cs7 = new ClassSpecifier("Cycle");
+		ClassSpecifier p2Cs8 = new ClassSpecifier("FloydWarshall");
+		ClassSpecifier p2Cs9 = new ClassSpecifier("Graphs");
+		ClassSpecifier p2Cs10 = new ClassSpecifier("AdjacencyListGraph");
+		ClassSpecifier p2Cs11 = new ClassSpecifier("Vertex");
+		ClassSpecifier p2Cs12 = new ClassSpecifier("MatrixGraphs");
+		ClassSpecifier p2Cs13 = new ClassSpecifier("AdjacencyMatrixGraph");
+		ClassSpecifier p2Cs14 = new ClassSpecifier("PrimMST");
 
 		classMetrics2.put(p2Cs1, Proj2File1Class1);
 		classMetrics2.put(p2Cs2, Proj2File1Class2);
 		classMetrics2.put(p2Cs3, Proj2File2Class1);
 		classMetrics2.put(p2Cs4, Proj2File2Class2);
-		classMetrics2.put(p2Cs5, Proj2File3Class1);
-		classMetrics2.put(p2Cs6, Proj2File3Class2);
-		classMetrics2.put(p2Cs7, Proj2File4Class1);
-		classMetrics2.put(p2Cs8, Proj2File5Class1);
-		classMetrics2.put(p2Cs9, Proj2File5Class2);
-		classMetrics2.put(p2Cs10, Proj2File5Class3);
-		classMetrics2.put(p2Cs11, Proj2File6Class1);//
-		classMetrics2.put(p2Cs12, Proj2File6Class2);
-		classMetrics2.put(p2Cs13, Proj2File7Class1);
+		classMetrics2.put(p2Cs5, Proj2File2Class3);
+		classMetrics2.put(p2Cs6, Proj2File3Class1);
+		classMetrics2.put(p2Cs7, Proj2File3Class2);
+		classMetrics2.put(p2Cs8, Proj2File4Class1);
+		classMetrics2.put(p2Cs9, Proj2File5Class1);
+		classMetrics2.put(p2Cs10, Proj2File5Class2);
+		classMetrics2.put(p2Cs11, Proj2File5Class3);
+		classMetrics2.put(p2Cs12, Proj2File6Class1);
+		classMetrics2.put(p2Cs13, Proj2File6Class2);
+		classMetrics2.put(p2Cs14, Proj2File7Class1);
 
 		projektGraphs.setClassMetrics(classMetrics2);
 
@@ -627,7 +630,7 @@ public class SummaryMain {
 
 		ClassMetrics Proj3File1Class2 = new ClassMetrics(); //class Node in class AVLTree
 		Proj3File1Class2.setDit(0);
-		Proj3File1Class2.setFunctionCCs(null);
+		Proj3File1Class2.setFunctionCCs(new ArrayList<>());
 
 
 		// ----------------------------------------------------

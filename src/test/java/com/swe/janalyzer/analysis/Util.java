@@ -1,12 +1,10 @@
 package com.swe.janalyzer.analysis;
 
 import com.swe.janalyzer.data.metriken.ClassMetrics;
-import com.swe.janalyzer.data.metriken.FileMetrics;
 import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.data.metriken.cc.FunctionCC;
 import com.swe.janalyzer.util.ClassSpecifier;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
