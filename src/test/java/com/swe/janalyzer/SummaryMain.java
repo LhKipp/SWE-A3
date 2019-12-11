@@ -310,7 +310,7 @@ public class SummaryMain {
 		Proj2File2.setSLOC(64);
 
 		ClassMetrics Proj2File2Class1 = new ClassMetrics(); //Class Graph
-		Proj2File2Class1.setDit(1);
+		Proj2File2Class1.setDit(0);
 		ClassMetrics Proj2File2Class2 = new ClassMetrics(); //Class Node
 		Proj2File2Class2.setDit(0);
 		ClassMetrics Proj2File2Class3 = new ClassMetrics(); //Class Edge
@@ -318,8 +318,8 @@ public class SummaryMain {
 
 		// Funktionen der Klasse in einer Arraylist
 		ArrayList<FunctionCC> Proj2File2Class1functionCCs = new ArrayList<FunctionCC>();
-		FunctionCC proj2File2Class1funcCC1 = new FunctionCC("Graph", 2);
-		FunctionCC proj2File2Class1funcCC2 = new FunctionCC("addEdge", 13);
+		FunctionCC proj2File2Class1funcCC1 = new FunctionCC("Graph", 3);
+		FunctionCC proj2File2Class1funcCC2 = new FunctionCC("addEdge", 14);
 		FunctionCC proj2File2Class1funcCC3 = new FunctionCC("countGraphs", 6);
 		FunctionCC proj2File2Class1funcCC4 = new FunctionCC("depthFirstSearch", 6);
 
@@ -348,7 +348,7 @@ public class SummaryMain {
 
 		// Funktionen der Klasse Cycles in einer Arraylist
 		ArrayList<FunctionCC> Proj2File3Class1functionCCs = new ArrayList<FunctionCC>();
-		FunctionCC proj2File3Class1funcCC1 = new FunctionCC("main", 3);
+		FunctionCC proj2File3Class1funcCC1 = new FunctionCC("main", 4);
 
 		// definierte Funktionen der Liste hinzuf�gen
 		Proj2File3Class1functionCCs.add(proj2File3Class1funcCC1);

@@ -3,6 +3,7 @@ package com.swe.janalyzer.analysis.cc;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
@@ -27,11 +28,7 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
         this.classMetrics = classMetrics;
     }
 
-    @Override
-    public void visit(MethodDeclaration decl, Void arg){
-        //TODO Test this code
-        super.visit(decl, arg);
-
+    private void handleDecl(Node decl){
         Optional<Node> parentNode = decl.getParentNode();
         if(!parentNode.isPresent()){
             //This MethodDeclaration has no parent- This should never happen
@@ -45,7 +42,7 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
         }
         ClassOrInterfaceDeclaration parentClass =
                 (ClassOrInterfaceDeclaration) parentNode.get();
-        
+
         if(parentClass.isInterface()){
             return;
         }
@@ -58,7 +55,7 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
         ClassSpecifier classSpecifier = new ClassSpecifier(parentClass.getNameAsString());
 
         if(!classMetrics.containsKey(classSpecifier)){
-           //Compute count of methods in class, so that array is allocated correctly
+            //Compute count of methods in class, so that array is allocated correctly
             final int methodCount = parentClass.getMethods().size();
             final List<FunctionCC> functionCCs = new ArrayList<>(methodCount);
             classMetrics.put(
@@ -68,44 +65,66 @@ public class CCVisitor extends VoidVisitorAdapter<Void> {
         }
 
         FunctionCC funcCC = new FunctionCC(
-                decl.getNameAsString(),
+                nameOf(decl),
                 totalCCValue
         );
         classMetrics.get(classSpecifier).getFunctionCCs().add(funcCC);
     }
 
+    private String nameOf(Node decl) {
+        if(decl.getClass() == MethodDeclaration.class){
+            MethodDeclaration decl1 = (MethodDeclaration) decl;
+            return decl1.getNameAsString();
+        }else if(decl.getClass() == ConstructorDeclaration.class){
+            ConstructorDeclaration decl1 = (ConstructorDeclaration) decl;
+            return decl1.getNameAsString();
+        }
+        return "ERROR IN CC VISITOR";
+    }
+
     /*
-    This Method checks upwards the tree stopping at decl latest, whether node is
+    This Method checks upwards the tree stopping at upper_bound latest, whether node is
     in an anonymous class
 
     TODO Atm every node in the AST is visited. If no anonymousExpr are visited downwards
     no checks upwards are needed
 
      */
-    private boolean inAnonymusFunc(Node node, MethodDeclaration decl) {
+    private boolean inAnonymusFunc(Node node, Node upper_bound) {
         Optional<Node> parentNode = node.getParentNode();
         if(!parentNode.isPresent()){
             return false;
         }
         Node parent = parentNode.get();
         //If upper bound reached
-        if(parent.equals(decl)){
+        if(parent.equals(upper_bound)){
             return false;
         }
 
         Class parentClazz = parent.getClass();
         if(parentClazz != ObjectCreationExpr.class){
             //Maybe the grandparent is an anonymous class expression
-            return inAnonymusFunc(parent, decl);
+            return inAnonymusFunc(parent, upper_bound);
         }
 
         ObjectCreationExpr anonymousClassExpr = (ObjectCreationExpr) parent;
         if(anonymousClassExpr.getAnonymousClassBody().isPresent()){
             return true;
         }else{
-            return inAnonymusFunc(parent,decl);
+            return inAnonymusFunc(parent,upper_bound);
         }
+    }
+    @Override
+    public void visit(ConstructorDeclaration decl, Void arg){
+        super.visit(decl, arg);
+        handleDecl(decl);
 
+    }
+    @Override
+    public void visit(MethodDeclaration decl, Void arg){
+        //TODO Test this code
+        super.visit(decl, arg);
+        handleDecl(decl);
     }
 
     private int toCCValue(Node node){

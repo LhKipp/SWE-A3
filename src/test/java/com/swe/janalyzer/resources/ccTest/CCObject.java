@@ -3,6 +3,14 @@ package com.swe.janalyzer.resources.ccTest;
 public class CCObject {
 
 
+    public void objCreation(){
+        Object a = new Object();
+    }
+
+    public void arrayCreation(){
+        int[] a = new int[8];
+    }
+
     public int empty(){
         return 0;
     }
@@ -87,6 +95,7 @@ public class CCObject {
         } catch(Exception e){//9
 
         }
-
     }
+
+
 }

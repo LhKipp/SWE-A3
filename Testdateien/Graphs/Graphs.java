@@ -70,25 +70,25 @@ class AdjacencyListGraph<E extends Comparable<E>> {
      * @param to   the data of the vertex the edge is going to
      * @return returns true if the edge did not exist, return false if it already did
      */
-    public boolean addEdge(E from, E to) {
+    public boolean addEdge(E from, E to) { //1
         Vertex fromV = null, toV = null;
-        for (Vertex v : verticies) {
-            if (from.compareTo(v.data) == 0) { // see if from vertex already exists
+        for (Vertex v : verticies) {//2
+            if (from.compareTo(v.data) == 0) { // see if from vertex already exists//4
                 fromV = v;
-            } else if (to.compareTo(v.data) == 0) { // see if to vertex already exists
+            } else if (to.compareTo(v.data) == 0) { // see if to vertex already exists)//6
                 toV = v;
             }
-            if (fromV != null && toV != null) break; // both nodes exist so stop searching
+            if (fromV != null && toV != null) break; // both nodes exist so stop searching//7
         }
-        if (fromV == null) {
-            fromV = new Vertex(from);
-            verticies.add(fromV);
+        if (fromV == null) {//8
+            fromV = new Vertex(from);//9
+            verticies.add(fromV);//10
         }
-        if (toV == null) {
-            toV = new Vertex(to);
-            verticies.add(toV);
+        if (toV == null) {//11
+            toV = new Vertex(to);//12
+            verticies.add(toV);//13
         }
-        return fromV.addAdjacentVertex(toV);
+        return fromV.addAdjacentVertex(toV);//14
     }
 
     /**
