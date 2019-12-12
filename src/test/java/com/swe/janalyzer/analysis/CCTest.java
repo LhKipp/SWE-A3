@@ -30,7 +30,7 @@ public class CCTest {
         FunctionCC cc = CCTest.stream()
                 .filter(f -> f.getFuncName().equals("objCreation"))
                 .findAny().orElseThrow(() ->new Exception("Method not found"));
-        assertEquals(cc.getCCValue(), 1);
+        assertEquals(cc.getCCValue(), 2);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class CCTest {
         FunctionCC cc = CCTest.stream()
                 .filter(f -> f.getFuncName().equals("arrayCreation"))
                 .findAny().orElseThrow(() ->new Exception("Method not found"));
-        assertEquals(cc.getCCValue(), 2);
+        assertEquals(cc.getCCValue(), 1);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class CCTest {
         FunctionCC cc = CCTest.stream()
                 .filter(f -> f.getFuncName().equals("empty"))
                 .findAny().orElseThrow(() ->new Exception("Method not found"));
-        assertEquals(cc.getCCValue(), 2);
+        assertEquals(cc.getCCValue(), 1);
     }
 
     @Test

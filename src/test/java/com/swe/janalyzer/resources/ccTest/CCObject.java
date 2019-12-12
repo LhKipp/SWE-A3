@@ -4,7 +4,7 @@ public class CCObject {
 
 
     public void objCreation(){
-        Object a = new Object();
+        CCObject a = new CCObject();
     }
 
     public void arrayCreation(){
