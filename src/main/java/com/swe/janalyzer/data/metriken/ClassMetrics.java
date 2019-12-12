@@ -11,7 +11,6 @@ import java.util.List;
 public class ClassMetrics {
    private int dit;
    private List<FunctionCC> functionCCs;
-   private int wmcValue;
 
    public ClassMetrics() {
    }
