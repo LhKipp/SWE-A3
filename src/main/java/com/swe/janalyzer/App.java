@@ -1,5 +1,10 @@
 package com.swe.janalyzer;
 
+import com.swe.janalyzer.analysis.MetricCalculator;
+import com.swe.janalyzer.analysis.MetricCalculatorImpl;
+
+import java.io.IOException;
+import java.nio.file.Paths;
 import com.swe.janalyzer.data.metriken.ClassMetrics;
 import com.swe.janalyzer.data.metriken.FileMetrics;
 import com.swe.janalyzer.data.metriken.Summary;
@@ -22,6 +27,13 @@ public class App
 {
     public static void main( String[] args )
     {
+
+        MetricCalculator cal = new MetricCalculatorImpl();
+        try {
+            cal.calculate(Paths.get("/home/leonhard/Code/oos/p2"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if(args.length > 0){
             System.out.println("Handle Args cli");
         }else{

@@ -12,22 +12,6 @@ start vertex, end vertes and weights. Vertices should be labelled with a number 
         edge=e;
         edges=new Edge[e];
     }
-    class Edge
-    {
-        int u,v;
-        int w;
-        /**
-        *@param u Source Vertex
-        * @param v End vertex
-        * @param c Weight
-        */
-        Edge(int a,int b,int c)
-        {
-            u=a;
-            v=b;
-            w=c;
-        }    
-    }
     /**
      * @param p[] Parent array which shows updates in edges
      * @param  i Current vertex under consideration
@@ -45,32 +29,32 @@ start vertex, end vertes and weights. Vertices should be labelled with a number 
         obj.go();
     }
     public void go()//Interactive run for understanding the class first time. Assumes source vertex is 0 and shows distaance to all vertices
-    {
-        Scanner sc=new Scanner(System.in);//Grab scanner object for user input
+    {//1
+        Scanner sc=new Scanner(System.in);//Grab scanner object for user input2
         int i,v,e,u,ve,w,j,neg=0;
-        System.out.println("Enter no. of vertices and edges please");
-        v=sc.nextInt();
-        e=sc.nextInt();
+        System.out.println("Enter no. of vertices and edges please");//3
+        v=sc.nextInt();//5
+        e=sc.nextInt();//6
         Edge arr[]=new Edge[e];//Array of edges 
-        System.out.println("Input edges");
-        for(i=0;i<e;i++)
+        System.out.println("Input edges");//7
+        for(i=0;i<e;i++)//8
         {
-            u=sc.nextInt();
-            ve=sc.nextInt();
-            w=sc.nextInt();
-            arr[i]=new Edge(u,ve,w);
+            u=sc.nextInt();//9
+            ve=sc.nextInt();//10
+            w=sc.nextInt();//11
+            arr[i]=new Edge(u,ve,w);//12
         }
         int dist[]=new int[v];//Distance array for holding the finalized shortest path distance between source and all vertices
         int p[]=new int[v];//Parent array for holding the paths
-        for(i=0;i<v;i++)
+        for(i=0;i<v;i++)//13
             dist[i]=Integer.MAX_VALUE;//Initializing distance values
         dist[0]=0;
         p[0]=-1;
-        for(i=0;i<v-1;i++)
+        for(i=0;i<v-1;i++)//14
         {
-            for(j=0;j<e;j++)
+            for(j=0;j<e;j++)//15
             {
-                if((int)dist[arr[j].u]!=Integer.MAX_VALUE&&dist[arr[j].v]>dist[arr[j].u]+arr[j].w)
+                if((int)dist[arr[j].u]!=Integer.MAX_VALUE&&dist[arr[j].v]>dist[arr[j].u]+arr[j].w)//16
                 {
                     dist[arr[j].v]=dist[arr[j].u]+arr[j].w;//Update
                     p[arr[j].v]=arr[j].u;
@@ -78,24 +62,24 @@ start vertex, end vertes and weights. Vertices should be labelled with a number 
             }
         }
         //Final cycle for negative checking
-        for(j=0;j<e;j++)
-        if((int)dist[arr[j].u]!=Integer.MAX_VALUE&&dist[arr[j].v]>dist[arr[j].u]+arr[j].w)
+        for(j=0;j<e;j++)//17
+        if((int)dist[arr[j].u]!=Integer.MAX_VALUE&&dist[arr[j].v]>dist[arr[j].u]+arr[j].w)//18
         {
             neg=1;
-            System.out.println("Negative cycle");
+            System.out.println("Negative cycle");//19
             break;
         }
-        if(neg==0)//Go ahead and show results of computaion
+        if(neg==0)//Go ahead and show results of computaion20
         {
-            System.out.println("Distances are: ");
-            for(i=0;i<v;i++)
-            System.out.println(i+" "+dist[i]);
-            System.out.println("Path followed:");
-            for(i=0;i<v;i++)
+            System.out.println("Distances are: ");//21
+            for(i=0;i<v;i++)//22
+            System.out.println(i+" "+dist[i]);//23
+            System.out.println("Path followed:");//24
+            for(i=0;i<v;i++)//25
             { 
-                System.out.print("0 ");
-                printPath(p,i);
-                System.out.println();
+                System.out.print("0 ");//26
+                printPath(p,i);//27
+                System.out.println();//28 // -1 da 4 übersprungen
             }
         }
     }

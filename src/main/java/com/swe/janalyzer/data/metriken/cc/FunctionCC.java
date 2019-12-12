@@ -1,5 +1,7 @@
 package com.swe.janalyzer.data.metriken.cc;
 
+import java.util.Objects;
+
 /**
  * Datenmodell für die Metriken einer Funktion.
  * {@link FunctionCC#funcName} ist der Name der Funktion.
@@ -46,4 +48,19 @@ public class FunctionCC {
     public void setCCValue(int ccValue) {
         this.ccValue = ccValue;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FunctionCC that = (FunctionCC) o;
+        return ccValue == that.ccValue &&
+                Objects.equals(funcName, that.funcName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(funcName, ccValue);
+    }
 }
+
