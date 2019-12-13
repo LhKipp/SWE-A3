@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.swe.janalyzer.gui.StartController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <ChoiceBox prefHeight="43.0" prefWidth="622.0">
+            <ChoiceBox fx:id="pathSelect" prefHeight="43.0" prefWidth="622.0">
                <HBox.margin>
                   <Insets left="20.0" top="20.0" />
                </HBox.margin>
@@ -24,7 +24,7 @@
                   </ContextMenu>
                </contextMenu>
             </ChoiceBox>
-            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="125.0" text="Optionen">
+            <Button fx:id="optionButton" mnemonicParsing="false" onAction="#openOptions" prefHeight="39.0" prefWidth="125.0" text="Optionen">
                <HBox.margin>
                   <Insets left="70.0" top="20.0" />
                </HBox.margin>
@@ -33,7 +33,7 @@
       </HBox>
       <HBox prefHeight="511.0" prefWidth="997.0">
          <children>
-            <ListView prefHeight="511.0" prefWidth="331.0">
+            <ListView fx:id="history" prefHeight="511.0" prefWidth="331.0">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>
@@ -51,12 +51,12 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="189.0" text="Projekt analysieren">
+            <Button fx:id="analyseButton" mnemonicParsing="false" onAction="#openFolderPicker" prefHeight="39.0" prefWidth="189.0" text="Projekt analysieren">
                <HBox.margin>
                   <Insets left="500.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="123.0" text="Löschen">
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#openOptions" prefHeight="39.0" prefWidth="123.0" text="Löschen">
                <HBox.margin>
                   <Insets left="50.0" top="20.0" />
                </HBox.margin>
