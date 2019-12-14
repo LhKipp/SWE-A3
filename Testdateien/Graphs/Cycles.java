@@ -82,6 +82,7 @@ class Cycle {
 }
 
 public class Cycles {
+    //CC = 4
     public static void main(String[] args) {
         Cycle c = new Cycle();
         c.start();
