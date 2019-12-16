@@ -21,13 +21,13 @@ public class TestdateienTests {
         Summary expected = SummaryMain.getGraphSummary();
 
 
-//        Path calcPath = Paths.get("./src/test/java/com/swe/janalyzer/analysis/project_results/graph_calculated");
-//        Path expectedPath = Paths.get("./src/test/java/com/swe/janalyzer/analysis/project_results/graph_expected");
-//        Files.createDirectories(calcPath.getParent());
-//        Files.createDirectories(expectedPath.getParent());
-//        JSONConverter.save(calculated, calcPath);
-//        JSONConverter.save(expected, expectedPath); //Stackoverflow error
-//        assertEquals(expected, calculated);
+        Path calcPath = Paths.get("./src/test/java/com/swe/janalyzer/analysis/project_results/graph_calculated");
+        Path expectedPath = Paths.get("./src/test/java/com/swe/janalyzer/analysis/project_results/graph_expected");
+        Files.createDirectories(calcPath.getParent());
+        Files.createDirectories(expectedPath.getParent());
+        JSONConverter.save(calculated, calcPath);
+        JSONConverter.save(expected, expectedPath); //Stackoverflow error
+        assertEquals(expected, calculated);
         Util.equals(calculated, expected);
         assertTrue(Util.equals(calculated, expected));
     }
