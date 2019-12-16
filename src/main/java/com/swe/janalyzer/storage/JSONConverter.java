@@ -2,13 +2,17 @@ package com.swe.janalyzer.storage;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.swe.janalyzer.data.metriken.ClassMetrics;
 import com.swe.janalyzer.data.metriken.FileMetrics;
 import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.util.ClassSpecifier;
 import com.swe.janalyzer.util.Constants;
+import com.swe.janalyzer.util.type.adapter.ClassSpecifierTypeAdapter;
+import com.swe.janalyzer.util.type.adapter.PathTypeAdapter;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -32,6 +36,8 @@ public class JSONConverter {
 		public static void save(Summary summary, Path filePath) throws IOException, NullPointerException {
 				Gson gson = new GsonBuilder()
 						.setPrettyPrinting()
+						.registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter())
+						.registerTypeHierarchyAdapter(ClassSpecifier.class, new ClassSpecifierTypeAdapter())
 						.create();
 
 				String json = gson.toJson(summary.getFileMetrics());
@@ -48,16 +54,20 @@ public class JSONConverter {
 		 * @throws IOException Wird ausgelöst, wenn das Programm die Datei nicht lesen konnte.
 		 */
 		public static Summary load (Path filePath) throws IOException, NullPointerException {
-				Gson gson = new Gson();
+				Gson gson = new GsonBuilder()
+						.registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter())
+						.registerTypeHierarchyAdapter(ClassSpecifier.class, new ClassSpecifierTypeAdapter())
+						.create();
 
 				Stream<String> lines = Files.lines(filePath);
 				String data = lines.collect(Collectors.joining("\n"));
 				String[] parts = data.split(Constants.SEPERATOR);
 
-				ArrayList<FileMetrics> list = new ArrayList<>();
-				list = gson.fromJson(parts[0],list.getClass());
-				Map<ClassSpecifier, ClassMetrics> map = new HashMap<>();
-				map = gson.fromJson(parts[1],map.getClass());
+				Type listType = new TypeToken<ArrayList<FileMetrics>>(){}.getType();
+				ArrayList<FileMetrics> list = gson.fromJson(parts[0],listType);
+
+				Type mapType = new TypeToken<HashMap<ClassSpecifier, ClassMetrics>>(){}.getType();
+				Map<ClassSpecifier, ClassMetrics> map = gson.fromJson(parts[1],mapType);
 				Summary res = new Summary();
 				res.setClassMetrics(map);
 				res.setFileMetrics(list);
