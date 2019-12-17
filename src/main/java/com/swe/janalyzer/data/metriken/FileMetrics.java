@@ -13,7 +13,11 @@ public class FileMetrics {
     private int sloc;
 
     public FileMetrics(Path file) {
+        this(file, Integer.MAX_VALUE);
+    }
+    public FileMetrics(Path file, int sloc) {
         this.file = file;
+        this.sloc = sloc;
     }
 
     public Path getFile() {

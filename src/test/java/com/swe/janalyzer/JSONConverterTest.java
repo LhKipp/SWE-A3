@@ -24,7 +24,8 @@ public class JSONConverterTest {
 
 		@Test
 		public void testSave(){
-				Path path = Paths.get("./result.json");
+				Path path = Paths.get("result.json");
+			System.out.println(path.toAbsolutePath().toString());
 				Summary sum = new Summary();
 				try {
 						JSONConverter.save(sum, path);
@@ -73,7 +74,7 @@ public class JSONConverterTest {
 		}
 
 		@Test
-		public void testLoad() {
+		public void testLoad() throws IOException {
 				FunctionCC method = new FunctionCC("method", 123);
 				ArrayList<FunctionCC> list = new ArrayList<>(1);
 				list.add(method);
@@ -85,8 +86,8 @@ public class JSONConverterTest {
 				HashMap<ClassSpecifier,ClassMetrics> map = new HashMap<>(1);
 				map.put(new ClassSpecifier("cl1"), cm);
 
-				Path correctPath = Paths.get("./result.json");
-				Path wrongPath = Paths.get("./filenotexist.xyz");
+				Path correctPath = Paths.get("result.json");
+				Path wrongPath = Paths.get("filenotexist.xyz");
 				Summary sum = new Summary();
 				sum.setClassMetrics(map);
 				try {
@@ -96,11 +97,10 @@ public class JSONConverterTest {
 				} catch (NullPointerException ne) {
 						fail("NullPointerException wasn't expected.");
 				}
+				Summary loaded = JSONConverter.load(correctPath);
 
 				try {
-						assertEquals(sum, JSONConverter.load(correctPath));
-				} catch (IOException ioe) {
-						fail("IOException wasn't expected.");
+						assertEquals(sum, loaded);
 				} catch (NullPointerException ne) {
 						fail("NullPointerException wasn't expected.");
 				}

@@ -5,6 +5,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.swe.janalyzer.analysis.cc.CCCalculator;
 import com.swe.janalyzer.analysis.dit.DITCalculator;
+import com.swe.janalyzer.analysis.loc.LOCCalculator;
 import com.swe.janalyzer.analysis.util.FileUtil;
 import com.swe.janalyzer.data.metriken.FileMetrics;
 import com.swe.janalyzer.data.metriken.Summary;
@@ -39,8 +40,12 @@ public class MetricCalculatorImpl implements MetricCalculator{
         }
         DITCalculator ditCalc = new DITCalculator(estimatedClassCount);
         CCCalculator ccCalc= new CCCalculator(summary.getClassMetrics());
+        LOCCalculator locCalc = new LOCCalculator();
 
         for (Path p : javaFiles){
+            final int sloc = locCalc.countLOCfile(p);
+            summary.getFileMetrics().add(new FileMetrics(p, sloc));
+
             CompilationUnit cu = StaticJavaParser.parse(p);
             VoidVisitor<Void> ditVisitor = ditCalc.getASTVisitor();
             ditVisitor.visit(cu, null);

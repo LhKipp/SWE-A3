@@ -1,0 +1,17 @@
+		
+	code2
+
+
+ start of comment /* asas
+
+sas
+
+sas*/
+
+a/*
+
+sasas
+
+sas
+
+sa*/
