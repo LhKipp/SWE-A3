@@ -55,7 +55,7 @@
                   <Insets left="500.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#openOptions" prefHeight="39.0" prefWidth="123.0" text="Löschen">
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteSelectedProjects" prefHeight="39.0" prefWidth="123.0" text="Löschen">
                <HBox.margin>
                   <Insets left="50.0" top="20.0" />
                </HBox.margin>
