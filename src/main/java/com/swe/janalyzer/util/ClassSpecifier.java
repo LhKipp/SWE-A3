@@ -24,8 +24,10 @@ public class ClassSpecifier {
 
     @Override
     public String toString() {
-        return "ClassSpecifier{" +
-                "className='" + className + '\'' +
-                '}';
+        return this.className;
+    }
+
+    public String getAsString(){
+        return this.className;
     }
 }

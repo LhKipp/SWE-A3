@@ -1,0 +1,104 @@
+BellmanFord.java
+LOC: 134
+DIT: 0
+WMC: Summe CC
+CC pro Funktion:
+BellmanFord(int v,int e){1} (KONSTRUKTOR)
+class Edge: 0
+void printPath(int p[],int i){3}
+public static void main(String args[]){2}
+public void go(){27}
+public void show(int source,int end, Edge arr[]){15}
+public void addEdge(int x,int y,int z){1}
+public Edge[] getEdgeArray(){0}
+
+
+ConnectedComponent.java
+LOC: 64
+DIT: 1
+WMC: 27
+CC pro Funktion:
+class Node: 0
+class Edge: 0
+public Graph() {2}
+public void addEdge(E startNode, E endNode) {13}
+public int countGraphs() {6}
+public ArrayList<Node> depthFirstSearch(Node n, ArrayList<Node> visited) {6}
+
+
+Cycles.java
+LOC: 73
+DIT: 0
+WMC: 4 (davon 1 Konstruktoraufruf außerhalb der Methode(n))
+CC pro Funktion:
+public static void main(String[] args) {3} 
+Klasse in Cycles: 
+Class Cycle (WMC: 33)(
+public Cycle() {12} 
+public void start() {4}
+private void dfs(Integer start, Integer curr, ArrayList<Integer> temp) {12}
+public void printAll() {5})
+
+
+
+FloydWarshall.java
+LOC: 65
+DIT: 0
+WMC: 31
+CC pro Funktion:
+public FloydWarshall(int numberofvertices) {2}
+public void floydwarshall(int AdjacencyMatrix[][]) {14}
+public static void main(String... arg) {14}
+
+
+
+Graphs.java
+LOC: 94
+DIT: 1
+WMC: 10
+CC pro Funktion:
+public static void main(String args[]) {10}
+	class AdjacencyListGraph<E extends Comparable<E>> (WMC: 30)(
+		public AdjacencyListGraph() {1}
+			private class Vertex (WMC: 11){
+				public Vertex(E data) {1}
+				public boolean addAdjacentVertex(Vertex to) {4}
+				public boolean removeAdjacentVertex(E to) {6}}
+		public boolean removeEdge(E from, E to) {5}
+		public boolean addEdge(E from, E to) {13}
+		public String toString() {11}}
+
+
+
+MatrixGraphs.java
+LOC: 103
+DIT: 0
+WMC: 10
+CC pro Funktion:
+public static void main(String args[]) {10}
+	class AdjacencyMatrixGraph (WMC: 39) {
+		public AdjacencyMatrixGraph(int givenNumberOfVertices) {6}
+		private void setNumberOfVertices(int newNumberOfVertices) {0}
+		public int numberOfVertices() {0}
+		private void setNumberOfEdges(int newNumberOfEdges) {0}
+		public int numberOfEdges() {0}
+		private void setAdjacency(int[][] newAdjacency) {0}
+		private int[][] adjacency() {0}
+		private boolean adjacencyOfEdgeDoesExist(int from, int to) {0}
+		public boolean vertexDoesExist(int aVertex) {3}
+		public boolean edgeDoesExist(int from, int to) {4}
+		public boolean addEdge(int from, int to) {8}
+		public boolean removeEdge(int from, int to) {8}
+		public String toString() {10} 
+
+
+
+PrimMST.java
+LOC: 50
+DIT: 0
+WMC: 17
+CC pro Funktion:
+int minKey(int key[], Boolean mstSet[]) {2}
+void printMST(int parent[], int n, int graph[][]) {3}
+void primMST(int graph[][]) {9}
+public static void main(String[] args) {3}

@@ -1,4 +1,6 @@
 target/*
+janalyzer.iml
+src/main/java/com/swe/janalyzer/workbench.xmi
 .idea/*
 .json/*
 

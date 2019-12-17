@@ -1,0 +1,171 @@
+AVLTree.java
+LOC: 174
+DIT: 0
+WMC: 82
+CC pro Funktion:
+	private class Node: 0
+public boolean insert(int key) {12}
+private void delete(Node node) {12}
+public void delete(int delKey) {5}
+private void rebalance(Node n) {18}
+private Node rotateLeft(Node a) {5}
+private Node rotateRight(Node a) {5}
+private Node rotateLeftThenRight(Node n) {2}
+private Node rotateRightThenLeft(Node n) {2}
+private int height(Node n) {1}
+private void setBalance(Node... nodes) {4}
+public void printBalance() {1}
+private void printBalance(Node n) {4}
+private void reheight(Node node) {4}
+public static void main(String[] args) {6}
+
+
+
+BinaryTree.java
+LOC: 151
+DIT: 0
+WMC: 
+CC pro Funktion:
+	class Node: 0
+public BinaryTree() {0} Konstruktor
+public Node find(int key) {6}
+public void put(int value) {6}
+public boolean remove(int value) {22}
+public Node findSuccessor(Node n) {2}
+public Node getRoot() {0}
+public void inOrder(Node localRoot) {4}
+public void preOrder(Node localRoot) {4}
+public void postOrder(Node localRoot) {4}
+
+
+
+GenericTree.java
+LOC: 151
+DIT: 0
+WMC: 
+CC pro Funktion:
+	private class Node {enthält 1 Konstruktoraufruf} (Klasse in Klasse
+public GenericTree() {2}(Konstruktor)
+private Node create_treeG(Node node, int childindx, Scanner scn) {11}
+public void display() {1}
+private void display_1(Node parent) {10}
+public int size2call() {1}
+public int size2(Node roott) {4}
+public int maxcall() {1}
+private int max(Node roott, int maxi) {5}
+public int heightcall() {1}
+private int height(Node node) {5}
+public boolean findcall(int info) {1}
+private boolean find(Node node, int info) {5}
+public void depthcaller(int dep) {1}
+public void depth(Node node, int dep) {6}
+public void preordercall() {2}
+private void preorder(Node node) {5}
+public void levelorder() {14}
+public void removeleavescall() {1}
+private void removeleaves(Node node) {14}
+
+
+LevelOrderTraversal.java
+LOC: 38
+DIT: 0
+WMC: 
+CC pro Funktion:
+	class Node :0
+public LevelOrderTraversal() {0}
+void printLevelOrder() {3}
+int height(Node root) {5}
+void printGivenLevel(Node root, int level) {6}
+
+
+
+LevelOrderTraversalQueue.java
+LOC: 29
+DIT: 0
+WMC: 10
+CC pro Funktion:
+	class Node: 0
+void printLevelOrder() {10}
+
+
+
+PrintTopViewofTree.java
+LOC: 63
+DIT: 0
+WMC: 
+CC pro Funktion:
+public static void main(String[] args) {9}
+class TreeNode {
+	public TreeNode(int key) {0}}
+class QItem {
+	public QItem(TreeNode n, int h) {0}}
+class Tree (WMC: 18) {
+	public Tree() {0}
+	public Tree(TreeNode n) {0}
+	public void printTopView() {18}}
+	
+	
+
+RedBlackBST.java
+LOC: 304
+DIT: 0
+WMC: 1
+CC pro Funktion:
+	private class Node: 0
+public void printTree(Node node) {4}
+public void printTreepre(Node node) {4}
+private Node findNode(Node findNode, Node node) {8}
+private void insert(Node node) {10}
+private void fixTree(Node node) {11}
+void rotateLeft(Node node) {5}
+void rotateRight(Node node) {5}
+void transplant(Node target, Node with) {3}
+Node treeMinimum(Node subTreeRoot) {1}
+boolean delete(Node z) {13}
+void deleteFixup(Node x) {17}
+public void insertDemo() {11}
+public void deleteDemo() {14}
+
+
+
+TreeTraversal.java
+LOC: 88
+DIT: 0
+WMC: 19
+CC pro Funktion:
+public class TreeTraversal {
+public static void main(String[] args) {19}}
+
+class Node (WMC: 35){
+	public Node(int data) {0}
+	public void insert(int value) {10}
+	public void printInOrder() {5}
+	public void printPreOrder() {5}
+	public void printPostOrder() {5}
+	public void printLevelOrder() {10}}
+		
+		
+
+TrieImp.java
+LOC: 119
+DIT: 0
+WMC: 
+CC pro Funktion:
+	public class TrieNode{ public TrieNode() {1}} (Klasse in Klasse)
+public TrieImp() {1}
+public void insert(String word) {8}
+public boolean search(String word) {5}
+public boolean delete(String word) {6}
+public static void sop(String print) {1}
+public static boolean isValid(String word) {1}
+public static void main(String[] args) {45}
+
+
+ValidBSTOrNot.java
+LOC: 24
+DIT: 0
+WMC: 5
+CC pro Funktion:
+	class Node :0
+boolean isBST() {1}
+boolean isBSTUtil(Node node, int min, int max) {4}

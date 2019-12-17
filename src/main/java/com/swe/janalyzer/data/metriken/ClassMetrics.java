@@ -11,12 +11,19 @@ import java.util.List;
 public class ClassMetrics {
    private int dit;
    private List<FunctionCC> functionCCs;
-   private int wmcValue;
 
    public ClassMetrics() {
    }
 
-   public int getDit() {
+   public ClassMetrics(int dit) {
+      this.dit=dit;
+   }
+
+    public ClassMetrics(List<FunctionCC> functionCCs) {
+      this.functionCCs = functionCCs;
+    }
+
+    public int getDit() {
       return dit;
    }
 
