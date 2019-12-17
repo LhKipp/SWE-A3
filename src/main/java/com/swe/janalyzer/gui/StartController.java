@@ -71,10 +71,12 @@ public class StartController {
 		 */
 		if(selectedDirectory == null){
 		     //No Directory selected
-			/**
-			 * TODO alle .java dateien in allen Unterverzeichnissen einlesen/analysieren und Ergebnis abspeichern
-			 */
-		} else {
+			
+		}
+		/**
+		 * TODO alle .java dateien in allen Unterverzeichnissen einlesen/analysieren und Ergebnis abspeichern
+		 */
+		else {
 		     System.out.println(selectedDirectory.getAbsolutePath());
 		}
 	}
