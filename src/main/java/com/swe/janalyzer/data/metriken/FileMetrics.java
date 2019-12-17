@@ -1,6 +1,7 @@
 package com.swe.janalyzer.data.metriken;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Datenmodell für die Metriken eines Files.
@@ -34,5 +35,19 @@ public class FileMetrics {
 
     public void setSLOC(int sloc) {
         this.sloc = sloc;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FileMetrics that = (FileMetrics) o;
+        return sloc == that.sloc &&
+            Objects.equals(file, that.file);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sloc,file);
     }
 }

@@ -118,7 +118,11 @@ public class JSONConverterTest {
 
 				try {
 						Summary sum1 = JSONConverter.load(correctPath);
-						//assertEquals(summary, sum1);
+						assertEquals(summary, sum1);
+						
+						Summary sumWrong = new Summary();
+						sumWrong.setClassMetrics(summary.getClassMetrics());
+						assertNotEquals(sumWrong, sum1);
 				} catch (IOException ioe) {
 						fail("IOException wasn't expected.");
 				} catch (NullPointerException ne) {
