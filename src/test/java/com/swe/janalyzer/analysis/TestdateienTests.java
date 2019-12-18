@@ -25,8 +25,8 @@ public class TestdateienTests {
         Path expectedPath = Paths.get("./src/test/java/com/swe/janalyzer/analysis/project_results/graph_expected");
         Files.createDirectories(calcPath.getParent());
         Files.createDirectories(expectedPath.getParent());
-        JSONConverter.save(calculated, calcPath);
-        JSONConverter.save(expected, expectedPath); //Stackoverflow error
+        JSONConverter.saveSummary(calculated, calcPath);
+        JSONConverter.saveSummary(expected, expectedPath); //Stackoverflow error
         assertTrue(Util.equals(calculated, expected));
     }
 

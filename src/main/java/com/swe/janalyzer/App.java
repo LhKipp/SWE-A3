@@ -1,7 +1,6 @@
 package com.swe.janalyzer;
 
 
-import com.swe.janalyzer.analysis.MetricCalculator;
 import com.swe.janalyzer.analysis.MetricCalculatorImpl;
 import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.storage.JSONConverter;
@@ -29,7 +28,7 @@ public class App
                 e.printStackTrace();
             }
             try {
-                JSONConverter.save(sum, Paths.get(args[1]));
+                JSONConverter.saveSummary(sum, Paths.get(args[1]));
             } catch (IOException e) {
                 e.printStackTrace();
             }

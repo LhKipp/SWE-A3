@@ -6,9 +6,8 @@ import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.data.metriken.cc.FunctionCC;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.ClassSpecifier;
-import org.junit.Assert;
+import com.swe.janalyzer.util.Options;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import static org.junit.Assert.*;
 
 public class JSONConverterTest {
 		private Summary summary;
+		private Options options;
 		private Path correctPath;
 		private Path incorrectPath;
 
@@ -68,12 +68,19 @@ public class JSONConverterTest {
 
 				correctPath = Paths.get("./result.json");
 				incorrectPath = Paths.get("./asd");
+
+				options = new Options();
+				options.setCc(2);
+				options.setDit(4);
+				options.setCustomPath("hallo", incorrectPath);
+				options.setLoc(200);
+				options.setWmc(7);
 		}
 
 		@Test
-		public void testSave(){
+		public void testSaveSummary(){
 				try {
-						JSONConverter.save(summary, correctPath);
+						JSONConverter.saveSummary(summary, correctPath);
 				} catch (IOException ioe) {
 						fail("IOException wasn't expected.");
 				} catch (NullPointerException ne) {
@@ -81,7 +88,7 @@ public class JSONConverterTest {
 				}
 
 				try {
-						JSONConverter.save(summary, null);
+						JSONConverter.saveSummary(summary, null);
 						fail("NullPointerException was expected.");
 				} catch (IOException ioe) {
 						fail("IOException wasn't expected.");
@@ -89,7 +96,7 @@ public class JSONConverterTest {
 				}
 
 				try {
-						JSONConverter.save(null, correctPath);
+						JSONConverter.saveSummary(null, correctPath);
 						fail("NullPointerException was expected.");
 				} catch (IOException ioe) {
 						fail("IOException wasn't expected.");
@@ -97,7 +104,7 @@ public class JSONConverterTest {
 				}
 
 				try {
-						JSONConverter.save(null, null);
+						JSONConverter.saveSummary(null, null);
 						fail("NullPointerException was expected.");
 				} catch (IOException ioe) {
 						fail("IOException wasn't expected.");
@@ -106,18 +113,18 @@ public class JSONConverterTest {
 		}
 
 		@Test
-		public void testLoad() throws IOException {
+		public void testLoadSummary() throws IOException {
 				try {
-						JSONConverter.save(summary, correctPath);
+						JSONConverter.saveSummary(summary, correctPath);
 				} catch (IOException ioe) {
 						fail("IOException wasn't expected.");
 				} catch (NullPointerException ne) {
 						fail("NullPointerException wasn't expected.");
 				}
-				Summary loaded = JSONConverter.load(correctPath);
+				Summary loaded = JSONConverter.loadSummary(correctPath);
 
 				try {
-						Summary sum1 = JSONConverter.load(correctPath);
+						Summary sum1 = JSONConverter.loadSummary(correctPath);
 						assertEquals(summary, sum1);
 						
 						Summary sumWrong = new Summary();
@@ -130,11 +137,46 @@ public class JSONConverterTest {
 				}
 
 				try {
-						JSONConverter.load(null);
+						JSONConverter.loadSummary(null);
 						fail("NullPointerException was expected.");
 				} catch (IOException ioe) {
 						fail("IOException wasn't expected.");
 				} catch (NullPointerException ne) {
+				}
+		}
+
+		@Test
+		public void testSaveOptions() {
+				try {
+						JSONConverter.saveOptions(options);
+				} catch (IOException io) {
+						fail("IOException wasn't expected.");
+				} catch (NullPointerException ne){
+						fail("NullPointerException wasn't expected.");
+				}
+
+				try {
+						JSONConverter.saveOptions(null);
+						fail("NullPointerException was expected.");
+				} catch (IOException io) {
+						fail("IOException wasn't expected.");
+				} catch (NullPointerException ne){
+				}
+		}
+
+		@Test
+		public void testLoadOptions() {
+				try {
+						JSONConverter.saveOptions(options);
+				} catch (IOException e) {
+						fail("IOException wasn't expected.");
+				}
+
+				try {
+						Options option = JSONConverter.loadOptions();
+						option.equals(options);
+				} catch (IOException e) {
+						fail("IOException wasn't expected.");
 				}
 		}
 }
