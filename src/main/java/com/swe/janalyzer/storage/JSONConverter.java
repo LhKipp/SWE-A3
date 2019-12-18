@@ -8,6 +8,7 @@ import com.swe.janalyzer.data.metriken.FileMetrics;
 import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.util.ClassSpecifier;
 import com.swe.janalyzer.util.Constants;
+import com.swe.janalyzer.util.Options;
 import com.swe.janalyzer.util.type.adapter.ClassSpecifierTypeAdapter;
 import com.swe.janalyzer.util.type.adapter.PathTypeAdapter;
 
@@ -27,13 +28,26 @@ import java.util.stream.Stream;
  */
 public class JSONConverter {
 
+		public static void saveOptions(Options options) throws IOException, NullPointerException {
+				if (options == null) throw new NullPointerException();
+				Gson gson = new GsonBuilder()
+						.setPrettyPrinting()
+						.registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter())
+						.create();
+				String json = gson.toJson(options);
+
+				Path filePath = Constants.OPTION_PATH;
+				Files.createDirectories(filePath.getParent());
+				Files.write(filePath, json.getBytes());
+		}
+
 		/**
 		 * Speichert ein Objekt der Klasse Summary als .json ab.
 		 * @param summary - Das zu speichernde Objekt.
 		 * @param filePath - Der Pfad zur zu speichernden Datei.
 		 * @throws IOException Wird ausgelöst, wenn das Programm nicht in die Datei schreiben kann.
 		 */
-		public static void save(Summary summary, Path filePath) throws IOException, NullPointerException {
+		public static void saveSummary(Summary summary, Path filePath) throws IOException, NullPointerException {
 				Gson gson = new GsonBuilder()
 						.setPrettyPrinting()
 						.registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter())
@@ -53,7 +67,7 @@ public class JSONConverter {
 		 * @return Gibt die ausgelesene Datei als Summary zurück
 		 * @throws IOException Wird ausgelöst, wenn das Programm die Datei nicht lesen konnte.
 		 */
-		public static Summary load (Path filePath) throws IOException, NullPointerException {
+		public static Summary loadSummary(Path filePath) throws IOException, NullPointerException {
 				Gson gson = new GsonBuilder()
 						.registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter())
 						.registerTypeHierarchyAdapter(ClassSpecifier.class, new ClassSpecifierTypeAdapter())
@@ -72,5 +86,14 @@ public class JSONConverter {
 				res.setClassMetrics(map);
 				res.setFileMetrics(list);
 				return res;
+		}
+
+		public static Options loadOptions() throws IOException {
+				Gson gson = new GsonBuilder()
+						.registerTypeHierarchyAdapter(Path.class, new PathTypeAdapter())
+						.create();
+
+				String data = (Files.lines(Constants.OPTION_PATH)).collect(Collectors.joining("\n"));
+				return gson.fromJson(data, Options.class);
 		}
 }
