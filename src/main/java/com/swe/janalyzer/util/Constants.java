@@ -9,4 +9,6 @@ import java.nio.file.Paths;
  */
 public class Constants {
 		public static final String SEPERATOR = "@=@";
+		public static final String DEFAULT_PATH = "default";
+		public static final String CUSTOM_PATH = "custom";
 }
