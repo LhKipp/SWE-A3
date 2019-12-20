@@ -1,5 +1,7 @@
 package com.swe.janalyzer.analysis;
 
+import com.github.javaparser.ParseException;
+import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
@@ -22,7 +24,7 @@ import java.util.List;
 public class MetricCalculatorImpl implements MetricCalculator{
 
     @Override
-    public Summary calculate(Path projectRoot) throws IOException {
+    public Summary calculate(Path projectRoot) throws IOException, ParseProblemException {
         Summary summary = new Summary();
         //Find all java files
         List<Path> javaFiles = FileUtil.listAllJavaFiles(projectRoot);
