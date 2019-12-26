@@ -1,5 +1,6 @@
 package com.swe.janalyzer.analysis;
 
+import com.github.javaparser.ParseProblemException;
 import com.swe.janalyzer.data.metriken.Summary;
 
 import java.io.IOException;
@@ -7,5 +8,5 @@ import java.nio.file.Path;
 
 public interface MetricCalculator {
 
-    Summary calculate(Path projectRoot) throws IOException;
+    Summary calculate(Path projectRoot) throws IOException, ParseProblemException;
 }

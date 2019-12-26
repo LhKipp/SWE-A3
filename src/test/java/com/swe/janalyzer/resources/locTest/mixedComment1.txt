@@ -1,0 +1,14 @@
+// erster Kommentar
+
+/* hier steht ein zweiter Kommentar// */ hier steht code
+
+1
+
+
+223243
+
+		//abc
+
+// sadasdas
+
+*/ 
