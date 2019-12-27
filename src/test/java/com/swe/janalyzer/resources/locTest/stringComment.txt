@@ -1,0 +1,34 @@
+String="/*";
+
+
+code
+
+
+        code
+        
+        
+/*
+
+    comment
+    
+    
+    comment
+    
+String="*/ code
+
+
+
+
+String="\"";  /*
+
+comment
+
+
+*/  
+
+/* start string in comment "*/  code 
+
+ String a="test"
+        + ""+
+        "sike"
+        ;

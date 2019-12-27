@@ -77,6 +77,37 @@ public class LOCCalculator {
   }
   
   
+  public String cutOutStrings(String line) {
+    
+    boolean activeString=false;
+    boolean comment=this.commentOverRows;
+    String cleanLine="";
+    
+ 
+    
+    for(int pos=0;pos<line.length();pos++) {
+      
+      if(pos+1<line.length()&& line.charAt(pos)=='/' && line.charAt(pos+1)=='*' && !activeString) {
+        comment=true;
+      }
+      
+      if(pos+1<line.length()&& line.charAt(pos)=='*' && line.charAt(pos+1)=='/' && !activeString) {
+        comment=false;
+      }
+      
+      if((pos==0 && line.charAt(0)=='\"' ||pos>0 &&line.charAt(pos)=='\"' && line.charAt(pos-1)!='\\' )&& !comment) {
+        
+        cleanLine+=line.charAt(pos);
+        activeString=!activeString;
+      }
+      if(!activeString) {
+        cleanLine+=line.charAt(pos);
+      }
+    }
+    return cleanLine;
+    
+  }
+
   
   /**
    * 
@@ -177,6 +208,7 @@ public class LOCCalculator {
       while((line=br.readLine()) != null) {
        
         line=line.trim(); 
+        line=this.cutOutStrings(line);
         
         if(line.isEmpty()||line.startsWith("//")) {
           continue;
@@ -206,6 +238,3 @@ public class LOCCalculator {
   }
   
 }
-
-
-
