@@ -8,6 +8,9 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
+
+import com.swe.janalyzer.App;
+
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.CommandLineParser;
@@ -21,7 +24,7 @@ public class CLI {
 	 * @throws IOException 
 	 * @throws NullPointerException 
 	 * @throws ParseException falls eine falsche Eingabe in der Kommandozeile 
-	 * getÃ¤tigt wird
+	 * getaetigt wird
 	 */
 	
 	public void cli(String[] args) throws NullPointerException, IOException {
@@ -77,47 +80,79 @@ public class CLI {
 		 
 		 CommandLine line = null;
 		 HelpFormatter falseInput = new HelpFormatter();
+		 boolean toManyOpt = false;
 		 
-		try {
-			// parse the command line arguments
-			line = parser.parse(options, args);
-			OptionenVerarbeitung optVer = new OptionenVerarbeitung();
-
-			System.out.println("BinDA: "+ args.length);
-				if (line.hasOption("o")) {
-					if(args.length == 3) {
-						Path filePath = Paths.get(line.getOptionValue("o"));
-						optVer.saveFileAtPath(filePath);
-					}else {
-						throw new ParseException("");
-					}//Falls Pfad nicht mit angegeben dann throw
-					
-				} else if (line.hasOption("v")) {
-					// set Verbose
-					if(args.length == 2) {
-						optVer.verboseSet();
-					}else {
-						throw new ParseException("");
-					}//Falls Pfad nicht mit angegeben dann throw
-					
-
-				} else if (line.hasOption("help")) {
-					//optVer.manual();
-					HelpFormatter help = new HelpFormatter();
-					help.printHelp("janalayzer [optionen] [projektpfad]\n", options);
-				} 
+		 try {
+				OptionenVerarbeitung optVer = new OptionenVerarbeitung();
 				
-			
-		} catch (ParseException exp) {
-			// oops, something went wrong
-			if(args.length < 3) {
-				falseInput.printHelp("Too few arguments. Stopping execution.\n" 
-					+ "janalayzer [optionen] [projektpfad]\n\n",options);
-			}else if(args.length > 3) {
-				falseInput.printHelp("Wrong argument count. Expected 1 argument, got " + args.length + ". Stopping execution.\n" 
-						+ "janalayzer [optionen] [projektpfad]\n\n",options);
-			}	
-		}
-	}
+				//Prüfung, ob valide Option und nicht 2 oder mehr Optionen
+				for(int i = 0; i < args.length; i++) {
+					if(args[i].startsWith("-")) {
+						if(optVer.isValid(args[i], options)) {
+							//Continue
+						}
+						for(int j = i+1; j < args.length; j++) {
+							if(args[j].startsWith("-")) {
+								toManyOpt = true; 
+								throw new IllegalArgumentException();								
+							}
+						}
+					}
+				}
+				
+				// parse the command line arguments
+				line = parser.parse(options, args);
+				
+					if (line.hasOption("o")) {
+						if(args.length == 3) {
+							Path filePath = Paths.get(line.getOptionValue("o"));
+							optVer.saveFileAtPath(filePath);
+						}else {
+							throw new ParseException("");
+						}//Falls Pfad nicht mit angegeben dann throw
+						
+					} else if (line.hasOption("v")) {
+						// set Verbose
+						if(args.length == 2) {
+							optVer.verboseSet();
+						}else {
+							throw new ParseException("");
+						}					
 
-}
+					} else if (line.hasOption("help")) {
+						//optVer.manual();
+						HelpFormatter help = new HelpFormatter();
+						help.printHelp("janalayzer [optionen] [projektpfad]\n", options);
+					} 
+					
+					for(String rest : line.getArgs()) {
+						App.projectRoot = Paths.get(rest);
+					}
+					
+					
+			} catch (ParseException exp) {
+				
+				// oops, something went wrong
+				if(args.length < 3) {
+					falseInput.printHelp("Too few arguments. Stopping execution.\n" 
+						+ "janalayzer [optionen] [projektpfad]\n\n",options);
+				}else if(args.length > 3) {
+					falseInput.printHelp("Wrong argument count. Expected 1 argument, got " + args.length + ". Stopping execution.\n" 
+							+ "janalayzer [optionen] [projektpfad]\n\n",options);
+				}	
+				
+			} catch (IllegalArgumentException iAexp) {
+				
+				// oops, something went wrong
+				if(toManyOpt) {
+					falseInput.printHelp("Unsupported combination of options. Stopping execution.\n" 
+							+ "janalayzer [optionen] [projektpfad]\n\n",options);
+				}else {
+					falseInput.printHelp("Unknown option. Stopping execution.\n" 
+						+ "janalayzer [optionen] [projektpfad]\n\n",options);
+				}
+				
+			}
+		}
+
+	}
