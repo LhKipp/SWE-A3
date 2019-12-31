@@ -1,17 +1,18 @@
 package com.swe.janalyzer;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.commons.cli.HelpFormatter;
 
 import com.swe.janalyzer.cli.*;
-
-
 import com.swe.janalyzer.analysis.MetricCalculatorImpl;
 import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.storage.JSONConverter;
+import com.swe.janalyzer.util.Constants;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 
 /**
  * Hello world!
@@ -19,32 +20,26 @@ import java.nio.file.Paths;
  */
 public class App 
 {
-	public static Path projectRoot;
-	public static Path outputPath;
-	
     public static void main( String[] args ) throws NullPointerException, IOException
     {
         if(args.length > 0){
-//<<<<<<< HEAD
             System.out.println("Handle Args cli");
             CLI abfrageCli = new CLI();
             abfrageCli.cli(args);
-//=======
+
             //projectRoot = project Root
             //outputPath = speicherPfad
+            Summary sum = null;
             
-//            Summary sum = null;
-//            try {
-//                sum = new MetricCalculatorImpl().calculate(projectRoot);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                JSONConverter.saveSummary(sum, outputPath);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//>>>>>>> f01e1a90c6d4d6080307f74a58b4027ce5e28954
+            try {
+                sum = new MetricCalculatorImpl().calculate(Constants.projectRoot);
+            } catch (IOException e) {
+            	System.out.println("Could not open file "+ "$aktuelleDatei" + ". Stopping execution.");
+                e.printStackTrace();
+            }
+            
+            JSONConverter.saveSummary(sum, Constants.outputPath);
+
         }else{
             System.out.println("Gui starten");
         }
