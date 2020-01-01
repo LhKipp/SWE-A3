@@ -8,6 +8,7 @@ import com.swe.janalyzer.analysis.dit.DITCalculator;
 import com.swe.janalyzer.analysis.loc.LOCCalculator;
 import com.swe.janalyzer.analysis.util.FileUtil;
 import com.swe.janalyzer.data.metriken.MetricResult;
+import com.swe.janalyzer.util.IOExceptionWithFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -35,12 +36,24 @@ public class Analyser {
      * @throws IOException - If any file in the Project couldnt be opened
      * @throws ParseProblemException - If any file in the Project is ill formed
      */
-    public List<MetricResult> analyse(Path projectRoot) throws IOException, ParseProblemException{
+    public List<MetricResult> analyse(Path projectRoot) throws ParseProblemException, IOExceptionWithFile {
+        return analyse(projectRoot, false);
+    }
+    public List<MetricResult> analyse(Path projectRoot, boolean verbose) throws ParseProblemException, IOExceptionWithFile {
         List<Path> javaFiles = FileUtil.listAllJavaFiles(projectRoot);
 
         for (Path p : javaFiles){
-            String fileContent = String.join("\n"
-                    , Files.readAllLines(p, StandardCharsets.UTF_8));
+            if(verbose){
+                System.out.println("Processing file ​" + p.toString());
+            }
+
+            String fileContent = null;
+            try {
+                fileContent = String.join("\n"
+                        , Files.readAllLines(p, StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                throw new IOExceptionWithFile(e, p);
+            }
 
             CompilationUnit cu = StaticJavaParser.parse(fileContent);
 

@@ -1,0 +1,132 @@
+janalyzer [optionen] [projektpfad]
+Option: --help, --manual
+Das Programm gibt nach standard-out eine Bedienungsanleitung aus und beended die Ausführung.
+
+Option: -o <speicherpfad>, --output <speicherpfad>
+Der Speicherort der, vom Programm erzeugten Analysedaten wird zu $speicherpfad geändert.
+Falls diese Option nicht beim Aufruf des Programms genutzt wird, ist der Speicherort:
+"$user.home/java_analyzer/$Projektname_X"
+$user.home ist hierbei das Benutzerverzeichnis des Benutzers, welcher das Programm
+aufgerufen hat.
+$Projektname_X ist hierbei der Name des Projektordners, gefolgt von einem Unterstrich und
+einer natürlichen Zahl inklusive 0 (X ∈ 𝑁), um Duplikate bei mehrmaliger Analyse des gleichen
+Projekts zu vermeiden.
+
+Option: -h, --human
+Das Programm schreibt die Analysedaten statt in eine Datei, nach standard-out in eine, für
+Menschen lesbare Form.
+Die Ausgaben sind:
+
+LOC Gesamt: $value
+LOC fileX: $value
+
+DIT Max: $value
+DIT classX: $value
+
+CC Max: $value
+CC FunctionX: $value
+
+WMC Max: $value
+WMC classX: $value
+
+Hierbei steht $value für den jeweils berechneten Wert.
+Pro Datei gibt es eine Zeile LOC fileX: $value, wobei fileX den Dateinamen relativ zum
+Projektordner beschreibt.
+Für die Zeilen
+DIT classX: $value
+CC FunctionX: $value
+WMC classX: $value
+gilt gleiches, jedoch eine Zeile pro Funktion, Klasse etc.
+
+Option: -v, --verbose
+Das Programm gibt nach standard-out einzelne Schritte des Programmablaufes aus.
+Die Ausgaben sind:
+1. Processing file $file_path
+Erklärung: Das Programm errechnet die Metriken für die Datei mit Pfad $file_path.
+
+2. All files analyzed
+Erklärung: Das Programm hat alle Programmdateien des Projektes analysiert.
+
+3. Writing results to $output_file
+Erklärung: Das Programm schreibt die Ergebnisse in die Datei unter dem Pfad $output_file.
+
+
+Beschreibung:
+Der janalyzer errechnet für ein Java-Projekt die Metriken Weighted methods per class, Depth of
+inheritance, Lines of code und Cyclomatic complexity.
+
+Falls keine Optionen und Argumente übergeben werden, startet eine grafische
+Benutzeroberfläche.
+
+
+Detailliert:
+Das erste Hauptargument des Programms ist der Projekt-Pfad (relativ oder absolut) zum zu
+analysierendem Projekt. Windows und Unix Pfade werden (auf dem jeweiligen Betriebssystem)
+unterstützt.
+
+
+Fehlerbehandlung:
+In den folgenden Ausgaben steht “help-text” für die Ausgabe des Programms, wenn es nur mit
+der Option -m aufgerufen wird. Dieser Hilfetext wird bei jedem vom Benutzer verursachten
+Fehler mit aufgeführt.
+
+Zu viele Argumente:
+Falls das Programm mehr als ein Argument übergeben bekommt, gibt es die folgende
+Fehlermeldung nach standard-error aus und beendet die Ausführung:
+
+Wrong argument count. Expected 1 argument, got $argc. Stopping execution.
+help-text
+
+Wobei $argc die Anzahl an Argumenten ist.
+
+Zu wenig Argumente:
+Falls das Programm weniger Argumente als erforderlich übergeben bekommt, gibt das
+Programm die folgende Fehlermeldung nach standard-error aus und beendet die Ausführung:
+
+Too few arguments. Stopping execution.
+help-text
+
+Option nicht zuordbar:
+Falls das Programm eine CLI-Option nicht zuordnen kann, gibt es die folgende Fehlermeldung
+nach standard-error aus und beendet die Ausführung:
+
+Unknown option. Stopping execution.
+help-text
+
+Nicht unterstützte Kombination von Optionen:
+Falls das Programm sowohl die Option -h als auch -o übergeben bekommt, gibt es die folgende
+Fehlermeldung nach standard-error aus und beendet die Ausführung:
+
+Unsupported combination of options. Stopping execution.
+help-text
+
+Lesen fehlgeschlagen:
+Falls das Programm eine Datei nicht öffnen kann, gibt es die folgende Fehlermeldung nach
+standard-error aus und beendet die Ausführung:
+
+Could not open file $aktuelle_datei. Stopping execution.
+
+Wobei $aktuelle_datei die nicht öffenbare Datei ist.
+
+Schreiben fehlgeschlagen:
+Falls das Programm die Analysedaten nicht schreiben kann (Zugriffsverletzung/ keine
+Rechte...), gibt es die folgende Fehlermeldung nach standard-error aus und beendet die
+Ausführung:
+
+Could not write results to file with path: $ergebnis_datei. Stopping execution.
+
+Wobei $ergebnis_datei der Pfad zur Datei ist, welche mit Analyseergebnissen beschrieben
+werden sollte.
+
+Beispiele:
+Aufrufen des janalyzers mit relativem Pfad. Die Ergebnisse werden im Default-Ordner
+gespeichert:
+java -jar janalyzer.jar mein/java/projekt
+
+Aufrufen des janalyzers mit absolutem Pfad. Die Ergebnisse werden im Default-Ordner
+gespeichert:
+java -jar janalyzer.jar /home/martin/mein/java/projekt
+
+Aufrufen des janalyzers mit absolutem Pfad. Die Ergebnisse werden im Ordner
+C:\Users\Desktop gespeichert:
+java -jar janalyzer.jar -o C:\Users\Desktop C:\Users\Desktop\JavaProject

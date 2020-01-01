@@ -8,6 +8,7 @@ import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.data.metriken.cc.FunctionCC;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.ClassSpecifier;
+import com.swe.janalyzer.util.IOExceptionWithFile;
 import com.swe.janalyzer.util.Options;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class JSONConverterTest {
 		private Options options;
 
 		@Before
-		public void init() throws IOException {
+		public void init() throws IOException, IOExceptionWithFile {
 		    results = new Analyser().analyse(Paths.get("Testdateien/preferences"));
 		}
 

@@ -50,6 +50,7 @@ public class JSONConverter {
 						.create();
 
 				String json = gson.toJson(results);
+
 				Files.write(filePath, json.getBytes());
 		}
 

@@ -8,9 +8,12 @@ import java.nio.file.Paths;
  * {@link Constants#SEPERATOR} - Trennzeichen zwischen den beiden Attributen in der .json-Datei
  */
 public class Constants {
-		public static final String SEPERATOR = "@=@";
 
 		public static final String DEFAULT_PATH = "default";
 		public static final String CUSTOM_PATH = "custom";
 		public static final Path OPTION_PATH = Paths.get("./output/options.json");
+
+		public static Path DEFAULT_OUTPUT_DIR(){
+			return Paths.get(System.getProperty("user.home"), "java_analyzer");
+		}
 }
