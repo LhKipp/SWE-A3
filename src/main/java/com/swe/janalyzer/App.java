@@ -1,23 +1,13 @@
 package com.swe.janalyzer;
 
-import com.swe.janalyzer.analysis.MetricCalculator;
+
 import com.swe.janalyzer.analysis.MetricCalculatorImpl;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import com.swe.janalyzer.data.metriken.ClassMetrics;
-import com.swe.janalyzer.data.metriken.FileMetrics;
 import com.swe.janalyzer.data.metriken.Summary;
-import com.swe.janalyzer.data.metriken.cc.FunctionCC;
 import com.swe.janalyzer.storage.JSONConverter;
-import com.swe.janalyzer.util.ClassSpecifier;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Hello world!
@@ -28,7 +18,20 @@ public class App
     public static void main( String[] args )
     {
         if(args.length > 0){
-            System.out.println("Handle Args cli");
+            //0. Arg = project Root
+            //1. Arg = speicherPfad
+            Path projectRoot = Paths.get(args[0]);
+            Summary sum = null;
+            try {
+                sum = new MetricCalculatorImpl().calculate(projectRoot);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                JSONConverter.saveSummary(sum, Paths.get(args[1]));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }else{
             System.out.println("Gui starten");
         }

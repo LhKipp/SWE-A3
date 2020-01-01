@@ -1,0 +1,12 @@
+code1
+// comment
+
+			code2 // comment
+
+	code3//comment  code3
+
+//
+
+	code4
+
+/
