@@ -1,6 +1,7 @@
 package com.swe.janalyzer.data.metriken;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class MetricResult {
 
@@ -18,6 +19,11 @@ public class MetricResult {
     // key = className, value = wmcValue
     private Map<String, String> results;
 
+    public MetricResult(String metricName, Map<String, String> results) {
+        this.metricName = metricName;
+        this.results = results;
+    }
+
     public String getMetricName() {
         return metricName;
     }
@@ -32,5 +38,19 @@ public class MetricResult {
 
     public void setResults(Map<String, String> results) {
         this.results = results;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MetricResult that = (MetricResult) o;
+        return Objects.equals(metricName, that.metricName) &&
+                Objects.equals(results, that.results);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(metricName, results);
     }
 }
