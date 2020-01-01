@@ -11,6 +11,8 @@ import com.swe.janalyzer.analysis.loc.LOCCalculator;
 import com.swe.janalyzer.analysis.util.FileUtil;
 import com.swe.janalyzer.data.metriken.FileMetrics;
 import com.swe.janalyzer.data.metriken.Summary;
+import com.swe.janalyzer.cli.OptionenVerarbeitung;
+import com.swe.janalyzer.util.Constants;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -45,6 +47,12 @@ public class MetricCalculatorImpl implements MetricCalculator{
         LOCCalculator locCalc = new LOCCalculator();
 
         for (Path p : javaFiles){
+        	//FÜR CLI
+        	//Wenn verbose ist true, dann gib schritte aus
+        	if(OptionenVerarbeitung.verboseIsSet == true) {
+        		System.out.println("Processing file " + p);
+        	}
+        	
             final int sloc = locCalc.countLOCfile(p);
             summary.getFileMetrics().add(new FileMetrics(p, sloc));
 
@@ -55,10 +63,19 @@ public class MetricCalculatorImpl implements MetricCalculator{
             VoidVisitor<Void> ccVisitor = ccCalc.getASTVisitor();
             ccVisitor.visit(cu, null);
         }
+             
         ditCalc.injectResultsIn(summary.getClassMetrics());
 
+        //FÜR CLI
+        if(OptionenVerarbeitung.verboseIsSet == true) {
+        	System.out.println("All files analyzed");
+        	System.out.println("Writing results to DEFAULT PATH");
+        	//System.out.println("Writing results to " + Constants.DEFAULT_PATH);
+        	//weis nicht genau welcher path genommen wird wenn keiner gesetzt ist durch 
+        	//benutzer
+        }
+        
         return summary;
-
     }
 
     /* TODO Give a configuration option */

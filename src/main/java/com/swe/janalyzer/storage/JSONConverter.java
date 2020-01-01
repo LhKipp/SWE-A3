@@ -58,7 +58,14 @@ public class JSONConverter {
 				json += "\n" + Constants.SEPERATOR + "\n";
 				json += gson.toJson(summary.getClassMetrics());
 
+				//FÜR CLI
+				try {
 				Files.write(filePath, json.getBytes());
+				}catch(IOException IOe){
+					System.out.println("Could not write results to file with path: " + "$ergebnis_datei" + ". Stopping execution.");
+				}catch(NullPointerException NPEe) {
+					System.out.println("Could not write results to file with path: " + "$ergebnis_datei" + ". Stopping execution.");
+				}
 		}
 
 		/**
