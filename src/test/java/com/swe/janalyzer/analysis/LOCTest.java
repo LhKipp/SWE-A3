@@ -34,6 +34,18 @@ public class LOCTest {
    
     
   }
+  
+  
+  @Test
+  public void stringComment() {
+    
+    
+     f= Paths.get("./src/test/java/com/swe/janalyzer/resources/locTest/stringComment.txt");
+     assertEquals(counter.countLOCfile(f),10);
+   
+   
+    
+  }
   @Test
   public void singleLineComment() {
     
