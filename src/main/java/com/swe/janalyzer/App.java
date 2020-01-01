@@ -1,7 +1,6 @@
 package com.swe.janalyzer;
 
 
-import com.swe.janalyzer.analysis.MetricCalculatorImpl;
 import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.storage.JSONConverter;
 
@@ -22,16 +21,16 @@ public class App
             //1. Arg = speicherPfad
             Path projectRoot = Paths.get(args[0]);
             Summary sum = null;
-            try {
-                sum = new MetricCalculatorImpl().calculate(projectRoot);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                JSONConverter.saveSummary(sum, Paths.get(args[1]));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+////                sum = new MetricCalculatorImpl().calculate(projectRoot);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                JSONConverter.saveSummary(sum, Paths.get(args[1]));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }else{
             System.out.println("Gui starten");
         }
