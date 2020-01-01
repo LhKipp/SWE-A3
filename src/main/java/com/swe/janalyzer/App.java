@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.swe.janalyzer.analysis.Analyser;
+import com.swe.janalyzer.cli.CLI;
 import org.apache.commons.cli.HelpFormatter;
 
-import com.swe.janalyzer.cli.*;
-import com.swe.janalyzer.analysis.MetricCalculatorImpl;
 import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.Constants;
@@ -29,16 +29,15 @@ public class App
 
             //projectRoot = project Root
             //outputPath = speicherPfad
-            Summary sum = null;
-            
-            try {
-                sum = new MetricCalculatorImpl().calculate(Constants.projectRoot);
-            } catch (IOException e) {
-            	System.out.println("Could not open file "+ "$aktuelleDatei" + ". Stopping execution.");
-                e.printStackTrace();
-            }
-            
-            JSONConverter.saveSummary(sum, Constants.outputPath);
+
+//            try {
+//                 new Analyser().analyse(Constants.projectRoot);
+//            } catch (IOException e) {
+//            	System.out.println("Could not open file "+ "$aktuelleDatei" + ". Stopping execution.");
+//                e.printStackTrace();
+//            }
+//
+//            JSONConverter.saveSummary(sum, Constants.outputPath);
 
         }else{
             System.out.println("Gui starten");

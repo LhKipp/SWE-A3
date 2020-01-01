@@ -1,30 +1,57 @@
 package com.swe.janalyzer.analysis.dit;
 
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.swe.janalyzer.analysis.MetricCalculator;
 import com.swe.janalyzer.data.metriken.ClassMetrics;
+import com.swe.janalyzer.data.metriken.MetricResult;
 import com.swe.janalyzer.util.ClassSpecifier;
 
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class DITCalculator {
-    private Map<ClassSpecifier, ClassSpecifier> inheritanceTable;
+public class DITCalculator extends VoidVisitorAdapter<Void> implements MetricCalculator {
 
-    public DITCalculator(int classCount){
-        this(classCount, false);
+    private Map<ClassSpecifier,ClassSpecifier> inheritanceTable;
+
+    @Override
+    public void calcResultsFor(Path path, String code, CompilationUnit cu) {
+        super.visit(cu, null);
     }
 
-    public DITCalculator(int classCount, boolean multithreading) {
-        if(multithreading){
-            inheritanceTable = new ConcurrentHashMap<>(classCount);
-        }else {
-            inheritanceTable = new HashMap<>(classCount);
-        }
+    @Override
+    public List<MetricResult> getResults() {
+        Map<ClassSpecifier, ClassMetrics> oldDataFormat = new HashMap<>(10);
+        this.injectResultsIn(oldDataFormat);
+        ArrayList<MetricResult> l = new ArrayList<>(1);
+        l.add(new MetricResult(
+                "DIT",
+                //Old Data Format to new one
+                oldDataFormat.entrySet().stream()
+                .collect(Collectors.toMap(
+                       e -> e.getKey().getAsString() ,
+                        e -> Integer.toString(e.getValue().getDit())))
+        ));
+        return l;
     }
 
-    public DITVisitor getASTVisitor(){
-        return new DITVisitor(inheritanceTable);
+    @Override
+    public void clear() {
+        inheritanceTable.clear();
+    }
+
+    public DITCalculator() {
+        this(10);
+    }
+
+    public DITCalculator(int classCount) {
+        inheritanceTable = new HashMap<>(classCount);
     }
 
     /**
@@ -53,7 +80,7 @@ public class DITCalculator {
         Map<Boolean, List<Map.Entry<ClassSpecifier, ClassSpecifier>>> partitionedTable
                 = inheritanceTable.entrySet().stream()
                 .collect(Collectors.partitioningBy(
-                        entry -> classMetrics.containsKey(entry.getKey())
+                        entry -> classMetrics.containsKey(entry.getValue())
                 ));
 
         List<Map.Entry<ClassSpecifier, ClassSpecifier>> entriesInheritingKnownClass
@@ -65,7 +92,7 @@ public class DITCalculator {
                     .forEach(e ->{
                         putWithForce(classMetrics,
                                 e,
-                    classMetrics.get(e.getKey()).getDit() + 1
+                    classMetrics.get(e.getValue()).getDit() + 1
                             );
                     });
 
@@ -122,4 +149,29 @@ public class DITCalculator {
     private boolean inheritsFromLibraryClass(Map.Entry<ClassSpecifier, ClassSpecifier> entry) {
         return entry.getValue() != null && !inheritanceTable.containsKey(entry.getValue());
     }
+
+    @Override
+    public void visit(ClassOrInterfaceDeclaration decl, Void arg){
+        super.visit(decl, arg);
+
+        if(decl.isInterface()){
+            return;
+        }
+        NodeList<ClassOrInterfaceType> extendedTypes = decl.getExtendedTypes();
+
+        if(extendedTypes.isEmpty()){
+            inheritanceTable.put(
+                    new ClassSpecifier(decl.getNameAsString()),
+                    null
+            );
+        }else{
+            for(ClassOrInterfaceType type : extendedTypes){
+                inheritanceTable.put(
+                        new ClassSpecifier(decl.getNameAsString()),
+                        new ClassSpecifier(type.getNameAsString())
+                );
+            }
+        }
+    }
+
 }
