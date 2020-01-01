@@ -28,7 +28,7 @@ public class CLI {
 	 * getaetigt wird
 	 */
 	
-	public void cli(String[] args) throws NullPointerException, IOException {
+	public void cli(String[] args) {
 
 		CommandLineParser parser = (CommandLineParser) new DefaultParser();
 		CommandLine line = null;

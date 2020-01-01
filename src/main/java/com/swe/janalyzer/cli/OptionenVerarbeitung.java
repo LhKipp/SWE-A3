@@ -23,7 +23,7 @@ public class OptionenVerarbeitung {
 	 * @throws IOException 
 	 * @throws NullPointerException 
 	 */
-	public void saveFileAtPath (Path filePath) throws NullPointerException, IOException  {
+	public void saveFileAtPath (Path filePath) {
 //		Summary summary = new Summary();
 //		JSONConverter.saveSummary(summary, filePath);
 		Constants.outputPath = filePath;
