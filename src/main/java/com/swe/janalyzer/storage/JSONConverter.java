@@ -3,10 +3,7 @@ package com.swe.janalyzer.storage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.swe.janalyzer.data.metriken.ClassMetrics;
-import com.swe.janalyzer.data.metriken.FileMetrics;
-import com.swe.janalyzer.data.metriken.MetricResult;
-import com.swe.janalyzer.data.metriken.Summary;
+import com.swe.janalyzer.data.metriken.*;
 import com.swe.janalyzer.util.ClassSpecifier;
 import com.swe.janalyzer.util.Constants;
 import com.swe.janalyzer.util.Options;
@@ -43,26 +40,26 @@ public class JSONConverter {
 				Files.write(filePath, json.getBytes());
 		}
 
-		public static void saveSummary(List<MetricResult> results,
-									   Path filePath) throws IOException {
+		public static void saveSummary(final Project project,
+									   final Path filePath) throws IOException {
 				Gson gson = new GsonBuilder()
 						.setPrettyPrinting()
 						.create();
 
-				String json = gson.toJson(results);
+				String json = gson.toJson(project);
 
 				Files.write(filePath, json.getBytes());
 		}
 
-		public static List<MetricResult> loadSummary(Path filePath) throws IOException{
+		public static Project loadSummary(Path filePath) throws IOException{
 			Gson gson = new GsonBuilder()
 					.create();
 
 		    String data = String.join("\n",Files.readAllLines(filePath));
 
-			Type listType = new TypeToken<ArrayList<MetricResult>>(){}.getType();
+			Type listType = new TypeToken<Project>(){}.getType();
 
-			return gson.<ArrayList<MetricResult>>fromJson(data,listType);
+			return gson.<Project>fromJson(data,listType);
 		}
 
 		public static Options loadOptions() throws IOException {

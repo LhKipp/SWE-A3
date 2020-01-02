@@ -9,6 +9,7 @@ import java.util.List;
 import com.github.javaparser.ParseProblemException;
 import com.swe.janalyzer.analysis.Analyser;
 import com.swe.janalyzer.data.metriken.MetricResult;
+import com.swe.janalyzer.data.metriken.Project;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.FileUtil;
 import com.swe.janalyzer.util.IOExceptionWithFile;
@@ -42,7 +43,7 @@ public class CLI {
 			return 1;
 		}
 		//Check help options
-		if(line.hasOption("z") || line.hasOption("x")){
+		if(line.hasOption("help") || line.hasOption("manual")){
 			printHelpText();
 			return 0;
 		}
@@ -78,10 +79,12 @@ public class CLI {
 					+ "Use a compiler for further information regarding the syntactic error");
 			return 1;
 		}
-
 		if(verbose){
 			System.out.println("All files analyzed");
 		}
+
+		final String projectName = projectRoot.getFileName().toString();
+		Project project = new Project(projectName, result);
 
 		if(line.hasOption("h")){
 			//TODO Implement option
@@ -97,7 +100,6 @@ public class CLI {
 		    //Calc correct output path
 			//path is: user.home / project_name + _ + Count
 			Path defaultDir = Constants.DEFAULT_OUTPUT_DIR();
-			String projectName = projectRoot.getFileName().toString();
 			try {
 				outputPath = Paths.get(defaultDir.toString(),
 						projectName + "_" + FileUtil.analyzationNumber(projectRoot, defaultDir));
@@ -125,7 +127,7 @@ public class CLI {
 		}
 
 		try {
-			JSONConverter.saveSummary(result, outputPath);
+			JSONConverter.saveSummary(project, outputPath);
 		} catch (IOException e) {
 			System.out.println("Could not write results to file with path: "
 					+ outputPath.toString()
@@ -180,12 +182,12 @@ public class CLI {
 				.hasArg(false)
 				.build();
 
-		Option helpOption1 = Option.builder("z")
+		Option helpOption1 = Option.builder("manual")
 				.longOpt("manual")
 				.required(false)
 				.hasArg(false)
 				.build();
-		Option helpOption2 = Option.builder("x")
+		Option helpOption2 = Option.builder("help")
 				.longOpt("help")
 				.required(false)
 				.hasArg(false)

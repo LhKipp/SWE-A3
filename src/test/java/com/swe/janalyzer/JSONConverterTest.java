@@ -1,10 +1,7 @@
 package com.swe.janalyzer;
 
 import com.swe.janalyzer.analysis.Analyser;
-import com.swe.janalyzer.data.metriken.ClassMetrics;
-import com.swe.janalyzer.data.metriken.FileMetrics;
-import com.swe.janalyzer.data.metriken.MetricResult;
-import com.swe.janalyzer.data.metriken.Summary;
+import com.swe.janalyzer.data.metriken.*;
 import com.swe.janalyzer.data.metriken.cc.FunctionCC;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.ClassSpecifier;
@@ -24,18 +21,20 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class JSONConverterTest {
-		private List<MetricResult> results;
+	public static final Path output_path = Paths.get("Trees.json");
+	public static final Path PROJECT_ROOT = Paths.get("Testdateien/Trees");
+	private Project results;
 		private Options options;
 
 		@Before
 		public void init() throws IOException, IOExceptionWithFile {
-		    results = new Analyser().analyse(Paths.get("Testdateien/preferences"));
+		    results = new Project("Test", new Analyser().analyse(PROJECT_ROOT));
 		}
 
 		@Test
 		public void testSaveSummary(){
 				try {
-						JSONConverter.saveSummary(results, Paths.get("testSave.json"));
+						JSONConverter.saveSummary(results, output_path);
 				} catch (IOException ioe) {
 						fail("IOException wasn't expected.");
 				} catch (NullPointerException ne) {
@@ -54,13 +53,13 @@ public class JSONConverterTest {
 		@Test
 		public void testLoadSummary() throws IOException {
 			try {
-				JSONConverter.saveSummary(results, Paths.get("testSave.json"));
+				JSONConverter.saveSummary(results, output_path);
 			} catch (IOException ioe) {
 				fail("IOException wasn't expected.");
 			} catch (NullPointerException ne) {
 				fail("NullPointerException wasn't expected.");
 			}
-			List<MetricResult> metricResults = JSONConverter.loadSummary(Paths.get("testSave.json"));
+			Project metricResults = JSONConverter.loadSummary(output_path);
 			assertTrue(metricResults.equals(results));
 		}
 
