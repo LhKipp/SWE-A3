@@ -8,6 +8,7 @@ import com.swe.janalyzer.analysis.dit.DITCalculator;
 import com.swe.janalyzer.analysis.loc.LOCCalculator;
 import com.swe.janalyzer.analysis.util.FileUtil;
 import com.swe.janalyzer.data.metriken.MetricResult;
+import com.swe.janalyzer.data.metriken.Project;
 import com.swe.janalyzer.util.IOExceptionWithFile;
 
 import java.io.IOException;
@@ -36,10 +37,10 @@ public class Analyser {
      * @throws IOException - If any file in the Project couldnt be opened
      * @throws ParseProblemException - If any file in the Project is ill formed
      */
-    public List<MetricResult> analyse(Path projectRoot) throws ParseProblemException, IOExceptionWithFile {
+    public Project analyse(Path projectRoot) throws ParseProblemException, IOExceptionWithFile {
         return analyse(projectRoot, false);
     }
-    public List<MetricResult> analyse(Path projectRoot, boolean verbose) throws ParseProblemException, IOExceptionWithFile {
+    public Project analyse(Path projectRoot, boolean verbose) throws ParseProblemException, IOExceptionWithFile {
         List<Path> javaFiles = FileUtil.listAllJavaFiles(projectRoot);
 
         for (Path p : javaFiles){
@@ -67,7 +68,11 @@ public class Analyser {
             results.addAll(calc.getResults());
         }
 
-        return results;
+        final String projectName = projectRoot.getFileName().toString();
+        Project project = new Project(projectName, results);
+        project.wasJustAnalysed();
+
+        return project;
     }
 
     //TODO Make statistics class and/or give config option

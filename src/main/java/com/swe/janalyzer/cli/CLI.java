@@ -68,7 +68,7 @@ public class CLI {
 
 		boolean verbose = line.hasOption("v");
 
-		List<MetricResult> result = null;
+		Project result = null;
 		try {
 			result = new Analyser().analyse(projectRoot, verbose);
 		} catch (IOExceptionWithFile e) {
@@ -82,9 +82,6 @@ public class CLI {
 		if(verbose){
 			System.out.println("All files analyzed");
 		}
-
-		final String projectName = projectRoot.getFileName().toString();
-		Project project = new Project(projectName, result);
 
 		if(line.hasOption("h")){
 			//TODO Implement option
@@ -102,11 +99,11 @@ public class CLI {
 			Path defaultDir = Constants.DEFAULT_OUTPUT_DIR();
 			try {
 				outputPath = Paths.get(defaultDir.toString(),
-						projectName + "_" + FileUtil.analyzationNumber(projectRoot, defaultDir));
+						result.getName() + "_" + FileUtil.analyzationNumber(projectRoot, defaultDir));
 			} catch (IOException e) {
 				System.out.println("Failed to get information how often the Project has been analysed.\n"
 						+ "Please rename the result manualy");
-				outputPath = Paths.get(defaultDir.toString(), projectName + "_X");
+				outputPath = Paths.get(defaultDir.toString(), result.getName() + "_X");
 			}
 		}
 
@@ -127,7 +124,7 @@ public class CLI {
 		}
 
 		try {
-			JSONConverter.saveSummary(project, outputPath);
+			JSONConverter.saveSummary(result, outputPath);
 		} catch (IOException e) {
 			System.out.println("Could not write results to file with path: "
 					+ outputPath.toString()

@@ -28,7 +28,7 @@ public class JSONConverterTest {
 
 		@Before
 		public void init() throws IOException, IOExceptionWithFile {
-		    results = new Project("Test", new Analyser().analyse(PROJECT_ROOT));
+		    results = new Analyser().analyse(PROJECT_ROOT);
 		}
 
 		@Test

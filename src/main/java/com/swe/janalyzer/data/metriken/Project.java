@@ -1,16 +1,25 @@
 package com.swe.janalyzer.data.metriken;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 public class Project {
     private String name;
     private List<MetricResult> analysedMetrics;
+    private Date timeOfAnalysis;
 
 
     public Project(String projectName, List<MetricResult> analysedMetrics) {
         this.name = projectName;
         this.analysedMetrics = analysedMetrics;
+    }
+
+    /**
+         * This method is to be called, when the project has been analysed just before
+     */
+    public void wasJustAnalysed(){
+        timeOfAnalysis = new Date();
     }
 
     public String getName() {
@@ -36,6 +45,10 @@ public class Project {
         Project project = (Project) o;
         return Objects.equals(name, project.name) &&
                 Objects.equals(analysedMetrics, project.analysedMetrics);
+    }
+
+    public Date getTimeOfAnalysis() {
+        return timeOfAnalysis;
     }
 
     @Override
