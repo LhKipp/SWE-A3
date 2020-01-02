@@ -43,19 +43,19 @@ public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalc
     @Override
     public List<MetricResult> getResults() {
         ArrayList<MetricResult> l = new ArrayList<>(1);
-        l.add(new MetricResult(CC, cc_result));
+        l.add(new MetricResult(CC, cc_result ));
 
         //WMC Metric
         Map<String, String> wmc_result_asString = wmc_result.entrySet().stream().collect(Collectors.toMap(
                 e -> e.getKey(),
                 e -> String.valueOf(e.getValue())
         ));
-        l.add(new MetricResult(WMC, wmc_result_asString));
+        l.add(new MetricResult(WMC, wmc_result_asString ));
 
         //Max metrics
         int wmc_max = wmc_result.values().stream().max(Integer::compareTo).orElse(0);
-        l.add(Util.metricOfBasicValue(WMC_MAX, GENERAL_KEY, wmc_max));
-        l.add(Util.metricOfBasicValue(CC_MAX, GENERAL_KEY, max_cc));
+        l.add(Util.metricOfBasicValue(WMC_MAX, GENERAL_KEY, wmc_max, true));
+        l.add(Util.metricOfBasicValue(CC_MAX, GENERAL_KEY, max_cc, true));
 
         return l;
     }

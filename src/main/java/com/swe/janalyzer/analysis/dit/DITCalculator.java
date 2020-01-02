@@ -13,7 +13,6 @@ import com.swe.janalyzer.util.ClassSpecifier;
 
 import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -40,14 +39,14 @@ public class DITCalculator extends VoidVisitorAdapter<Void> implements MetricCal
                 .collect(Collectors.toMap(
                        e -> e.getKey().getAsString() ,
                         e -> Integer.toString(e.getValue().getDit())))
-        ));
+                ));
 
         //MAX DIT Metric
         int dit_max = oldDataFormat.values().stream()
                 .mapToInt(ClassMetrics::getDit)
                 .max()
                 .orElse(0);
-        l.add(Util.metricOfBasicValue(DIT_MAX, GENERAL_KEY,dit_max ));
+        l.add(Util.metricOfBasicValue(DIT_MAX, GENERAL_KEY,dit_max, true));
         return l;
     }
 
