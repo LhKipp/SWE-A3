@@ -101,7 +101,7 @@ public class CLI {
 			//Prüfung, ob valide Option und nicht -h und -o gemeinsam			
 			for(int i = 0; i < args.length; i++) {			
 				if(args[i].startsWith("-")) {				
-					if(options.hasShortOption(args[i])) {					
+					if(options.hasShortOption(args[i]) || options.hasLongOption(args[i])) {					
 						if(args[i].compareTo("-h") == 0) {						
 							//continue							
 							humanIsSet = true;							
@@ -129,9 +129,8 @@ public class CLI {
 			
 			// set output			
 			if (line.hasOption("o")) {			
-				if(!(line.getArgList().isEmpty())) {				
-					Path filePath = Paths.get(line.getOptionValue("o"));					
-					optVer.saveFileAtPath(filePath);					
+				if(!(line.getArgList().isEmpty())) {	
+					optVer.saveFileAtPath(line.getOptionValue("o"));
 				}else {				
 					noProjectPath = true;					
 					throw new ParseException("");					

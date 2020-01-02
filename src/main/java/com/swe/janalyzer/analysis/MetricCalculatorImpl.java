@@ -5,6 +5,8 @@ import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
+
+import com.swe.janalyzer.App;
 import com.swe.janalyzer.analysis.cc.CCCalculator;
 import com.swe.janalyzer.analysis.dit.DITCalculator;
 import com.swe.janalyzer.analysis.loc.LOCCalculator;
@@ -30,6 +32,10 @@ public class MetricCalculatorImpl implements MetricCalculator{
         Summary summary = new Summary();
         //Find all java files
         List<Path> javaFiles = FileUtil.listAllJavaFiles(projectRoot);
+        if(javaFiles.size() == 0) {
+        	App.listZero = true;
+        	throw new IOException();
+        }
 
         int javaFileCount = (int)javaFiles.size();
         int estimatedClassCount = estimatedClassCount(javaFileCount);
@@ -62,17 +68,21 @@ public class MetricCalculatorImpl implements MetricCalculator{
 
             VoidVisitor<Void> ccVisitor = ccCalc.getASTVisitor();
             ccVisitor.visit(cu, null);
+            
+            OptionenVerarbeitung.allFilesAnalyzed = true;
         }
              
         ditCalc.injectResultsIn(summary.getClassMetrics());
 
         //FÜR CLI
-        if(OptionenVerarbeitung.verboseIsSet == true) {
+        if(OptionenVerarbeitung.verboseIsSet && OptionenVerarbeitung.allFilesAnalyzed) {
         	System.out.println("All files analyzed");
         	System.out.println("Writing results to DEFAULT PATH");
         	//System.out.println("Writing results to " + Constants.DEFAULT_PATH);
         	//weis nicht genau welcher path genommen wird wenn keiner gesetzt ist durch 
         	//benutzer
+        }else {
+        	throw new IOException();
         }
         
         return summary;

@@ -1,6 +1,8 @@
 package com.swe.janalyzer;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -20,7 +22,10 @@ import com.swe.janalyzer.util.Constants;
  */
 public class App 
 {
-    public static void main( String[] args ) throws NullPointerException, IOException
+	public static boolean notValidFolder = false;
+	public static boolean listZero = false;
+	
+    public static void main(String[] args) throws NullPointerException, IOException
     {
         if(args.length > 0){
             System.out.println("Handle Args cli");
@@ -32,14 +37,33 @@ public class App
             Summary sum = null;
             
             try {
-                sum = new MetricCalculatorImpl().calculate(Constants.projectRoot);
+            	sum = new MetricCalculatorImpl().calculate(Constants.projectRoot);
+               
+            	try {
+           			JSONConverter.saveSummary(sum, Constants.outputPath);
+    			}catch(IOException IOe){
+    				System.out.println("Could not write results to file with path: " + "$ergebnis_datei" + ". Stopping execution.");
+   				}catch(NullPointerException NPEe) {
+   					System.out.println("Could not write results to file with path: " + "$ergebnis_datei" + ". Stopping execution.");
+   				}
+                
             } catch (IOException e) {
-            	System.out.println("Could not open file "+ "$aktuelleDatei" + ". Stopping execution.");
-                e.printStackTrace();
-            }
-            
-            JSONConverter.saveSummary(sum, Constants.outputPath);
+            	if(listZero) {
+            		int lastArg = 0;
+            		for(int i = 0; i < args.length; i++) {
+            			lastArg = i;
+            		}
+            		System.out.println("Could not open file "+ args[lastArg] + ". Stopping execution.");
+            	}else {
+            		System.out.println("Could not open file "+ "$aktuelleDatei" + ". Stopping execution.");
+            		//e.printStackTrace();
+            	}
+ 
+            } catch(NullPointerException NPEe) {
 
+            	System.out.println("Could not open file "+ "$aktuelleDatei" + ". Stopping execution.");
+            }
+   
         }else{
             System.out.println("Gui starten");
         }
