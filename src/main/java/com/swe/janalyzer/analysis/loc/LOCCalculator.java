@@ -29,9 +29,9 @@ public class LOCCalculator implements MetricCalculator {
   @Override
   public List<MetricResult> getResults() {
       List<MetricResult> l = new ArrayList<>(1);
-      l.add(new MetricResult(LOC, result));
+      l.add(new MetricResult(LOC, result ));
 
-      l.add(Util.metricOfBasicValue(LOC_CUM, GENERAL_KEY, locCumulated));
+      l.add(Util.metricOfBasicValue(LOC_CUM, GENERAL_KEY, locCumulated, true));
       return l;
   }
 
