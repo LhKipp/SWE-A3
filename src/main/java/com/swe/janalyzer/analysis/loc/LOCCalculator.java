@@ -2,26 +2,36 @@ package com.swe.janalyzer.analysis.loc;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.swe.janalyzer.analysis.MetricCalculator;
+import com.swe.janalyzer.analysis.util.Util;
 import com.swe.janalyzer.data.metriken.MetricResult;
 
 import java.nio.file.Path;
 import java.util.*;
 
+import static com.swe.janalyzer.util.Constants.*;
+
 public class LOCCalculator implements MetricCalculator {
 
-    private Map<String, String> result;
+  private Map<String, String> result;
+    private int locCumulated = 0;
+
   @Override
   public void calcResultsFor(Path path, String code, CompilationUnit cu) {
+      int locValue = countLOCfile(code);
+      locCumulated += locValue;
+
       result.put(
               path.toString(),
-              Integer.toString(countLOCfile(code))
+              Integer.toString(locValue)
       );
   }
 
   @Override
   public List<MetricResult> getResults() {
       List<MetricResult> l = new ArrayList<>(1);
-      l.add(new MetricResult("LOC", result));
+      l.add(new MetricResult(LOC, result));
+
+      l.add(Util.metricOfBasicValue(LOC_CUM, GENERAL_KEY, locCumulated));
       return l;
   }
 

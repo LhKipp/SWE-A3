@@ -8,24 +8,31 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.stmt.*;
-import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.swe.janalyzer.analysis.MetricCalculator;
+import com.swe.janalyzer.analysis.util.Util;
 import com.swe.janalyzer.data.metriken.MetricResult;
 
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.swe.janalyzer.util.Constants.*;
 
 public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalculator {
 
-    private Map<String, String> result;
+    private Map<String, String> cc_result;
+    private Map<String, Integer> wmc_result;
+    private int max_cc;
+
 
     public CCCalculator() {
-        this(32);
+        this(16);
     }
     public CCCalculator(int estimatedClassCount) {
         //TODO 8 == Number of average funcs / class. Give config option or measure
-        result = new HashMap<>(estimatedClassCount * 8);
+        cc_result = new HashMap<>(estimatedClassCount * 8);
+        wmc_result = new HashMap<>(estimatedClassCount);
     }
 
     @Override
@@ -36,13 +43,26 @@ public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalc
     @Override
     public List<MetricResult> getResults() {
         ArrayList<MetricResult> l = new ArrayList<>(1);
-        l.add(new MetricResult("CC", result));
+        l.add(new MetricResult(CC, cc_result));
+
+        //WMC Metric
+        Map<String, String> wmc_result_asString = wmc_result.entrySet().stream().collect(Collectors.toMap(
+                e -> e.getKey(),
+                e -> String.valueOf(e.getValue())
+        ));
+        l.add(new MetricResult(WMC, wmc_result_asString));
+
+        //Max metrics
+        int wmc_max = wmc_result.values().stream().max(Integer::compareTo).orElse(0);
+        l.add(Util.metricOfBasicValue(WMC_MAX, GENERAL_KEY, wmc_max));
+        l.add(Util.metricOfBasicValue(CC_MAX, GENERAL_KEY, max_cc));
+
         return l;
     }
 
     @Override
     public void clear() {
-        result.clear();
+        cc_result.clear();
     }
 
 
@@ -70,14 +90,23 @@ public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalc
                 .mapToInt(this::toCCValue)
                 .sum();
 
-        result.put(parentClass.getNameAsString() + "::" + nameOf(decl),
+        max_cc = Integer.max(max_cc, totalCCValue);
+
+        cc_result.put(parentClass.getNameAsString() + "::" + nameOf(decl),
                     Integer.toString(totalCCValue));
+        addCCToWMC(parentClass.getNameAsString(), totalCCValue);
+    }
+
+    private void addCCToWMC(String className, int ccValue) {
+        wmc_result.merge(className, ccValue, Integer::sum);
     }
 
     private String nameOf(Node decl) {
         if(decl.getClass() == MethodDeclaration.class){
             MethodDeclaration decl1 = (MethodDeclaration) decl;
-            return decl1.getDeclarationAsString(false, false, true);
+            String fullDecl = decl1.getDeclarationAsString(false, false, true);
+            int endOfReturnType = fullDecl.indexOf(" ");
+            return fullDecl.substring(endOfReturnType +1);
         }else if(decl.getClass() == ConstructorDeclaration.class){
             ConstructorDeclaration decl1 = (ConstructorDeclaration) decl;
             return decl1.getDeclarationAsString(false, false , true);

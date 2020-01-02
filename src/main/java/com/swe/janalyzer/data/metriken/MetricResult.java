@@ -1,5 +1,6 @@
 package com.swe.janalyzer.data.metriken;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -18,6 +19,10 @@ public class MetricResult {
     //For wmc
     // key = className, value = wmcValue
     private Map<String, String> results;
+
+    public MetricResult(){
+        this("", new HashMap<>());
+    };
 
     public MetricResult(String metricName, Map<String, String> results) {
         this.metricName = metricName;

@@ -6,6 +6,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.swe.janalyzer.analysis.MetricCalculator;
+import com.swe.janalyzer.analysis.util.Util;
 import com.swe.janalyzer.data.metriken.ClassMetrics;
 import com.swe.janalyzer.data.metriken.MetricResult;
 import com.swe.janalyzer.util.ClassSpecifier;
@@ -15,6 +16,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static com.swe.janalyzer.util.Constants.*;
 
 public class DITCalculator extends VoidVisitorAdapter<Void> implements MetricCalculator {
 
@@ -31,13 +34,20 @@ public class DITCalculator extends VoidVisitorAdapter<Void> implements MetricCal
         this.injectResultsIn(oldDataFormat);
         ArrayList<MetricResult> l = new ArrayList<>(1);
         l.add(new MetricResult(
-                "DIT",
+                DIT,
                 //Old Data Format to new one
                 oldDataFormat.entrySet().stream()
                 .collect(Collectors.toMap(
                        e -> e.getKey().getAsString() ,
                         e -> Integer.toString(e.getValue().getDit())))
         ));
+
+        //MAX DIT Metric
+        int dit_max = oldDataFormat.values().stream()
+                .mapToInt(ClassMetrics::getDit)
+                .max()
+                .orElse(0);
+        l.add(Util.metricOfBasicValue(DIT_MAX, GENERAL_KEY,dit_max ));
         return l;
     }
 
