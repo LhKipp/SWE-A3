@@ -1,5 +1,6 @@
 package com.swe.janalyzer;
 
+<<<<<<< HEAD
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -14,6 +15,9 @@ import com.swe.janalyzer.data.metriken.Summary;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.Constants;
 
+=======
+import com.swe.janalyzer.cli.CLI;
+>>>>>>> e98706bfb048372ff740048464924674f2d9c6c4
 
 
 /**
@@ -22,6 +26,7 @@ import com.swe.janalyzer.util.Constants;
  */
 public class App 
 {
+<<<<<<< HEAD
 	public static boolean notValidFolder = false;
 	public static boolean listZero = false;
 	
@@ -64,8 +69,16 @@ public class App
             	System.out.println("Could not open file "+ "$aktuelleDatei" + ". Stopping execution.");
             }
    
+=======
+    public static int main(String[] args )
+    {
+        if(args.length > 0){
+            CLI cli = new CLI();
+            return cli.handle(args);
+>>>>>>> e98706bfb048372ff740048464924674f2d9c6c4
         }else{
             System.out.println("Gui starten");
+            return 0;
         }
     }
 }
