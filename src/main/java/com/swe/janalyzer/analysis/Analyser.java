@@ -16,13 +16,20 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Analyser {
-    private List<MetricCalculator> metricCalculators;
+    private LOCCalculator locCalculator = new LOCCalculator();
+    private DITCalculator ditCalculator = new DITCalculator();
+    private CCCalculator ccCalculator = new CCCalculator();
+
+    private List<MetricCalculator> metricCalculators = Arrays.asList(
+            locCalculator, ditCalculator, ccCalculator
+    );
 
     public Analyser(){
-        metricCalculators = new ArrayList<>(3);
     }
 
     /**
@@ -37,13 +44,13 @@ public class Analyser {
         return analyse(projectRoot, false);
     }
     public Project analyse(Path projectRoot, boolean verbose) throws ParseProblemException, IOExceptionWithFile {
+        metricCalculators.forEach(MetricCalculator::clear);
+
         List<Path> javaFiles = FileUtil.listAllJavaFiles(projectRoot);
 
-        //Default Metrics to calculate CONFIG
-        metricCalculators.add(new CCCalculator(javaFiles.size()));
-        metricCalculators.add(new DITCalculator(javaFiles.size()));
-        metricCalculators.add(new LOCCalculator(javaFiles.size(), projectRoot));
-        //End of default Metrics CONFIG
+        locCalculator.initBeforeNewProject(javaFiles.size(), projectRoot);
+        ditCalculator.initBeforeNewProject(javaFiles.size());
+        ccCalculator.initBeforeNewProject(javaFiles.size());
 
         for (Path p : javaFiles){
             if(verbose){
@@ -77,17 +84,19 @@ public class Analyser {
         return project;
     }
 
-    //TODO Make statistics class and/or give config option
-    private int estimatedClassCount(int fileCount){
-        return (int) (fileCount * 1.25);
-    }
-
     public List<MetricCalculator> getMetricCalculators() {
         return metricCalculators;
     }
 
     public void setMetricCalculators(List<MetricCalculator> metricCalculators) {
         this.metricCalculators = metricCalculators;
+    }
+
+    public List<MetricResult> getAnalysedMetrics(){
+        return metricCalculators.stream()
+                .map(MetricCalculator::getCalculatedMetrics)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 
 }

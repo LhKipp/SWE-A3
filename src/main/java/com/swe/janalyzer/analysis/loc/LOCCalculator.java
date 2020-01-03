@@ -12,7 +12,7 @@ import static com.swe.janalyzer.util.Constants.*;
 
 public class LOCCalculator implements MetricCalculator {
 
-  private Map<String, String> result;
+    private Map<String, String> result;
     private int locCumulated = 0;
     private Path projectRoot;
 
@@ -44,8 +44,22 @@ public class LOCCalculator implements MetricCalculator {
   }
 
   @Override
+  public List<MetricResult> getCalculatedMetrics() {
+      return Arrays.asList(
+              new MetricResult(LOC, false, true),
+              new MetricResult(LOC_CUM, true, true)
+      );
+  }
+
+  @Override
   public void clear() {
     result.clear();
+    locCumulated = 0;
+  }
+
+  public void initBeforeNewProject(int fileCount, Path projectRoot){
+    result = new HashMap<>(fileCount);
+    this.projectRoot = projectRoot;
   }
 
 

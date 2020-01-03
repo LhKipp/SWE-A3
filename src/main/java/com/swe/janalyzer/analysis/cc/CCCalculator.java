@@ -27,17 +27,27 @@ public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalc
 
 
     public CCCalculator() {
-        this(16);
+        this(0);
     }
-    public CCCalculator(int estimatedClassCount) {
+    public CCCalculator(int fileCount) {
         //TODO 8 == Number of average funcs / class. Give config option or measure
-        cc_result = new HashMap<>(estimatedClassCount * 8);
-        wmc_result = new HashMap<>(estimatedClassCount);
+        cc_result = new HashMap<>(fileCount * 8);
+        wmc_result = new HashMap<>(fileCount);
     }
 
     @Override
     public void calcResultsFor(Path path, String code, CompilationUnit cu) {
         this.visit(cu, null);
+    }
+
+    @Override
+    public List<MetricResult> getCalculatedMetrics() {
+        return Arrays.asList(
+                new MetricResult(CC, false, true),
+                new MetricResult(CC_MAX, true, true),
+                new MetricResult(WMC, false, true),
+                new MetricResult(WMC_MAX, true, true)
+        );
     }
 
     @Override
@@ -59,9 +69,17 @@ public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalc
         return l;
     }
 
+
     @Override
     public void clear() {
         cc_result.clear();
+        this.wmc_result.clear();
+        this.max_cc =0;
+    }
+
+    public void initBeforeNewProject(int fileCount){
+        cc_result = new HashMap<>(fileCount);
+        wmc_result = new HashMap<>(fileCount);
     }
 
 
