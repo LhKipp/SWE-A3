@@ -4,26 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
-import javax.swing.text.TableView;
-
-import org.omg.CORBA.INITIALIZE;
-
-import com.swe.janalyzer.analysis.MetricCalculator;
 import com.github.javaparser.ParseProblemException;
 import com.swe.janalyzer.analysis.*;
 import com.swe.janalyzer.data.metriken.*;
 //import com.swe.janalyzer.analysis.MetricCalculatorImpl;
-import com.swe.janalyzer.data.metriken.ClassMetrics;
-import com.swe.janalyzer.data.metriken.FileMetrics;
 import com.swe.janalyzer.data.metriken.Summary;
-import com.swe.janalyzer.data.metriken.cc.FunctionCC;
-import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.IOExceptionWithFile;
-import com.swe.janalyzer.gui.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,9 +34,9 @@ public class StartController {
 	@FXML private ChoiceBox<String> pathSelect; //generischer Typ muss noch geändert werden!
 	@FXML private ListView<String> loc;
 	private ObservableList<CheckBox> historyEntries; //KAAN Datenversion der einzelnen Historieeinträge
-	
-	
-	private Summary sum;
+
+	private Stage optionWindow;
+	private Analyser analyser = new Analyser();
 	
 	public StartController() {
 	}
@@ -75,14 +62,29 @@ public class StartController {
 	 * @throws IOException
 	 */
 	@FXML
-	private void openOptions() throws IOException {
-		Parent option = FXMLLoader.load(getClass().getResource("OptionView.fxml"));
-		Scene scene = new Scene(option, 306, 400); // initiale Fenstergröße muss noch angepasst werden
-		Stage optionStage = new Stage();
-		optionStage.initOwner((Stage) basePane_VBox.getScene().getWindow());
-		optionStage.setTitle("Optionen");
-		optionStage.setScene(scene);
-		optionStage.show();
+	private void openOptions()  {
+		if(optionWindow == null){
+			Parent option = null;
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/OptionView.fxml"));
+			try {
+				option = loader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			OptionController controller = (OptionController) loader.getController();
+
+			Scene scene = new Scene(option, 306, 400); // initiale Fenstergröße muss noch angepasst werden
+			optionWindow= new Stage();
+			optionWindow.initOwner((Stage) basePane_VBox.getScene().getWindow());
+			optionWindow.setTitle("Optionen");
+			optionWindow.setScene(scene);
+
+			//Show and close otherwise i get an NPE
+			optionWindow.show();
+			optionWindow.close();
+			controller.init(analyser.getAnalysedMetrics());
+		}
+		optionWindow.showAndWait();
 	}
 	
 	/**
