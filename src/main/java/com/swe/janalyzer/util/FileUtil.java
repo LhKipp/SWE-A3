@@ -3,16 +3,16 @@ package com.swe.janalyzer.util;
 import com.swe.janalyzer.data.metriken.MetricResult;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
+import java.nio.file.*;
 import java.util.List;
 
 public class FileUtil {
 
+    public static boolean validateFolder(final String folder){
+        return Files.isDirectory(Paths.get(folder));
+    }
     public static boolean validateFolder(final Path folder){
-        return Files.exists(folder) && Files.isDirectory(folder);
+        return Files.isDirectory(folder);
     }
 
     /**

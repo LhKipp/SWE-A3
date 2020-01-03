@@ -20,11 +20,19 @@ public class Constants {
 	public static final String WMC = "WMC";
 	public static final String WMC_MAX = WMC + MAX_POSTFIX;
 
-		public static final String DEFAULT_PATH = "default";
-		public static final String CUSTOM_PATH = "custom";
-		public static final Path OPTION_PATH = Paths.get("./output/options.json");
+	public static Path DEFAULT_OUTPUT_DIR(){
+		return Paths.get(System.getProperty("user.home"), "java_analyzer");
+	}
 
-		public static Path DEFAULT_OUTPUT_DIR(){
-			return Paths.get(System.getProperty("user.home"), "java_analyzer");
-		}
+	public static Path GET_STORAGE_DIR(){
+		return Paths.get(System.getProperty("user.home"), ".config", "janalyzer");
+	}
+
+	public static Path GET_THRESHOLD_STORAGE_FILE(){
+		return GET_STORAGE_DIR().resolve("thresholds");
+	}
+
+	public static Path GET_CUSTOM_PATH_STORAGE_FILE(){
+		return GET_STORAGE_DIR().resolve("paths");
+	}
 }
