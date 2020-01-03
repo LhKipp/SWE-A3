@@ -2,6 +2,7 @@ package com.swe.janalyzer.analysis.util;
 
 import com.swe.janalyzer.data.metriken.MetricResult;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Util {
@@ -11,8 +12,8 @@ public class Util {
             , final String keyName
             , final K value
             , boolean represantableInBarChart){
-        HashMap<String, String> r = new HashMap<>(1);
-        r.put(keyName, value.toString());
-        return new MetricResult(metricName, r, represantableInBarChart);
+        return new MetricResult(metricName
+                , Collections.singletonMap(keyName, value.toString())
+                , represantableInBarChart);
     }
 }
