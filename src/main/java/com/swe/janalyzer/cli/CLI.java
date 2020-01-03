@@ -18,7 +18,6 @@ import org.apache.commons.cli.*;
 import com.swe.janalyzer.util.Constants;
 
 
-
 public class CLI {
 
 	/**
@@ -84,8 +83,7 @@ public class CLI {
 		}
 
 		if(line.hasOption("h")){
-			//TODO Implement option
-			System.out.println(result.toString());
+			HumanOpt.print(result);
 			return 0;
 		}
 

@@ -14,14 +14,22 @@ public class LOCCalculator implements MetricCalculator {
 
   private Map<String, String> result;
     private int locCumulated = 0;
+    private Path projectRoot;
 
   @Override
   public void calcResultsFor(Path path, String code, CompilationUnit cu) {
       int locValue = countLOCfile(code);
       locCumulated += locValue;
 
+      String relativePath;
+      if(projectRoot != null){
+        relativePath = projectRoot.relativize(path).toString();
+      }else{
+        relativePath = path.toString();
+      }
+
       result.put(
-              path.toString(),
+              relativePath,
               Integer.toString(locValue)
       );
   }
@@ -47,13 +55,14 @@ public class LOCCalculator implements MetricCalculator {
 
 
   public LOCCalculator(){
-    this(16);
+    this(16, null);
   }
 
-  public LOCCalculator(int fileCount){
+  public LOCCalculator(int fileCount, Path projectRoot){
     this.fileCounter=0;
     this.commentOverRows=false;
     result = new HashMap<>(fileCount);
+    this.projectRoot = projectRoot;
   }
 
   public int get_fileCounter() {

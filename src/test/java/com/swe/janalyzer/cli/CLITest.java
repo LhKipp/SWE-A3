@@ -59,7 +59,14 @@ public class CLITest {
     @Test
     public void shortOptChain(){
         String[] args = {"-vo","hi2", "Testdateien/Graphs"};
-        System.out.println(outContent);
+//        System.out.println(outContent);
         assertEquals(0, c.handle(args));
+    }
+
+    @Test
+    public void humanOpt(){
+        String[] args = {"-h", "Testdateien/Graphs"};
+        c.handle(args);
+        System.out.println(outContent);
     }
 }

@@ -22,11 +22,7 @@ public class Analyser {
     private List<MetricCalculator> metricCalculators;
 
     public Analyser(){
-        metricCalculators = new ArrayList<>();
-        //Default Metrics to calculate
-        metricCalculators.add(new CCCalculator());
-        metricCalculators.add(new DITCalculator());
-        metricCalculators.add(new LOCCalculator());
+        metricCalculators = new ArrayList<>(3);
     }
 
     /**
@@ -42,6 +38,12 @@ public class Analyser {
     }
     public Project analyse(Path projectRoot, boolean verbose) throws ParseProblemException, IOExceptionWithFile {
         List<Path> javaFiles = FileUtil.listAllJavaFiles(projectRoot);
+
+        //Default Metrics to calculate CONFIG
+        metricCalculators.add(new CCCalculator(javaFiles.size()));
+        metricCalculators.add(new DITCalculator(javaFiles.size()));
+        metricCalculators.add(new LOCCalculator(javaFiles.size(), projectRoot));
+        //End of default Metrics CONFIG
 
         for (Path p : javaFiles){
             if(verbose){
