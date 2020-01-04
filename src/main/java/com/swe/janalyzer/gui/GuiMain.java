@@ -22,7 +22,7 @@ public class GuiMain {
 			return;
 		}
 		Scene startScene = new Scene(root, 900, 650);
-		startScene.getStylesheets().add("gui/chart.css");
+		startScene.getStylesheets().addAll("gui/chart.css", "gui/detailChart.css");
 		primaryStage.setTitle("janalyzer");
 		primaryStage.setScene(startScene);
 		controller.init(primaryStage);

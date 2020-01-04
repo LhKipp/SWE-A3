@@ -4,12 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -42,41 +37,11 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </VBox>
-            <ScrollPane minWidth="415.0" prefHeight="200.0" prefWidth="200.0">
-               <content>
-                  <VBox prefHeight="800.0" prefWidth="400.0">
-                     <children>
-                        <Label text="Lines of Code" />
-                        <ListView fx:id="loc" prefHeight="200.0" prefWidth="200.0" />
-                        <Label text="DIT" />
-                        <TableView fx:id="dit" minWidth="400.0" prefHeight="200.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn minWidth="200.0" prefWidth="75.0" text="Class" />
-                            <TableColumn minWidth="200.0" prefWidth="75.0" text="Value" />
-                          </columns>
-                        </TableView>
-                        <Label text="CC" />
-                        <TableView fx:id="cc" minWidth="400.0" prefHeight="200.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn minWidth="200.0" prefWidth="75.0" text="Method" />
-                            <TableColumn minWidth="200.0" prefWidth="75.0" text="Value" />
-                          </columns>
-                        </TableView>
-                        <Label text="WMC" />
-                        <TableView fx:id="wmc" minWidth="400.0" prefHeight="200.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn minWidth="200.0" prefWidth="75.0" text="Class" />
-                            <TableColumn minWidth="200.0" prefWidth="75.0" text="Value" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </VBox>
-               </content>
+            <ScrollPane fx:id="detailView" minWidth="415.0" prefHeight="200.0" prefWidth="200.0">
                <HBox.margin>
                   <Insets left="70.0" />
                </HBox.margin>
             </ScrollPane>
-            <VBox fx:id="historyBox1" layoutX="30.0" layoutY="10.0" prefHeight="491.0" prefWidth="272.0" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">

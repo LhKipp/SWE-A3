@@ -3,17 +3,21 @@ package com.swe.janalyzer.gui;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.github.javaparser.ParseProblemException;
 import com.swe.janalyzer.analysis.*;
 import com.swe.janalyzer.data.metriken.*;
 //import com.swe.janalyzer.analysis.MetricCalculatorImpl;
 import com.swe.janalyzer.gui.data.NamedPath;
+import com.swe.janalyzer.gui.util.ClickableProjectBox;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.FileUtil;
 import com.swe.janalyzer.util.IOExceptionWithFile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -24,9 +28,10 @@ import javafx.stage.Stage;
 public class StartController {
 
 	private Stage stage;
-	@FXML private VBox basePane_VBox;
-	@FXML private ChoiceBox<NamedPath> pathSelect; //generischer Typ muss noch geändert werden!
+	@FXML private ScrollPane detailView;
+	@FXML private ChoiceBox<NamedPath> pathSelect;
 
+	//TODO historyBox could be scrollpane by itself and return from HistoryController simply vbox
 	@FXML private VBox historyBox;
 
 	private Analyser analyser = new Analyser();
@@ -60,6 +65,39 @@ public class StartController {
 		optionController.init(analyser.getAnalysedMetrics(), optionWindow);
 		//INIT OPTIONS END
 
+		//INIT History BEGIN
+		historyController.setOnBoxClicked(e ->{
+			ClickableProjectBox source = (ClickableProjectBox) e.getSource();
+			long selectedProjectsCount = historyController.getSelectedProjects().count();
+			if(selectedProjectsCount != 0){
+				return;
+			}
+			//Ok detailview for project now
+			detailView.setContent(buildDetailChart(source.getData()));
+		});
+
+		historyController.setOnCheckBoxValueChange((v, o, n)->{
+			List<Project> selectedProjects = historyController.getSelectedProjects().collect(Collectors.toList());
+			if(selectedProjects.isEmpty()){
+				//Reset pane on right
+				detailView.setContent(null);
+				return;
+			}
+			if(selectedProjects.size() == 1){
+				//Set single view
+				detailView.setContent(buildDetailChart(selectedProjects.get(0)));
+			}else{
+				//set comparison chart
+				detailView.setContent(
+						ComparisonChart.build(
+								selectedProjects,
+								detailView.getWidth(),
+								optionController.getThresholds()));
+			}
+		});
+		//INIT History End
+
+
 		//INIT Path dropdown BEGIN
         pathSelect.getItems().addAll(optionController.getPaths());
 		pathSelect.getSelectionModel().selectedItemProperty().addListener((v, o,n)->{
@@ -74,11 +112,15 @@ public class StartController {
 
 		//INIT Path dropdown END
 
-		//INIT History BEGIN
-        //INIT History End
 
 	}
-	
+
+	private DetailChart buildDetailChart(Project data) {
+		return new DetailChart(data,
+				this.detailView.getWidth(),
+				optionController.getThresholds());
+	}
+
 	/**
 	 * Methode zum Öffnen des Options-Menüs
 	 */

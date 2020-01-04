@@ -4,9 +4,13 @@ import com.swe.janalyzer.data.metriken.Project;
 import com.swe.janalyzer.gui.util.ClickableProjectBox;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.FileUtil;
+import javafx.beans.value.ChangeListener;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -16,12 +20,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class HistoryController {
 
     private Map<Path, ScrollPane> storedHistories = new HashMap<>();
     private ScrollPane currentPane;
+
+    private Consumer<Event> a;
 
     public ScrollPane getView(Path storageDir) {
         if (storedHistories.containsKey(storageDir)) {
@@ -51,17 +58,17 @@ public class HistoryController {
             return new ScrollPane();
         }
 
-        //TODO Give user info about unloadable paths
         List<Path> unloadablePaths = new ArrayList<>();
         for (Path file : allFiles) {
             Project project;
             try {
                 project = JSONConverter.loadSummary(file);
-                boxes.getChildren().addAll(new ClickableProjectBox(project, file));
+                boxes.getChildren().addAll(getProjectBox(project, file));
             } catch (Exception e) {
                 unloadablePaths.add(file);
             }
         }
+        //Give user info about unloaded files
         if(!unloadablePaths.isEmpty()){
             StringBuilder builder = new StringBuilder(unloadablePaths.size() * 30);
             builder.append("Die folgenden Dateien konnten nicht geladen werden\n");
@@ -82,10 +89,11 @@ public class HistoryController {
         return p.getChildren().stream()
                 .filter(n -> n instanceof ClickableProjectBox)
                 .map(n -> (ClickableProjectBox)n)
+                .filter(ClickableProjectBox::isSelected)
                 .map(ClickableProjectBox::getData);
     }
 
-    public void removeSelectedProjects(){
+    void removeSelectedProjects(){
         Pane p = (Pane) currentPane.getContent();
         p.getChildren().removeIf(n ->{
             if(!(n instanceof ClickableProjectBox)){
@@ -103,10 +111,27 @@ public class HistoryController {
     }
 
     public void add(Project result, Path path) {
-        ClickableProjectBox newProjectBox = new ClickableProjectBox(result, path);
+        ClickableProjectBox newProjectBox = getProjectBox(result, path);
 
         Node content = currentPane.getContent();
         Pane pane = (Pane) content;
         pane.getChildren().add(newProjectBox);
+    }
+
+    private ChangeListener<Boolean> onCheckBoxValueChange;
+    private EventHandler<MouseEvent> onBoxClicked;
+    private ClickableProjectBox getProjectBox(Project p, Path storagePath){
+        return new ClickableProjectBox(p,
+                storagePath,
+                onCheckBoxValueChange,
+                onBoxClicked);
+    }
+
+    public void setOnBoxClicked(EventHandler<MouseEvent> onBoxClicked) {
+        this.onBoxClicked = onBoxClicked;
+    }
+
+    public void setOnCheckBoxValueChange(ChangeListener<Boolean> onCheckBoxValueChange) {
+        this.onCheckBoxValueChange = onCheckBoxValueChange;
     }
 }

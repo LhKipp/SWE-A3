@@ -87,7 +87,7 @@ public class OptionController{
 				alert.setTitle("Daten nicht gespeichert");
 				alert.setHeaderText("Sie haben eventuell ungespeicherte Änderungen.\n" +
 						"Sind Sie sicher, dass sie das Fenster schließen wollen?");
-//				alert.setContentText("");
+				//alert.setContentText("");
 				ButtonType closeAndSave = new ButtonType("Speichern und Schließen");
 				alert.getButtonTypes().clear();
 				alert.getButtonTypes().addAll(ButtonType.YES, closeAndSave, ButtonType.CANCEL);

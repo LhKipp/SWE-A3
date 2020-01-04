@@ -12,13 +12,16 @@ import javafx.scene.text.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ComparisonChart {
 
 
-    public static ScrollPane build(List<Project> projects, double totalWidth){
+    public static ScrollPane build(List<Project> projects,
+                                   double totalWidth,
+                                   Map<String, Double> thresholds){
 
         Stream<String> commonMetrics = projects.stream()
                 .map(Project::getAnalysedMetrics)
@@ -56,6 +59,9 @@ public class ComparisonChart {
             metricRoot.getChildren().add(barPane);
 
             ColorProvider colors = new ColorProvider();
+            //TODO this works but not if ever values are parsed to longs or if one value == Double.MAX_Value
+            //For now it should be fine
+            final double threshold = thresholds.getOrDefault(metricName, Double.MAX_VALUE);
             for(Project p : projects){
                 HBox bar = buildBar(p.getName(),
                         p.getAnalysedMetrics().stream()
@@ -64,7 +70,7 @@ public class ComparisonChart {
                                 .findAny()
                                 .orElse(0),
                         maxMetricValue,
-                        100,
+                        threshold,
                         totalWidth,
                         colors.next()
                         );
