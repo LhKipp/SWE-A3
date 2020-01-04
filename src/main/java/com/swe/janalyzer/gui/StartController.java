@@ -53,38 +53,44 @@ public class StartController {
 		Scene scene = new Scene(option, 306, 400); // initiale Fenstergröße muss noch angepasst werden
 		Stage optionWindow= new Stage();
 
-		optionWindow.initOwner(stage);
+		optionWindow.initOwner(this.stage);
 		optionWindow.setTitle("Optionen");
 		optionWindow.setScene(scene);
-
-		//TODO Show and close otherwise I get an NPE. Could probably be optimized
-		optionWindow.show();
-		optionWindow.close();
 		optionController.init(analyser.getAnalysedMetrics(), optionWindow);
 		//INIT OPTIONS END
 
 		//INIT Path dropdown BEGIN
-		pathSelect.getItems().addAll(optionController.getPaths());
-		//TODO Save lastChosenPath and fill in here
-		pathSelect.getSelectionModel().selectFirst();
+        pathSelect.getItems().addAll(optionController.getPaths());
 		pathSelect.getSelectionModel().selectedItemProperty().addListener((v, o,n)->{
 		    historyBox.getChildren().clear();
+		    if(n == null){
+		    	return;
+			}
 			historyBox.getChildren().add(historyController.getView(n.getPath()));
 		});
+		//TODO Save lastChosenPath and fill in here
+		pathSelect.getSelectionModel().selectFirst();
+
 		//INIT Path dropdown END
 
 		//INIT History BEGIN
-        historyBox.getChildren().add(historyController.getView(pathSelect.getValue().getPath()));
+        //INIT History End
 
 	}
 	
 	/**
 	 * Methode zum Öffnen des Options-Menüs
-	 * @throws IOException
 	 */
 	@FXML
 	private void openOptions()  {
 	    optionController.showAndWait();
+
+	    //TODO make NamedPaths to ObjectProperty<NamedPath> add listeners, update list if namedPath updated
+		//But for now we do the cheap version
+		final int selectedIndex = pathSelect.getSelectionModel().getSelectedIndex();
+	    pathSelect.getItems().clear();
+		pathSelect.getItems().setAll(optionController.getPaths());
+		pathSelect.getSelectionModel().select(selectedIndex);
 	}
 	
 	/**

@@ -238,7 +238,7 @@ public class OptionController{
 	}
 
 	/**
-	 * Every path returned by this method is a directory and exists
+	 * Every path inside the returned list is at all times checked to be a directory and existing
 	 * @return
 	 */
 	public List<NamedPath> getPaths(){
