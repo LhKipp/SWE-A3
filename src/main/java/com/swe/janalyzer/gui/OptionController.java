@@ -14,6 +14,7 @@ import com.swe.janalyzer.util.FileUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.Event;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import com.swe.janalyzer.data.metriken.*;
 import com.swe.janalyzer.storage.JSONConverter;
@@ -72,6 +73,7 @@ public class OptionController{
 	}
 
 	public void init(List<MetricResult> analysedMetrics, Stage initStage){
+
 		//Default path may not be created yet
 		try {
 			Files.createDirectories(defaultPath.getPath());
@@ -129,17 +131,17 @@ public class OptionController{
 			currentCustomPath.setCustomName(customPathNameBox.getText());
 			valuesAreChanged.setValue(true);
 		});
-		//Update on focus lost
-		customPathNameBox.focusedProperty().addListener(((observable, oldValue, newValue) -> {
-			if(!newValue){
-				currentCustomPath.setCustomName(customPathNameBox.getText());
-				valuesAreChanged.setValue(true);
-			}
+		//Update on change
+		customPathNameBox.textProperty().addListener(((observable, oldValue, newValue) -> {
+			currentCustomPath.setCustomName(customPathNameBox.getText());
+			valuesAreChanged.setValue(true);
 		}));
 
 		customPathPathBox.setOnAction(e->{
 		    handleInputInPathPathBox();
 		});
+		//TODO Should be on textProperty change but might then be heavy calc
+		//Measure and change if needed
 //		customPathPathBox.focusedProperty().addListener((observable, oldValue, newValue) -> {
 //			if(!newValue){
 //				handleInputInPathPathBox();

@@ -11,8 +11,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class ComparisonChartTest extends Application {
 
     @Test
@@ -28,7 +26,7 @@ public class ComparisonChartTest extends Application {
         l.add(JSONConverter.loadSummary(Paths.get("Trees.json")));
 
         Scene s = new Scene(ComparisonChart.build(l, 800));
-        s.getStylesheets().add("gui/styles.css");
+        s.getStylesheets().add("gui/chart.css");
         primaryStage.setScene(s);
         primaryStage.show();
     }

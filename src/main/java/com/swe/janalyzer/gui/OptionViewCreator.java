@@ -30,8 +30,10 @@ public class OptionViewCreator {
                 HBox pane = new HBox();
                 final String metricName = metricResult.getMetricName();
                 Label metricLabel = new Label(metricResult.getMetricName());
+                metricLabel.setId("option-threshold-label");
 
                 TextField thresholdField = new TextField();
+                thresholdField.setId("option-threshold-input");
 
                 thresholdField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if(newValue.isEmpty()){
