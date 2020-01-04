@@ -77,7 +77,10 @@ public class HistoryController {
                 builder.append("\n");
             });
 
-            Alert a = new Alert(Alert.AlertType.INFORMATION ,builder.toString());
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setTitle("janalyzer - Dialog");
+            a.setHeaderText(null);
+            a.setContentText(builder.toString());
             a.showAndWait();
         }
 
