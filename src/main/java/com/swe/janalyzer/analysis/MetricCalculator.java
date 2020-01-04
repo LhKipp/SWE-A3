@@ -25,6 +25,11 @@ public interface MetricCalculator{
     public List<MetricResult> getResults();
 
     /**
+     * Returns every Metric which is calculated by this calculator.
+     * @return
+     */
+    public List<MetricResult> getCalculatedMetrics();
+    /**
      * Clears all calculated results which have been gathered from the last files
      */
     public void clear();

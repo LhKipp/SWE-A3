@@ -51,9 +51,13 @@ public class DITCalculator extends VoidVisitorAdapter<Void> implements MetricCal
     }
 
     @Override
-    public void clear() {
-        inheritanceTable.clear();
+    public List<MetricResult> getCalculatedMetrics() {
+        return Arrays.asList(
+                new MetricResult(DIT, false, true),
+                new MetricResult(DIT_MAX, true, true)
+        );
     }
+
 
     public DITCalculator() {
         this(10);
@@ -183,4 +187,12 @@ public class DITCalculator extends VoidVisitorAdapter<Void> implements MetricCal
         }
     }
 
+    @Override
+    public void clear() {
+        inheritanceTable.clear();
+    }
+
+    public void initBeforeNewProject(int fileCount){
+        this.inheritanceTable = new HashMap<>(fileCount);
+    }
 }

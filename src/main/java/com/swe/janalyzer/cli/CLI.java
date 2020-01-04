@@ -17,6 +17,7 @@ import org.apache.commons.cli.*;
 
 import com.swe.janalyzer.util.Constants;
 
+import static com.swe.janalyzer.util.Constants.SYNTAX_ERROR_MESSAGE;
 
 
 public class CLI {
@@ -75,8 +76,7 @@ public class CLI {
 			System.out.println("Could not open file " + e.getFile().toString() + ". Stopping execution.");
 			return 1;
 		} catch (ParseProblemException e){
-			System.out.println("There is a syntactical error in one of the project Files.\n"
-					+ "Use a compiler for further information regarding the syntactic error");
+			System.out.println(SYNTAX_ERROR_MESSAGE);
 			return 1;
 		}
 		if(verbose){
@@ -84,8 +84,7 @@ public class CLI {
 		}
 
 		if(line.hasOption("h")){
-			//TODO Implement option
-			System.out.println(result.toString());
+			HumanOpt.print(result);
 			return 0;
 		}
 

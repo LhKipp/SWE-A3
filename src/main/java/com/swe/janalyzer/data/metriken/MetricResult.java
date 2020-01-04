@@ -20,18 +20,27 @@ public class MetricResult {
     // key = className, value = wmcValue
     private Map<String, String> results;
     private boolean represantableInBarChart;
+    private boolean hasNumericalValues;
 
     public MetricResult(){
         this("", new HashMap<>(), false);
     };
+    public MetricResult(String metricName, boolean represantableInBarChart, boolean hasNumericalValues){
+        this(metricName, new HashMap<>(), represantableInBarChart, hasNumericalValues);
+    }
 
     public MetricResult(String metricName, Map<String, String> results) {
         this(metricName, results, false);
     }
     public MetricResult(String metricName, Map<String, String> results, boolean represantableInBarChart) {
+        this(metricName, results, represantableInBarChart, true);
+    }
+
+    public MetricResult(String metricName, Map<String, String> results, boolean represantableInBarChart, boolean hasNumericalValues) {
         this.metricName = metricName;
         this.results = results;
         this.represantableInBarChart = represantableInBarChart;
+        this.hasNumericalValues = hasNumericalValues;
     }
 
     public String getMetricName() {
@@ -77,5 +86,13 @@ public class MetricResult {
         }catch (NumberFormatException e){
             return 0;
         }
+    }
+
+    public boolean isHasNumericalValues() {
+        return hasNumericalValues;
+    }
+
+    public void setHasNumericalValues(boolean hasNumericalValues) {
+        this.hasNumericalValues = hasNumericalValues;
     }
 }

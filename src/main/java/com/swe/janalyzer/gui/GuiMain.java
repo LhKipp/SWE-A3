@@ -2,24 +2,32 @@ package com.swe.janalyzer.gui;
 
 import java.io.IOException;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class GuiMain extends Application {
+public class GuiMain {
 
-	@Override
-	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("StartView.fxml"));
-		Scene scene = new Scene(root, 900, 650);
+	public void start(Stage primaryStage) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/StartView.fxml"));
+		Parent root = null;
+		StartController controller;
+		try {
+			root = loader.load();
+			controller = loader.getController();
+		} catch (IOException e) {
+		    //This should never happen
+			e.printStackTrace();
+			return;
+		}
+		Scene startScene = new Scene(root, 900, 650);
+		startScene.getStylesheets().add("gui/chart.css");
 		primaryStage.setTitle("janalyzer");
-		primaryStage.setScene(scene);
+		primaryStage.setScene(startScene);
+		controller.init(primaryStage);
 		primaryStage.show();
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+
 }
