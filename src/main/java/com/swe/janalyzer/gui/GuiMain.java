@@ -9,12 +9,24 @@ import javafx.stage.Stage;
 
 public class GuiMain {
 
-	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/StartView.fxml"));
+	public void start(Stage primaryStage) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/StartView.fxml"));
+		Parent root = null;
+		StartController controller;
+		try {
+			root = loader.load();
+			controller = loader.getController();
+		} catch (IOException e) {
+		    //This should never happen
+			e.printStackTrace();
+			return;
+		}
 		Scene scene = new Scene(root, 900, 650);
 		primaryStage.setTitle("janalyzer");
 		primaryStage.setScene(scene);
+		controller.init(primaryStage);
 		primaryStage.show();
 	}
+
 
 }

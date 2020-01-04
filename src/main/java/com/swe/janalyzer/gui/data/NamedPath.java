@@ -36,4 +36,9 @@ public class NamedPath {
         this.customName = other.customName;
         this.path = other.path;
     }
+
+    @Override
+    public String toString() {
+        return customName;
+    }
 }

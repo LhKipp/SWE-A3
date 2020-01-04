@@ -35,4 +35,8 @@ public class Constants {
 	public static Path GET_CUSTOM_PATH_STORAGE_FILE(){
 		return GET_STORAGE_DIR().resolve("paths");
 	}
+
+
+	public static final String SYNTAX_ERROR_MESSAGE = "There is a syntactical error in one of the project Files.\n"+
+			"Use a compiler for further information regarding the syntactic error";
 }

@@ -49,6 +49,8 @@ public class OptionController{
 
 	private BooleanProperty valuesAreChanged = new SimpleBooleanProperty(false);
 
+	private Stage stage;
+
 	public OptionController() {
 	}
 
@@ -69,8 +71,14 @@ public class OptionController{
 		}
 	}
 
-	public void init(List<MetricResult> analysedMetrics){
-		Stage stage = (Stage) thresholdBox.getScene().getWindow();
+	public void init(List<MetricResult> analysedMetrics, Stage initStage){
+		//Default path may not be created yet
+		try {
+			Files.createDirectories(defaultPath.getPath());
+		} catch (IOException e) {
+		    //Fail silently
+		}
+		this.stage = initStage;
 		stage.setOnCloseRequest(e ->{
 			if(valuesAreChanged.get()){
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -207,7 +215,7 @@ public class OptionController{
 
 		valuesAreChanged.setValue(false);
 
-		((Stage)(this.defaultPathPathBox.getScene().getWindow())).close();
+		stage.close();
 	}
 
 
@@ -229,7 +237,15 @@ public class OptionController{
 		return savedThresholds;
 	}
 
+	/**
+	 * Every path returned by this method is a directory and exists
+	 * @return
+	 */
 	public List<NamedPath> getPaths(){
 		return Arrays.asList(defaultPath, savedCustomPath);
+	}
+
+	public void showAndWait() {
+		stage.showAndWait();
 	}
 }

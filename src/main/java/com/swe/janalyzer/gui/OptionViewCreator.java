@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OptionViewCreator {
+    //TODO Move View definition code from OptionController to this class
 
 
     public static List<Pane> createThresholdList(

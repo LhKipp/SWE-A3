@@ -5,6 +5,8 @@ import com.swe.janalyzer.data.metriken.MetricResult;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileUtil {
 
@@ -32,5 +34,14 @@ public class FileUtil {
             similarProjects++;
         }
         return similarProjects;
+    }
+
+    public static List<Path> listAllFilesInFolder(Path folder) throws IOException {
+        try (Stream<Path> walk = Files.walk(folder)) {
+
+            return walk.filter(Files::isRegularFile)
+                    .collect(Collectors.toList());
+        }
+
     }
 }
