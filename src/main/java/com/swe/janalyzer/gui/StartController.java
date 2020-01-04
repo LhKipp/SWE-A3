@@ -17,6 +17,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -101,14 +103,35 @@ public class StartController {
 		/**
 		 * TODO Pop-Up "Sind sie sicher,dass..."
 		 */
-		historyController.removeSelectedProjects();
+
+		//TODO genaue Anzahl muss noch ermittelt werden.
+		int numOfChoosenFiles = 0;
+		String msg;
+		if(numOfChoosenFiles == 1) {
+				msg = "Das Analyseergebnis wird unwiderruflich gelöscht werden. Sind Sie sicher, dass Sie fortfahren möchten?";
+		}else{
+				msg = "Es werden " + numOfChoosenFiles + " Analyseergebnisse unwiderruflich gelöscht. Sind Sie sicher, dass Sie fortfahren möchten?";
+		}
+
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("janalyzer - Dialog");
+			ButtonType okButton = new ButtonType("Ja", ButtonBar.ButtonData.YES);
+			ButtonType abortButton = new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE);
+			alert.getButtonTypes().setAll(okButton,abortButton);
+			alert.setHeaderText(null);
+			alert.setContentText(msg);
+			alert.showAndWait().ifPresent(type -> {
+					if(type == okButton) {
+							historyController.removeSelectedProjects();
+					}
+			});
 	}
 	
 	@FXML
 	private void analyseProject() {
 		DirectoryChooser folderPicker = new DirectoryChooser();
 		File selectedDirectory = folderPicker.showDialog(new Stage());
-		
+
 		/**
 		 * Fehlermeldung bei leerer Pfadangabe(?)
          * Von Leo: null bedeutet, dass der Benutzer den Picker per rotes Kreuz geschlossen hat
@@ -121,28 +144,28 @@ public class StartController {
 			Project result;
 			try {
 				result = analyser.analyse(path);
-			} catch (ParseProblemException e) {
-				//TODO Create Alerts like in page 60 ?
-			    Alert a = new Alert(Alert.AlertType.ERROR);
+			} catch (ParseProblemException | IOExceptionWithFile e) {
+				//TODO Create Alerts. This scenario was not described in the specification
+			    Alert a = new Alert(AlertType.ERROR);
+			    a.setTitle("janalyzer - Fehler");
+					a.setHeaderText("Fehlerhaftes Projekt");
+					a.setContentText("Das ausgewählte Projekt konnte nicht analysiert werden.");
 			    a.showAndWait();
-				return;
-			} catch (IOExceptionWithFile e) {
-				Alert a = new Alert(Alert.AlertType.ERROR);
-				//TODO Finish this alert - was it even the correct one?
-				a.setHeaderText("Fehlerhaftes Projekt");
-				a.setContentText("Das ausgewählte Projekt kann nicht geladen");
-				a.showAndWait();
 				return;
 			}
 
-			final Path outputDir = pathSelect.getValue().getPath();
+				final Path outputDir = pathSelect.getValue().getPath();
 			Path outputFile = null;
 			//path is: pathSelect.value() / project_name + _ + Count
 			try {
 				outputFile = outputDir.resolve(
 						result.getName() + "_" + FileUtil.analyzationNumber(path,outputDir));
 			} catch (IOException e) {
-			    //TODO Create an alert here
+			    //TODO Create an alert here. There is no description for it in the specification.
+					Alert a = new Alert(AlertType.ERROR);
+					a.setTitle("janalyzer - Fehler");
+					a.setHeaderText("Fehler beim Speichern");
+					a.setContentText("Es trat ein Fehler beim Speichern des Ergebnisses auf. Bitte bennenen Sie die Datei eigenständig um.");
 				System.out.println("Failed to get information how often the Project has been analysed.\n"
 						+ "Please rename the result manualy");
 				outputFile = outputDir.resolve(result.getName() + "_X");
@@ -151,7 +174,11 @@ public class StartController {
 			try {
 				JSONConverter.saveSummary(result, outputFile);
 			} catch (IOException e) {
-			    //TODO Create alert
+			    //TODO Create alert. There is no description for it in the specification.
+					Alert a = new Alert(AlertType.ERROR);
+					a.setTitle("janalyzer - Fehler");
+					a.setHeaderText("Fehler beim Speichern");
+					a.setContentText("Das analysierte Projekt konnte nicht gespeichert werden.");
 				e.printStackTrace();
 			}
 			historyController.add(result, path);

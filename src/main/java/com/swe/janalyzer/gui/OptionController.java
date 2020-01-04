@@ -15,6 +15,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.Event;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import com.swe.janalyzer.data.metriken.*;
 import com.swe.janalyzer.storage.JSONConverter;
 
@@ -204,7 +206,14 @@ public class OptionController{
 			Files.createDirectories(Constants.GET_STORAGE_DIR());
 		} catch (IOException e) {
 		   //TODO write warning
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("janalyzer - Fehler");
+				alert.setHeaderText(null);
+				alert.setContentText("Der angegebene Pfad ist fehlerhaft.");
+				alert.showAndWait();
 		}
+
+
 
 		savedCustomPath.set(currentCustomPath);
 		savedThresholds.clear();
