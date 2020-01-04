@@ -12,6 +12,8 @@ import com.swe.janalyzer.gui.data.ThresholdBoxes;
 import com.swe.janalyzer.util.Constants;
 import com.swe.janalyzer.util.FileUtil;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.Event;
 import javafx.scene.Scene;
@@ -74,7 +76,8 @@ public class OptionController{
 		}
 	}
 
-	public void init(List<MetricResult> analysedMetrics, Stage initStage){
+	void init(final List<MetricResult> analysedMetrics,
+			  final Stage initStage){
 
 		//Default path may not be created yet
 		try {
@@ -90,7 +93,8 @@ public class OptionController{
 				alert.setHeaderText("Sie haben eventuell ungespeicherte Änderungen.\n" +
 						"Sind Sie sicher, dass sie das Fenster schließen wollen?");
 				//alert.setContentText("");
-				ButtonType closeAndSave = new ButtonType("Speichern und Schließen");
+				ButtonType closeAndSave =
+						new ButtonType("Speichern und Schließen",ButtonBar.ButtonData.YES);
 				alert.getButtonTypes().clear();
 				alert.getButtonTypes().addAll(ButtonType.YES, closeAndSave, ButtonType.CANCEL);
 				Optional<ButtonType> buttonType = alert.showAndWait();
@@ -116,7 +120,13 @@ public class OptionController{
 
 		thresholdBoxes = new ArrayList<>(analysedMetrics.size());
 		thresholdBox.getChildren().addAll(
-				OptionViewCreator.createThresholdList(analysedMetrics, currentThresholds, thresholdBoxes, valuesAreChanged));
+				OptionViewCreator.createThresholdList(
+						analysedMetrics,
+						currentThresholds,
+						thresholdBoxes,
+						valuesAreChanged,
+						thresholdBox.widthProperty()
+				));
 
 		List<NamedPath> namedPaths = loadCustomPaths();
 		if(namedPaths.isEmpty()){

@@ -37,9 +37,9 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </VBox>
-            <ScrollPane fx:id="detailView" minWidth="415.0" prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane fx:id="detailView" minWidth="414.0" prefHeight="491.0" prefWidth="518.0">
                <HBox.margin>
-                  <Insets left="70.0" />
+                  <Insets left="50.0" />
                </HBox.margin>
             </ScrollPane>
          </children>

@@ -2,7 +2,6 @@ package com.swe.janalyzer.gui;
 
 import com.swe.janalyzer.data.metriken.MetricResult;
 import com.swe.janalyzer.data.metriken.Project;
-import com.swe.janalyzer.gui.util.TableUtil;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
@@ -18,7 +17,14 @@ import java.util.Map;
 
 public class DetailChart extends VBox {
 
+    public Project getCurrentProject() {
+        return currentProject;
+    }
+
+    private Project currentProject;
+
     DetailChart(final Project p, final double width, Map<String,Double> thresholds){
+        this.currentProject = p;
         this.setPrefWidth(width);
 
         final List<MetricResult> analysedMetrics = p.getAnalysedMetrics();

@@ -28,8 +28,6 @@ public class HistoryController {
     private Map<Path, ScrollPane> storedHistories = new HashMap<>();
     private ScrollPane currentPane;
 
-    private Consumer<Event> a;
-
     public ScrollPane getView(Path storageDir) {
         if (storedHistories.containsKey(storageDir)) {
             currentPane = storedHistories.get(storageDir);
@@ -123,6 +121,7 @@ public class HistoryController {
 
     private ChangeListener<Boolean> onCheckBoxValueChange;
     private EventHandler<MouseEvent> onBoxClicked;
+
     private ClickableProjectBox getProjectBox(Project p, Path storagePath){
         return new ClickableProjectBox(p,
                 storagePath,

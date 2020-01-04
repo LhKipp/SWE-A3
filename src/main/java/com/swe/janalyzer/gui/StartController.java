@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -46,7 +47,7 @@ public class StartController {
 		this.stage = stage;
 
 	    //INIT Options BEGIN
-		Parent option = null;
+		Pane option = null;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/OptionView.fxml"));
 		try {
 			option = loader.load();
@@ -79,23 +80,7 @@ public class StartController {
 		});
 
 		historyController.setOnCheckBoxValueChange((v, o, n)->{
-			List<Project> selectedProjects = historyController.getSelectedProjects().collect(Collectors.toList());
-			if(selectedProjects.isEmpty()){
-				//Reset pane on right
-				detailView.setContent(null);
-				return;
-			}
-			if(selectedProjects.size() == 1){
-				//Set single view
-				detailView.setContent(buildDetailChart(selectedProjects.get(0)));
-			}else{
-				//set comparison chart
-				detailView.setContent(
-						ComparisonChart.build(
-								selectedProjects,
-								detailView.getWidth(),
-								optionController.getThresholds()));
-			}
+		    handleSelectedProjects();
 		});
 		//INIT History End
 
@@ -107,14 +92,14 @@ public class StartController {
 		    if(n == null){
 		    	return;
 			}
+		    //Show new history
 			historyBox.getChildren().add(historyController.getView(n.getPath()));
+		    //Let detailview according to selected Projects
+			handleSelectedProjects();
 		});
 		//TODO Save lastChosenPath and fill in here
 		pathSelect.getSelectionModel().selectFirst();
-
 		//INIT Path dropdown END
-
-
 	}
 
 	private DetailChart buildDetailChart(Project data) {
@@ -130,12 +115,22 @@ public class StartController {
 	private void openOptions()  {
 	    optionController.showAndWait();
 
+	    //Update DetailChart if it is displayed on right, ComparisonCharts are handled by callbacks
+	    DetailChart currentDetailChart = null;
+	    if(detailView.getContent() instanceof DetailChart){
+	    	currentDetailChart = (DetailChart) detailView.getContent();
+		}
 	    //TODO make NamedPaths to ObjectProperty<NamedPath> add listeners, update list if namedPath updated
 		//But for now we do the cheap version
 		final int selectedIndex = pathSelect.getSelectionModel().getSelectedIndex();
 	    pathSelect.getItems().clear();
 		pathSelect.getItems().setAll(optionController.getPaths());
+		//Here are comparisoncharts and detailView from single selected box handled, but not clicked once
 		pathSelect.getSelectionModel().select(selectedIndex);
+
+		if(currentDetailChart != null){
+			detailView.setContent(buildDetailChart(currentDetailChart.getCurrentProject()));
+		}
 	}
 	
 	/**
@@ -143,12 +138,11 @@ public class StartController {
 	 */
 	@FXML
 	private void deleteSelectedProjects() {
-		/**
-		 * TODO Pop-Up "Sind sie sicher,dass..."
-		 */
-
-		//TODO genaue Anzahl muss noch ermittelt werden.
-		int numOfChoosenFiles = 0;
+		long numOfChoosenFiles = historyController.getSelectedProjects().count();
+		if(numOfChoosenFiles == 0){
+			//User didn't select any projects
+			return;
+		}
 		String msg;
 		if(numOfChoosenFiles == 1) {
 				msg = "Das Analyseergebnis wird unwiderruflich gelöscht werden. Sind Sie sicher, dass Sie fortfahren möchten?";
@@ -156,18 +150,18 @@ public class StartController {
 				msg = "Es werden " + numOfChoosenFiles + " Analyseergebnisse unwiderruflich gelöscht. Sind Sie sicher, dass Sie fortfahren möchten?";
 		}
 
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("janalyzer - Dialog");
-			ButtonType okButton = new ButtonType("Ja", ButtonBar.ButtonData.YES);
-			ButtonType abortButton = new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE);
-			alert.getButtonTypes().setAll(okButton,abortButton);
-			alert.setHeaderText(null);
-			alert.setContentText(msg);
-			alert.showAndWait().ifPresent(type -> {
-					if(type == okButton) {
-							historyController.removeSelectedProjects();
-					}
-			});
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("janalyzer - Dialog");
+		ButtonType okButton = new ButtonType("Ja", ButtonBar.ButtonData.YES);
+		ButtonType abortButton = new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE);
+		alert.getButtonTypes().setAll(okButton,abortButton);
+		alert.setHeaderText(null);
+		alert.setContentText(msg);
+		alert.showAndWait().ifPresent(type -> {
+			if(type == okButton) {
+				historyController.removeSelectedProjects();
+			}
+		});
 	}
 	
 	@FXML
@@ -225,6 +219,26 @@ public class StartController {
 				e.printStackTrace();
 			}
 			historyController.add(result, path);
+		}
+	}
+
+	private void handleSelectedProjects(){
+		final List<Project> selectedProjects = historyController.getSelectedProjects().collect(Collectors.toList());
+		if(selectedProjects.isEmpty()){
+			//Reset pane on right
+			detailView.setContent(null);
+			return;
+		}
+		if(selectedProjects.size() == 1){
+			//Set single view
+			detailView.setContent(buildDetailChart(selectedProjects.get(0)));
+		}else{
+			//set comparison chart
+			detailView.setContent(
+					ComparisonChart.build(
+							selectedProjects,
+							detailView.getWidth(),
+							optionController.getThresholds()));
 		}
 	}
 }

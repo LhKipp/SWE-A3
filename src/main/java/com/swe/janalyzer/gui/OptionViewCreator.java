@@ -3,6 +3,7 @@ package com.swe.janalyzer.gui;
 import com.swe.janalyzer.data.metriken.MetricResult;
 import com.swe.janalyzer.gui.data.ThresholdBoxes;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
@@ -23,7 +24,8 @@ public class OptionViewCreator {
             List<MetricResult> analysedMetrics,
             Map<String, Double> thresholds,
             List<ThresholdBoxes> createdBoxes,
-            BooleanProperty changeHappend){
+            BooleanProperty changeHappend,
+            ReadOnlyDoubleProperty parentWidth){
         List<Pane> result = new ArrayList<>(analysedMetrics.size());
         for (MetricResult metricResult : analysedMetrics) {
             if (metricResult.isHasNumericalValues()) {
@@ -31,13 +33,15 @@ public class OptionViewCreator {
                 final String metricName = metricResult.getMetricName();
                 Label metricLabel = new Label(metricResult.getMetricName());
                 metricLabel.setId("option-threshold-label");
+                metricLabel.prefWidthProperty().bind(parentWidth.divide(2));
 
                 TextField thresholdField = new TextField();
                 thresholdField.setId("option-threshold-input");
+                thresholdField.prefWidthProperty().bind(parentWidth.divide(2));
 
                 thresholdField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if(newValue.isEmpty()){
-                        thresholdField.setText("");
+//                        thresholdField.setText("");
                         thresholds.remove(metricResult.getMetricName());
                         changeHappend.setValue(true);
                     }else if(newValue.matches("\\d{0,12}([\\.]\\d{0,9})?")){

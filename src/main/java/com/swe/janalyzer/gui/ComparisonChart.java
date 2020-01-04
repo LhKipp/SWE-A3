@@ -6,14 +6,12 @@ import com.swe.janalyzer.gui.util.ColorProvider;
 import com.swe.janalyzer.gui.util.Percentage;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ComparisonChart {
@@ -115,6 +113,8 @@ public class ComparisonChart {
         bar.setPrefWidth(barWidth * valueRelativeInPercentage);
         bar.setMaxWidth(barWidth * valueRelativeInPercentage);
         bar.setId("chart-bar");
+        //Cant be styled through css??
+        bar.setTextAlignment(TextAlignment.RIGHT);
 
         //TODO Is it >= or > ???
         if(metricValue >= limitValue){

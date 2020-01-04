@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ClickableProjectBox extends VBox {
+public class ClickableProjectBox extends HBox {
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm 'Uhr' dd.MM.yy");
 
@@ -33,12 +34,15 @@ public class ClickableProjectBox extends VBox {
         data = project;
         this.storagePath = storagePath;
 
-        checkBox = new CheckBox(project.getName());
+        checkBox = new CheckBox();
         checkBox.selectedProperty().addListener(onCheckBoxValueChanged);
 
-        Label timeOfAnalysis = new Label(formatter.format(project.getTimeOfAnalysis()));
+        VBox labelContainer = new VBox();
+        final Label projName = new Label(project.getName());
+        final Label timeOfAnalysis = new Label(formatter.format(project.getTimeOfAnalysis()));
+        labelContainer.getChildren().addAll(projName, timeOfAnalysis);
 
-        this.getChildren().addAll(checkBox, timeOfAnalysis);
+        this.getChildren().addAll(checkBox, labelContainer);
 
         this.setOnMouseClicked(onBoxClicked);
     }
