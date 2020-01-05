@@ -1,6 +1,7 @@
 package com.swe.janalyzer.util;
 
 import com.swe.janalyzer.data.metriken.MetricResult;
+import javafx.stage.FileChooser;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -37,10 +38,9 @@ public class FileUtil {
     }
 
     public static List<Path> listAllFilesInFolder(Path folder) throws IOException {
-        try (Stream<Path> walk = Files.walk(folder)) {
-
-            return walk.filter(Files::isRegularFile)
-                    .filter(p -> !Files.isDirectory(p))
+        try (Stream<Path> walk = Files.list(folder)){
+            return walk
+                    .filter(path -> !Files.isDirectory(path))
                     .collect(Collectors.toList());
         }
 
