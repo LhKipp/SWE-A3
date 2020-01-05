@@ -8,6 +8,7 @@ import com.swe.janalyzer.analysis.dit.DITCalculator;
 import com.swe.janalyzer.analysis.loc.LOCCalculator;
 import com.swe.janalyzer.analysis.util.FileUtil;
 import com.swe.janalyzer.data.metriken.MetricResult;
+import com.swe.janalyzer.data.metriken.Project;
 import com.swe.janalyzer.util.IOExceptionWithFile;
 
 import java.io.IOException;
@@ -15,17 +16,20 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Analyser {
-    private List<MetricCalculator> metricCalculators;
+    private LOCCalculator locCalculator = new LOCCalculator();
+    private DITCalculator ditCalculator = new DITCalculator();
+    private CCCalculator ccCalculator = new CCCalculator();
+
+    private List<MetricCalculator> metricCalculators = Arrays.asList(
+            locCalculator, ditCalculator, ccCalculator
+    );
 
     public Analyser(){
-        metricCalculators = new ArrayList<>();
-        //Default Metrics to calculate
-        metricCalculators.add(new CCCalculator());
-        metricCalculators.add(new DITCalculator());
-        metricCalculators.add(new LOCCalculator());
     }
 
     /**
@@ -36,11 +40,17 @@ public class Analyser {
      * @throws IOException - If any file in the Project couldnt be opened
      * @throws ParseProblemException - If any file in the Project is ill formed
      */
-    public List<MetricResult> analyse(Path projectRoot) throws ParseProblemException, IOExceptionWithFile {
+    public Project analyse(Path projectRoot) throws ParseProblemException, IOExceptionWithFile {
         return analyse(projectRoot, false);
     }
-    public List<MetricResult> analyse(Path projectRoot, boolean verbose) throws ParseProblemException, IOExceptionWithFile {
+    public Project analyse(Path projectRoot, boolean verbose) throws ParseProblemException, IOExceptionWithFile {
+        metricCalculators.forEach(MetricCalculator::clear);
+
         List<Path> javaFiles = FileUtil.listAllJavaFiles(projectRoot);
+
+        locCalculator.initBeforeNewProject(javaFiles.size(), projectRoot);
+        ditCalculator.initBeforeNewProject(javaFiles.size());
+        ccCalculator.initBeforeNewProject(javaFiles.size());
 
         for (Path p : javaFiles){
             if(verbose){
@@ -67,12 +77,11 @@ public class Analyser {
             results.addAll(calc.getResults());
         }
 
-        return results;
-    }
+        final String projectName = projectRoot.getFileName().toString();
+        Project project = new Project(projectName, results);
+        project.wasJustAnalysed();
 
-    //TODO Make statistics class and/or give config option
-    private int estimatedClassCount(int fileCount){
-        return (int) (fileCount * 1.25);
+        return project;
     }
 
     public List<MetricCalculator> getMetricCalculators() {
@@ -81,6 +90,13 @@ public class Analyser {
 
     public void setMetricCalculators(List<MetricCalculator> metricCalculators) {
         this.metricCalculators = metricCalculators;
+    }
+
+    public List<MetricResult> getAnalysedMetrics(){
+        return metricCalculators.stream()
+                .map(MetricCalculator::getCalculatedMetrics)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 
 }

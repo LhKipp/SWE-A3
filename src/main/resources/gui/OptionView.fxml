@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.swe.janalyzer.gui.OptionController">
+   <children>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0">
+         <content>
+            <VBox fx:id="thresholdBox" prefHeight="200.0" prefWidth="288.0" />
+         </content>
+      </ScrollPane>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Line endX="285.0">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Line>
+            <Label text="Speicherort festlegen">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="15.0" left="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Name">
+                           <VBox.margin>
+                              <Insets left="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="defaultPathNameBox" editable="false" minWidth="120.0" prefHeight="25.0" prefWidth="120.0" text="Analyseergebnisse (default)">
+                           <VBox.margin>
+                              <Insets left="5.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Pfad">
+                           <VBox.margin>
+                              <Insets left="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="defaultPathPathBox" minWidth="120.0">
+                           <VBox.margin>
+                              <Insets left="15.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Name">
+                           <VBox.margin>
+                              <Insets left="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="customPathNameBox" minWidth="120.0">
+                           <VBox.margin>
+                              <Insets left="5.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Pfad" />
+                        <TextField fx:id="customPathPathBox" minWidth="120.0" />
+                     </children>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </VBox>
+                  <Button maxHeight="23.0" maxWidth="4.0" minHeight="0.0" mnemonicParsing="false" onAction="#choosePath" text="_ _ _">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" top="18.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Button maxHeight="100.0" maxWidth="100.0" minHeight="40.0" mnemonicParsing="false" onAction="#onSave" text="Speichern">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="110.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</VBox>

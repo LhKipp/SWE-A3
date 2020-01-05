@@ -3,16 +3,18 @@ package com.swe.janalyzer.util;
 import com.swe.janalyzer.data.metriken.MetricResult;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
+import java.nio.file.*;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileUtil {
 
+    public static boolean validateFolder(final String folder){
+        return Files.isDirectory(Paths.get(folder));
+    }
     public static boolean validateFolder(final Path folder){
-        return Files.exists(folder) && Files.isDirectory(folder);
+        return Files.isDirectory(folder);
     }
 
     /**
@@ -32,5 +34,15 @@ public class FileUtil {
             similarProjects++;
         }
         return similarProjects;
+    }
+
+    public static List<Path> listAllFilesInFolder(Path folder) throws IOException {
+        try (Stream<Path> walk = Files.walk(folder)) {
+
+            return walk.filter(Files::isRegularFile)
+                    .filter(p -> !Files.isDirectory(p))
+                    .collect(Collectors.toList());
+        }
+
     }
 }

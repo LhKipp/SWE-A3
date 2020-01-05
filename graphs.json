@@ -1,0 +1,129 @@
+{
+  "name": "Test",
+  "analysedMetrics": [
+    {
+      "metricName": "CC",
+      "results": {
+        "Graph::Graph()": "3",
+        "AdjacencyMatrixGraph::adjacencyOfEdgeDoesExist(int from, int to)": "2",
+        "Cycle::Cycle()": "11",
+        "Vertex::addAdjacentVertex(Vertex to)": "5",
+        "Cycle::printAll()": "13",
+        "Cycle::start()": "5",
+        "AdjacencyMatrixGraph::setAdjacency(int[][] newAdjacency)": "1",
+        "PrimMST::printMST(int[] parent, int n, int[][] graph)": "4",
+        "Graph::countGraphs()": "9",
+        "BellmanFord::addEdge(int x, int y, int z)": "2",
+        "AdjacencyMatrixGraph::adjacency()": "1",
+        "AdjacencyListGraph::AdjacencyListGraph()": "2",
+        "Node::Node(E name)": "1",
+        "AdjacencyMatrixGraph::setNumberOfVertices(int newNumberOfVertices)": "1",
+        "Vertex::removeAdjacentVertex(E to)": "7",
+        "AdjacencyListGraph::removeEdge(E from, E to)": "6",
+        "AdjacencyMatrixGraph::vertexDoesExist(int aVertex)": "3",
+        "MatrixGraphs::main(String[] args)": "11",
+        "BellmanFord::getEdgeArray()": "1",
+        "AdjacencyListGraph::toString()": "12",
+        "AdjacencyMatrixGraph::numberOfVertices()": "1",
+        "BellmanFord::show(int source, int end, Edge[] arr)": "14",
+        "Edge::Edge(Node startNode, Node endNode)": "1",
+        "BellmanFord::printPath(int[] p, int i)": "4",
+        "AdjacencyMatrixGraph::AdjacencyMatrixGraph(int givenNumberOfVertices)": "7",
+        "FloydWarshall::main(String... arg)": "14",
+        "AdjacencyMatrixGraph::numberOfEdges()": "1",
+        "PrimMST::primMST(int[][] graph)": "7",
+        "Vertex::Vertex(E data)": "2",
+        "BellmanFord::BellmanFord(int v, int e)": "1",
+        "AdjacencyMatrixGraph::addEdge(int from, int to)": "10",
+        "Cycle::dfs(Integer start, Integer curr, ArrayList\u003cInteger\u003e temp)": "13",
+        "AdjacencyMatrixGraph::toString()": "11",
+        "Graphs::main(String[] args)": "11",
+        "FloydWarshall::FloydWarshall(int numberofvertices)": "2",
+        "AdjacencyMatrixGraph::removeEdge(int from, int to)": "10",
+        "Graph::depthFirstSearch(Node n, ArrayList\u003cNode\u003e visited)": "7",
+        "FloydWarshall::floydwarshall(int[][] AdjacencyMatrix)": "15",
+        "Graph::addEdge(E startNode, E endNode)": "14",
+        "Cycles::main(String[] args)": "4",
+        "PrimMST::minKey(int[] key, Boolean[] mstSet)": "3",
+        "AdjacencyMatrixGraph::setNumberOfEdges(int newNumberOfEdges)": "1",
+        "BellmanFord::go()": "27",
+        "PrimMST::main(String[] args)": "3",
+        "BellmanFord::main(String[] args)": "3",
+        "AdjacencyMatrixGraph::edgeDoesExist(int from, int to)": "5",
+        "AdjacencyListGraph::addEdge(E from, E to)": "14"
+      }
+    },
+    {
+      "metricName": "WMC",
+      "results": {
+        "Cycles": "4",
+        "Vertex": "14",
+        "AdjacencyListGraph": "34",
+        "Graph": "33",
+        "Node": "1",
+        "BellmanFord": "52",
+        "Graphs": "11",
+        "FloydWarshall": "31",
+        "MatrixGraphs": "11",
+        "PrimMST": "17",
+        "Edge": "1",
+        "Cycle": "42",
+        "AdjacencyMatrixGraph": "54"
+      }
+    },
+    {
+      "metricName": "WMC Max",
+      "results": {
+        "VALUE": "54"
+      }
+    },
+    {
+      "metricName": "CC Max",
+      "results": {
+        "VALUE": "27"
+      }
+    },
+    {
+      "metricName": "DIT",
+      "results": {
+        "Vertex": "0",
+        "Cycles": "0",
+        "AdjacencyListGraph": "0",
+        "Graph": "0",
+        "Node": "0",
+        "BellmanFord": "0",
+        "Graphs": "0",
+        "FloydWarshall": "0",
+        "MatrixGraphs": "0",
+        "Edge": "0",
+        "PrimMST": "0",
+        "Cycle": "0",
+        "AdjacencyMatrixGraph": "0"
+      }
+    },
+    {
+      "metricName": "DIT Max",
+      "results": {
+        "VALUE": "0"
+      }
+    },
+    {
+      "metricName": "LOC",
+      "results": {
+        "Testdateien/Graphs/Graphs.java": "94",
+        "Testdateien/Graphs/BellmanFord.java": "123",
+        "Testdateien/Graphs/PrimMST.java": "50",
+        "Testdateien/Graphs/Cycles.java": "73",
+        "Testdateien/Graphs/ConnectedComponent.java": "64",
+        "Testdateien/Graphs/FloydWarshall.java": "65",
+        "Testdateien/Graphs/MatrixGraphs.java": "103"
+      }
+    },
+    {
+      "metricName": "LOC Cumulated",
+      "results": {
+        "VALUE": "572"
+      }
+    }
+  ]
+}

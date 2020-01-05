@@ -27,12 +27,12 @@ public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalc
 
 
     public CCCalculator() {
-        this(16);
+        this(0);
     }
-    public CCCalculator(int estimatedClassCount) {
+    public CCCalculator(int fileCount) {
         //TODO 8 == Number of average funcs / class. Give config option or measure
-        cc_result = new HashMap<>(estimatedClassCount * 8);
-        wmc_result = new HashMap<>(estimatedClassCount);
+        cc_result = new HashMap<>(fileCount * 8);
+        wmc_result = new HashMap<>(fileCount);
     }
 
     @Override
@@ -41,28 +41,45 @@ public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalc
     }
 
     @Override
+    public List<MetricResult> getCalculatedMetrics() {
+        return Arrays.asList(
+                new MetricResult(CC, false, true),
+                new MetricResult(CC_MAX, true, true),
+                new MetricResult(WMC, false, true),
+                new MetricResult(WMC_MAX, true, true)
+        );
+    }
+
+    @Override
     public List<MetricResult> getResults() {
         ArrayList<MetricResult> l = new ArrayList<>(1);
-        l.add(new MetricResult(CC, cc_result));
+        l.add(new MetricResult(CC, cc_result ));
+        l.add(Util.metricOfBasicValue(CC_MAX, GENERAL_KEY, max_cc, true));
 
         //WMC Metric
         Map<String, String> wmc_result_asString = wmc_result.entrySet().stream().collect(Collectors.toMap(
                 e -> e.getKey(),
                 e -> String.valueOf(e.getValue())
         ));
-        l.add(new MetricResult(WMC, wmc_result_asString));
+        l.add(new MetricResult(WMC, wmc_result_asString ));
 
-        //Max metrics
         int wmc_max = wmc_result.values().stream().max(Integer::compareTo).orElse(0);
-        l.add(Util.metricOfBasicValue(WMC_MAX, GENERAL_KEY, wmc_max));
-        l.add(Util.metricOfBasicValue(CC_MAX, GENERAL_KEY, max_cc));
+        l.add(Util.metricOfBasicValue(WMC_MAX, GENERAL_KEY, wmc_max, true));
 
         return l;
     }
 
+
     @Override
     public void clear() {
-        cc_result.clear();
+        cc_result = null;
+        this.wmc_result = null;
+        this.max_cc =0;
+    }
+
+    public void initBeforeNewProject(int fileCount){
+        cc_result = new HashMap<>(fileCount);
+        wmc_result = new HashMap<>(fileCount);
     }
 
 
