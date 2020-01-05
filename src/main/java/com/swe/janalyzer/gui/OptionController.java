@@ -217,7 +217,6 @@ public class OptionController{
 		try {
 			Files.createDirectories(Constants.GET_STORAGE_DIR());
 		} catch (IOException e) {
-		   //TODO write warning
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("janalyzer - Fehler");
 				alert.setHeaderText(null);

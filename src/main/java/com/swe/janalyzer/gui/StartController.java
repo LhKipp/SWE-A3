@@ -182,11 +182,10 @@ public class StartController {
 			try {
 				result = analyser.analyse(path);
 			} catch (ParseProblemException | IOExceptionWithFile e) {
-				//TODO Create Alerts. This scenario was not described in the specification
 			    Alert a = new Alert(AlertType.ERROR);
 			    a.setTitle("janalyzer - Fehler");
-					a.setHeaderText("Fehlerhaftes Projekt");
-					a.setContentText("Das ausgewählte Projekt konnte nicht analysiert werden.");
+				a.setHeaderText("Fehlerhaftes Projekt");
+				a.setContentText("Das ausgewählte Projekt konnte nicht analysiert werden.");
 			    a.showAndWait();
 				return;
 			}
@@ -198,25 +197,23 @@ public class StartController {
 				outputFile = outputDir.resolve(
 						result.getName() + "_" + FileUtil.analyzationNumber(path,outputDir));
 			} catch (IOException e) {
-			    //TODO Create an alert here. There is no description for it in the specification.
-					Alert a = new Alert(AlertType.ERROR);
-					a.setTitle("janalyzer - Fehler");
-					a.setHeaderText("Fehler beim Speichern");
-					a.setContentText("Es trat ein Fehler beim Speichern des Ergebnisses auf. Bitte bennenen Sie die Datei eigenständig um.");
-				System.out.println("Failed to get information how often the Project has been analysed.\n"
-						+ "Please rename the result manualy");
+				Alert a = new Alert(AlertType.ERROR);
+				a.setTitle("janalyzer - Fehler");
+				a.setHeaderText("Fehler beim Speichern");
+				a.setContentText("Es trat ein Fehler beim Speichern des Ergebnisses auf. Bitte bennenen Sie die Datei eigenständig um.");
+				a.showAndWait();
 				outputFile = outputDir.resolve(result.getName() + "_X");
+
 			}
 
 			try {
 				JSONConverter.saveSummary(result, outputFile);
 			} catch (IOException e) {
-			    //TODO Create alert. There is no description for it in the specification.
-					Alert a = new Alert(AlertType.ERROR);
-					a.setTitle("janalyzer - Fehler");
-					a.setHeaderText("Fehler beim Speichern");
-					a.setContentText("Das analysierte Projekt konnte nicht gespeichert werden.");
-				e.printStackTrace();
+				Alert a = new Alert(AlertType.ERROR);
+				a.setTitle("janalyzer - Fehler");
+				a.setHeaderText("Fehler beim Speichern");
+				a.setContentText("Das analysierte Projekt konnte nicht gespeichert werden.");
+				a.showAndWait();
 			}
 			historyController.add(result, path);
 		}
