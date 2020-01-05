@@ -3,6 +3,8 @@ package com.swe.janalyzer.gui.util;
 import com.swe.janalyzer.data.metriken.Project;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 public class ClickableProjectBox extends HBox {
 
@@ -55,11 +58,24 @@ public class ClickableProjectBox extends HBox {
         return checkBox.isSelected();
     }
 
-    public void removeStorageFile() {
+    public boolean removeStorageFile() {
         try {
             Files.delete(storagePath);
+            return true;
         } catch (IOException e) {
-            //TODO Handle this error
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Fehler");
+            a.setHeaderText("Fehler beim Löschen");
+            a.setContentText("Das Projekt " + data.getName() + " konnte nicht gelöscht werden.\n" +
+                    "Soll das Projekt trotzdem aus der Historie entfernt werden?");
+            a.getButtonTypes().clear();
+            a.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> buttonType = a.showAndWait();
+            if(!buttonType.isPresent()) {
+                return false;
+            }else{
+                return buttonType.get().equals(ButtonType.YES);
+            }
         }
     }
 }
