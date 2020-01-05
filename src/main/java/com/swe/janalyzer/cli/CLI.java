@@ -68,7 +68,7 @@ public class CLI {
 
 		boolean verbose = line.hasOption("v");
 
-		List<MetricResult> result = null;
+		Project result = null;
 		try {
 			result = new Analyser().analyse(projectRoot, verbose);
 		} catch (IOExceptionWithFile e) {
@@ -82,9 +82,6 @@ public class CLI {
 		if(verbose){
 			System.out.println("All files analyzed");
 		}
-
-		final String projectName = projectRoot.getFileName().toString();
-		Project project = new Project(projectName, result);
 
 		if(line.hasOption("h")){
 			//TODO Implement option
@@ -102,11 +99,11 @@ public class CLI {
 			Path defaultDir = Constants.DEFAULT_OUTPUT_DIR();
 			try {
 				outputPath = Paths.get(defaultDir.toString(),
-						projectName + "_" + FileUtil.analyzationNumber(projectRoot, defaultDir));
+						result.getName() + "_" + FileUtil.analyzationNumber(projectRoot, defaultDir));
 			} catch (IOException e) {
 				System.out.println("Failed to get information how often the Project has been analysed.\n"
 						+ "Please rename the result manualy");
-				outputPath = Paths.get(defaultDir.toString(), projectName + "_X");
+				outputPath = Paths.get(defaultDir.toString(), result.getName() + "_X");
 			}
 		}
 
@@ -127,7 +124,7 @@ public class CLI {
 		}
 
 		try {
-			JSONConverter.saveSummary(project, outputPath);
+			JSONConverter.saveSummary(result, outputPath);
 		} catch (IOException e) {
 			System.out.println("Could not write results to file with path: "
 					+ outputPath.toString()
@@ -201,108 +198,6 @@ public class CLI {
 
 
 		Options options = new Options();
-<<<<<<< HEAD
-		options.addOption(outputOption);		
-		options.addOption(verboseOption);		
-		options.addOption(helpOption);		
-		options.addOption(humanOption);
-		
-		try {
-		
-			OptionenVerarbeitung optVer = new OptionenVerarbeitung();
-			
-			//Prüfung, ob valide Option und nicht -h und -o gemeinsam			
-			for(int i = 0; i < args.length; i++) {			
-				if(args[i].startsWith("-")) {				
-					if(options.hasShortOption(args[i]) || options.hasLongOption(args[i])) {					
-						if(args[i].compareTo("-h") == 0) {						
-							//continue							
-							humanIsSet = true;							
-						}else if(args[i].compareTo("-o") == 0) {						
-							//continue							
-							outputIsSet = true;							
-						}						
-					}else {					
-						throw new IllegalArgumentException();						
-					}					
-					for(int j = i+1; j < args.length; j++) {					
-						if(outputIsSet && args[j].compareTo("-h") == 0 ) {						
-							notAceptedCombi = true;							
-							throw new IllegalArgumentException();							
-						}else if(humanIsSet && args[j].compareTo("-o") == 0) {						
-							notAceptedCombi = true;							
-							throw new IllegalArgumentException();							
-						}
-					}
-				}
-			}
-			
-			// parse the command line arguments			
-			line = parser.parse(options, args);
-			
-			// set output			
-			if (line.hasOption("o")) {			
-				if(!(line.getArgList().isEmpty())) {	
-					optVer.saveFileAtPath(line.getOptionValue("o"));
-				}else {				
-					noProjectPath = true;					
-					throw new ParseException("");					
-				}					
-			}/*end -o IF*/
-				
-			// set verbose				
-			if (line.hasOption("v")) {			
-				if(!(line.getArgList().isEmpty())) {				
-					optVer.verboseSet();					
-				}else {				
-					noProjectPath = true;					
-					throw new ParseException("");					
-				}						
-			}/*end -v IF*/
-			
-			//TEST für set human			
-			if (line.hasOption("h")) {
-				System.out.println("human ist gesetzt");					
-			}/*end -h IF*/
-			
-			//set help			
-			if (line.hasOption("help")) {			
-				HelpFormatter help = new HelpFormatter();				
-				help.printHelp("janalayzer [optionen] [projektpfad]\n", options);				
-			}/*end -help IF*/
-			
-			//register ProjectRoot			
-			for(String rest : line.getArgs()) {			
-				if(line.getArgs().length == 1) {				
-					Constants.projectRoot = Paths.get(rest);					
-				}else {				
-					throw new ParseException("");					
-				}	
-			}
-			
-		} catch (ParseException exp) {
-			// oops, something went wrong
-			if(noProjectPath) {
-				falseInput.printHelp("Too few arguments. Stopping execution.\n" 				
-						+ "janalayzer [optionen] [projektpfad]\n\n",options);
-				}else{	
-					falseInput.printHelp("Wrong argument count. Expected 1 argument, got " + line.getArgs().length + ". Stopping execution.\n"					
-							+ "janalayzer [optionen] [projektpfad]\n\n",options);				
-				}
-									
-		} catch (IllegalArgumentException iAexp) {
-			
-			// oops, something went wrong		
-			if(notAceptedCombi) {			
-				falseInput.printHelp("Unsupported combination of options. Stopping execution.\n" 				
-						+ "janalayzer [optionen] [projektpfad]\n\n",options);
-				}else {							
-					falseInput.printHelp("Unknown option. Stopping execution.\n" 					
-							+ "janalayzer [optionen] [projektpfad]\n\n",options);
-				}	
-			}	
-		}	
-=======
 
 		//Human and output are mutually exclusiv
 		OptionGroup optGroup = new OptionGroup();
@@ -317,5 +212,4 @@ public class CLI {
 
 		return options;
 	}
->>>>>>> e98706bfb048372ff740048464924674f2d9c6c4
 }
