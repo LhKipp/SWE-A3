@@ -40,6 +40,7 @@ public class FileUtil {
         try (Stream<Path> walk = Files.walk(folder)) {
 
             return walk.filter(Files::isRegularFile)
+                    .filter(p -> !Files.isDirectory(p))
                     .collect(Collectors.toList());
         }
 
