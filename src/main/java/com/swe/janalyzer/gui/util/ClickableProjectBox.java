@@ -1,8 +1,11 @@
 package com.swe.janalyzer.gui.util;
 
 import com.swe.janalyzer.data.metriken.Project;
+import javafx.beans.value.ChangeListener;
+import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -12,7 +15,7 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ClickableProjectBox extends VBox {
+public class ClickableProjectBox extends HBox {
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm 'Uhr' dd.MM.yy");
 
@@ -24,18 +27,24 @@ public class ClickableProjectBox extends VBox {
         return formatter.format(date);
     }
 
-    public ClickableProjectBox(Project project, Path storagePath) {
+    public ClickableProjectBox(Project project,
+                               Path storagePath,
+                               ChangeListener<Boolean> onCheckBoxValueChanged,
+                               EventHandler<MouseEvent> onBoxClicked) {
         data = project;
         this.storagePath = storagePath;
 
-        checkBox = new CheckBox(project.getName());
-        Label timeOfAnalysis = new Label(formatter.format(project.getTimeOfAnalysis()));
+        checkBox = new CheckBox();
+        checkBox.selectedProperty().addListener(onCheckBoxValueChanged);
 
-        this.getChildren().addAll(checkBox, timeOfAnalysis);
+        VBox labelContainer = new VBox();
+        final Label projName = new Label(project.getName());
+        final Label timeOfAnalysis = new Label(formatter.format(project.getTimeOfAnalysis()));
+        labelContainer.getChildren().addAll(projName, timeOfAnalysis);
 
-        this.setOnMouseClicked(e ->{
-            checkBox.fire();
-        });
+        this.getChildren().addAll(checkBox, labelContainer);
+
+        this.setOnMouseClicked(onBoxClicked);
     }
 
     public Project getData() {

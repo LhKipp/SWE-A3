@@ -12,10 +12,14 @@ import com.swe.janalyzer.gui.data.ThresholdBoxes;
 import com.swe.janalyzer.util.Constants;
 import com.swe.janalyzer.util.FileUtil;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import com.swe.janalyzer.data.metriken.*;
 import com.swe.janalyzer.storage.JSONConverter;
 
@@ -72,7 +76,8 @@ public class OptionController{
 		}
 	}
 
-	public void init(List<MetricResult> analysedMetrics, Stage initStage){
+	void init(final List<MetricResult> analysedMetrics,
+			  final Stage initStage){
 
 		//Default path may not be created yet
 		try {
@@ -87,8 +92,9 @@ public class OptionController{
 				alert.setTitle("Daten nicht gespeichert");
 				alert.setHeaderText("Sie haben eventuell ungespeicherte Änderungen.\n" +
 						"Sind Sie sicher, dass sie das Fenster schließen wollen?");
-//				alert.setContentText("");
-				ButtonType closeAndSave = new ButtonType("Speichern und Schließen");
+				//alert.setContentText("");
+				ButtonType closeAndSave =
+						new ButtonType("Speichern und Schließen",ButtonBar.ButtonData.YES);
 				alert.getButtonTypes().clear();
 				alert.getButtonTypes().addAll(ButtonType.YES, closeAndSave, ButtonType.CANCEL);
 				Optional<ButtonType> buttonType = alert.showAndWait();
@@ -114,7 +120,13 @@ public class OptionController{
 
 		thresholdBoxes = new ArrayList<>(analysedMetrics.size());
 		thresholdBox.getChildren().addAll(
-				OptionViewCreator.createThresholdList(analysedMetrics, currentThresholds, thresholdBoxes, valuesAreChanged));
+				OptionViewCreator.createThresholdList(
+						analysedMetrics,
+						currentThresholds,
+						thresholdBoxes,
+						valuesAreChanged,
+						thresholdBox.widthProperty()
+				));
 
 		List<NamedPath> namedPaths = loadCustomPaths();
 		if(namedPaths.isEmpty()){
@@ -206,7 +218,14 @@ public class OptionController{
 			Files.createDirectories(Constants.GET_STORAGE_DIR());
 		} catch (IOException e) {
 		   //TODO write warning
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("janalyzer - Fehler");
+				alert.setHeaderText(null);
+				alert.setContentText("Der angegebene Pfad ist fehlerhaft.");
+				alert.showAndWait();
 		}
+
+
 
 		savedCustomPath.set(currentCustomPath);
 		savedThresholds.clear();

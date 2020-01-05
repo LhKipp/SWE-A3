@@ -1,6 +1,6 @@
 #chart-metric-label{
     -fx-font-size: 20pt;
-    -fx-font-style: oblique;
+    -fx-font-weight: bold;
     -fx-border-width: 2pt;
     -fx-border-color: black;
 }
@@ -19,6 +19,7 @@
     -fx-font-size: 16;
     -fx-font-style: oblique;
     -fx-border-width: 0pt;
-    -fx-font-fill: white;
+    -fx-text-fill: white;
+    -fx-text-alignment: right;
 
 }
