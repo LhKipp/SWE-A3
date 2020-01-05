@@ -53,8 +53,11 @@ public class LOCCalculator implements MetricCalculator {
 
   @Override
   public void clear() {
-    result.clear();
+    result = new HashMap<>();
     locCumulated = 0;
+    fileCounter =0;
+    commentOverRows = false;
+    projectRoot = null;
   }
 
   public void initBeforeNewProject(int fileCount, Path projectRoot){
