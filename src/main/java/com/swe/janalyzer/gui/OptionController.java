@@ -215,6 +215,23 @@ public class OptionController{
 	@FXML
 	public void onSave(){
 		try {
+				if(!FileUtil.validateFolder(customPathPathBox.getText())){
+						Alert alert = new Alert(Alert.AlertType.ERROR);
+						alert.setTitle("Fehler");
+						alert.setHeaderText("Kein gültiger Pfad");
+						alert.setContentText("Der ausgesuchte Pfad ist kein Ordner.\n" +
+								"Bitte stellen Sie sicher, dass der Ordner existiert.");
+						alert.showAndWait();
+						return;
+				}else if(this.customPathNameBox.getText().equals("")) {
+						Alert alert = new Alert(Alert.AlertType.ERROR);
+						alert.setTitle("Fehler");
+						alert.setHeaderText("Kein gültiger Name");
+						alert.setContentText("Sie haben keinen Namen für Ihren gewählten Pfad angegeben.\n" +
+								"Bitte geben Sie einen Namen an.");
+						alert.showAndWait();
+						return;
+				}
 			Files.createDirectories(Constants.GET_STORAGE_DIR());
 		} catch (IOException e) {
 		   //TODO write warning
@@ -268,5 +285,9 @@ public class OptionController{
 
 	public void showAndWait() {
 		stage.showAndWait();
+	}
+
+	public void disableDefaultPath() {
+
 	}
 }

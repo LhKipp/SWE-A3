@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class FileUtil {
 
     public static boolean validateFolder(final String folder){
-        return Files.isDirectory(Paths.get(folder));
+        return !folder.equals("") && Files.isDirectory(Paths.get(folder));
     }
     public static boolean validateFolder(final Path folder){
         return Files.isDirectory(folder);
