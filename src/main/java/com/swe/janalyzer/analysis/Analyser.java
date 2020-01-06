@@ -6,6 +6,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.swe.janalyzer.analysis.cc.CCCalculator;
 import com.swe.janalyzer.analysis.dit.DITCalculator;
 import com.swe.janalyzer.analysis.loc.LOCCalculator;
+import com.swe.janalyzer.analysis.testCalc.TestCalc;
 import com.swe.janalyzer.analysis.util.FileUtil;
 import com.swe.janalyzer.data.metriken.MetricResult;
 import com.swe.janalyzer.data.metriken.Project;
@@ -24,9 +25,10 @@ public class Analyser {
     private LOCCalculator locCalculator = new LOCCalculator();
     private DITCalculator ditCalculator = new DITCalculator();
     private CCCalculator ccCalculator = new CCCalculator();
+    private TestCalc testCalc = new TestCalc();
 
     private List<MetricCalculator> metricCalculators = Arrays.asList(
-            locCalculator, ditCalculator, ccCalculator
+            locCalculator, ditCalculator, ccCalculator, testCalc
     );
 
     public Analyser(){

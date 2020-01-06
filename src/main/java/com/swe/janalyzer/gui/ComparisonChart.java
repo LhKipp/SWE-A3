@@ -9,9 +9,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ComparisonChart {
@@ -21,19 +23,23 @@ public class ComparisonChart {
                                    double totalWidth,
                                    Map<String, Double> thresholds){
 
-        Stream<String> commonMetrics = projects.stream()
+        List<List<String>> listStream = projects.stream()
                 .map(Project::getAnalysedMetrics)
-                .flatMap(Collection::stream)
-                .filter(MetricResult::isRepresantableInBarChart)
-                .map(MetricResult::getMetricName)
-                .sorted()
-                .distinct();
+                .map(l -> l.stream()
+                        .map(MetricResult::getMetricName)
+                        .collect(Collectors.toList()))
+                .collect(Collectors.toList());
+
+        List<String> intersection = new ArrayList<>(listStream.get(0));
+        for (int i = 1; i < listStream.size(); i++) {
+            intersection.retainAll(listStream.get(i));
+        }
 
         ScrollPane root = new ScrollPane();
         VBox rootPane = new VBox();
         root.setContent(rootPane);
 
-        commonMetrics.forEach(metricName ->{
+        intersection.forEach(metricName ->{
             final double maxMetricValue = projects.stream()
                     .map(Project::getAnalysedMetrics)
                     .map(l -> l.stream().
