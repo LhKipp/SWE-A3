@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-core</artifactId>
-            <version>3.15.5</version>
+            <version>3.15.9</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -42,6 +42,13 @@
             <artifactId>commons-cli</artifactId>
             <version>1.4</version>
         </dependency>
+        <dependency>
+	        <groupId>com.oracle</groupId>
+	        <artifactId>javafx</artifactId>
+	        <version>2.2</version>
+	        <systemPath>C:/Program Files/Java/jre1.8.0_231/lib/ext/jfxrt.jar</systemPath>
+	        <scope>system</scope>
+	</dependency>
     </dependencies>
 
     <build>
@@ -85,6 +92,11 @@
                     <configuration>
                         <source>8</source>
                         <target>8</target>
+                        <archive>
+                            <manifest>
+                                <mainClass>com.swe.janalyzer.App</mainClass>
+                            </manifest>
+                        </archive>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -99,7 +111,11 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <mainClass>com.swe.janalyzer.App</mainClass>
+			<archive>
+				<manifest>
+                        		<mainClass>com.swe.janalyzer.App</mainClass>
+				</manifest>
+			</archive>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -129,6 +145,17 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <configuration>
+     <archive>
+      <manifest>
+       <mainClass>com.swe.janalyzer.App</mainClass>
+      </manifest>
+     </archive>
+    </configuration>
+   </plugin>
             </plugins>
         </pluginManagement>
     </build>
