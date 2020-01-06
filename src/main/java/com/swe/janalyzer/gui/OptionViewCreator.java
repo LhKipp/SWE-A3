@@ -44,9 +44,10 @@ public class OptionViewCreator {
 //                        thresholdField.setText("");
                         thresholds.remove(metricResult.getMetricName());
                         changeHappend.setValue(true);
-                    }else if(newValue.matches("\\d{0,12}([\\.]\\d{0,9})?")){
+                    }else if(newValue.matches("\\d{0,12}([\\.,]\\d{0,9})?")){
+                        String replace = newValue.replace(',', '.');
                         thresholdField.setText(newValue);
-                        thresholds.put(metricResult.getMetricName(), Double.parseDouble(newValue));
+                        thresholds.put(metricResult.getMetricName(), Double.parseDouble(replace));
                         changeHappend.setValue(true);
                     }else{
                         thresholdField.setText(oldValue);
@@ -57,7 +58,7 @@ public class OptionViewCreator {
                 thresholdField.focusedProperty().addListener((observable, oldValue, newValue) -> {
                     if (!newValue && !thresholdField.getText().isEmpty()) {
                         thresholds.put(metricResult.getMetricName(), Double.parseDouble(
-                                thresholdField.getText()
+                                thresholdField.getText().replace(',','.')
                         ));
                         changeHappend.setValue(true);
                     }

@@ -72,8 +72,8 @@ public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalc
 
     @Override
     public void clear() {
-        cc_result.clear();
-        this.wmc_result.clear();
+        cc_result = null;
+        this.wmc_result = null;
         this.max_cc =0;
     }
 

@@ -102,8 +102,7 @@ public class HistoryController {
             }
             final ClickableProjectBox b = (ClickableProjectBox) n;
             if(b.isSelected()){
-                b.removeStorageFile();
-                return true;
+                return b.removeStorageFile();
             }else{
                 return false;
             }

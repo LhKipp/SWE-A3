@@ -189,7 +189,7 @@ public class DITCalculator extends VoidVisitorAdapter<Void> implements MetricCal
 
     @Override
     public void clear() {
-        inheritanceTable.clear();
+        inheritanceTable = null;
     }
 
     public void initBeforeNewProject(int fileCount){
