@@ -10,21 +10,16 @@ import javafx.stage.Stage;
  * Hello world!
  *
  */
-public class App extends Application
+public class App
 {
-    public static int main(String[] args )
+    public static void main(String[] args )
     {
         if(args.length > 0){
             CLI cli = new CLI();
-            return cli.handle(args);
+            cli.handle(args);
         }else{
-            launch(args);
-            return 0;
+            GuiMain.launch(args);
         }
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        new GuiMain().start(primaryStage);
-    }
 }
