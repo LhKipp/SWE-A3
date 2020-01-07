@@ -187,20 +187,12 @@ public class OptionController{
 		}
 	}
 
-	private void saveCustomPaths() {
-		try {
-			JSONConverter.saveNamedPaths(Arrays.asList(savedCustomPath), Constants.GET_CUSTOM_PATH_STORAGE_FILE());
-		} catch (IOException e) {
-		    //Do you care?
-		}
+	private void saveCustomPaths() throws IOException {
+		JSONConverter.saveNamedPaths(Arrays.asList(savedCustomPath), Constants.GET_CUSTOM_PATH_STORAGE_FILE());
 	}
 
-	private void saveThresholds(){
-		try {
-			JSONConverter.saveMap(savedThresholds, Constants.GET_THRESHOLD_STORAGE_FILE());
-		} catch (IOException e) {
-		    //Fail silently nobody really cares
-		}
+	private void saveThresholds() throws IOException {
+		JSONConverter.saveMap(savedThresholds, Constants.GET_THRESHOLD_STORAGE_FILE());
 	}
 
 	private Map<String, Double> loadTresholds(){
@@ -214,25 +206,24 @@ public class OptionController{
 
 	@FXML
 	public void onSave(){
-		try {
-			Files.createDirectories(Constants.GET_STORAGE_DIR());
-		} catch (IOException e) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("janalyzer - Fehler");
-				alert.setHeaderText(null);
-				alert.setContentText("Der angegebene Pfad ist fehlerhaft.");
-				alert.showAndWait();
-		}
-
-
-
 		savedCustomPath.set(currentCustomPath);
 		savedThresholds.clear();
 		savedThresholds.putAll(currentThresholds);
 
-		saveThresholds();
-		saveCustomPaths();
 
+		try {
+			Files.createDirectories(Constants.GET_STORAGE_DIR());
+			saveThresholds();
+			saveCustomPaths();
+		} catch (IOException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("janalyzer - Fehler");
+			alert.setHeaderText("");
+			alert.setContentText("Die Änderungen konnten nicht persisten abgespeicher werden. :[." +
+					"Bitte stellen Sie sicher, dass der Pfad " + Constants.GET_STORAGE_DIR().toString()
+			+ " existiert und Zugriffsrechte gewährt sind.");
+			alert.showAndWait();
+		}
 		valuesAreChanged.setValue(false);
 
 		stage.close();
