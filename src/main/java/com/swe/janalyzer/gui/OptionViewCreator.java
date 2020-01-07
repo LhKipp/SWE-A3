@@ -6,6 +6,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
@@ -32,6 +33,8 @@ public class OptionViewCreator {
                 HBox pane = new HBox();
                 final String metricName = metricResult.getMetricName();
                 Label metricLabel = new Label(metricResult.getMetricName());
+                
+                metricLabel.setPadding(new Insets(0,0,0,5));
                 metricLabel.setId("option-threshold-label");
                 metricLabel.prefWidthProperty().bind(parentWidth.divide(2));
 

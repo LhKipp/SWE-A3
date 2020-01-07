@@ -65,6 +65,7 @@ public class StartController {
 		optionWindow.initOwner(this.stage);
 		optionWindow.setTitle("Optionen");
 		optionWindow.setScene(optionScene);
+		optionWindow.setResizable(false);
 		optionController.init(analyser.getAnalysedMetrics(), optionWindow);
 		//INIT OPTIONS END
 

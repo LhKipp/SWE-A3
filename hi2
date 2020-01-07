@@ -1,0 +1,154 @@
+{
+  "name": "Graphs",
+  "analysedMetrics": [
+    {
+      "metricName": "LOC",
+      "results": {
+        "Cycles.java": "73",
+        "BellmanFord.java": "123",
+        "PrimMST.java": "50",
+        "MatrixGraphs.java": "103",
+        "ConnectedComponent.java": "64",
+        "Graphs.java": "94",
+        "FloydWarshall.java": "65"
+      },
+      "represantableInBarChart": false,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "LOC Cumulated",
+      "results": {
+        "VALUE": "572"
+      },
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "DIT",
+      "results": {
+        "Cycles": "0",
+        "Vertex": "0",
+        "AdjacencyListGraph": "0",
+        "Node": "0",
+        "FloydWarshall": "0",
+        "Cycle": "0",
+        "AdjacencyMatrixGraph": "0",
+        "Graph": "0",
+        "BellmanFord": "0",
+        "Graphs": "0",
+        "MatrixGraphs": "0",
+        "PrimMST": "0",
+        "Edge": "0"
+      },
+      "represantableInBarChart": false,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "DIT Max",
+      "results": {
+        "VALUE": "0"
+      },
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "CC",
+      "results": {
+        "FloydWarshall::main(String... arg)": "14",
+        "AdjacencyMatrixGraph::numberOfEdges()": "1",
+        "PrimMST::primMST(int[][] graph)": "7",
+        "Graph::Graph()": "3",
+        "Vertex::Vertex(E data)": "2",
+        "BellmanFord::BellmanFord(int v, int e)": "1",
+        "AdjacencyMatrixGraph::addEdge(int from, int to)": "10",
+        "Cycle::dfs(Integer start, Integer curr, ArrayList\u003cInteger\u003e temp)": "13",
+        "Cycle::Cycle()": "11",
+        "AdjacencyMatrixGraph::adjacencyOfEdgeDoesExist(int from, int to)": "2",
+        "Vertex::addAdjacentVertex(Vertex to)": "5",
+        "Cycle::printAll()": "13",
+        "AdjacencyMatrixGraph::toString()": "11",
+        "Cycle::start()": "5",
+        "AdjacencyMatrixGraph::setAdjacency(int[][] newAdjacency)": "1",
+        "Graph::countGraphs()": "9",
+        "Graphs::main(String[] args)": "11",
+        "PrimMST::printMST(int[] parent, int n, int[][] graph)": "4",
+        "FloydWarshall::FloydWarshall(int numberofvertices)": "2",
+        "AdjacencyMatrixGraph::removeEdge(int from, int to)": "10",
+        "BellmanFord::addEdge(int x, int y, int z)": "2",
+        "AdjacencyMatrixGraph::adjacency()": "1",
+        "AdjacencyListGraph::AdjacencyListGraph()": "2",
+        "Node::Node(E name)": "1",
+        "Graph::depthFirstSearch(Node n, ArrayList\u003cNode\u003e visited)": "7",
+        "AdjacencyMatrixGraph::setNumberOfVertices(int newNumberOfVertices)": "1",
+        "Vertex::removeAdjacentVertex(E to)": "7",
+        "AdjacencyListGraph::removeEdge(E from, E to)": "6",
+        "AdjacencyMatrixGraph::vertexDoesExist(int aVertex)": "3",
+        "FloydWarshall::floydwarshall(int[][] AdjacencyMatrix)": "15",
+        "Graph::addEdge(E startNode, E endNode)": "14",
+        "Cycles::main(String[] args)": "4",
+        "BellmanFord::getEdgeArray()": "1",
+        "MatrixGraphs::main(String[] args)": "11",
+        "AdjacencyListGraph::toString()": "12",
+        "PrimMST::minKey(int[] key, Boolean[] mstSet)": "3",
+        "AdjacencyMatrixGraph::numberOfVertices()": "1",
+        "AdjacencyMatrixGraph::setNumberOfEdges(int newNumberOfEdges)": "1",
+        "BellmanFord::go()": "27",
+        "BellmanFord::show(int source, int end, Edge[] arr)": "14",
+        "Edge::Edge(Node startNode, Node endNode)": "1",
+        "PrimMST::main(String[] args)": "3",
+        "BellmanFord::main(String[] args)": "3",
+        "BellmanFord::printPath(int[] p, int i)": "4",
+        "AdjacencyListGraph::addEdge(E from, E to)": "14",
+        "AdjacencyMatrixGraph::edgeDoesExist(int from, int to)": "5",
+        "AdjacencyMatrixGraph::AdjacencyMatrixGraph(int givenNumberOfVertices)": "7"
+      },
+      "represantableInBarChart": false,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "CC Max",
+      "results": {
+        "VALUE": "27"
+      },
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "WMC",
+      "results": {
+        "Vertex": "14",
+        "Cycles": "4",
+        "AdjacencyListGraph": "34",
+        "Node": "1",
+        "FloydWarshall": "31",
+        "Cycle": "42",
+        "AdjacencyMatrixGraph": "54",
+        "Graph": "33",
+        "BellmanFord": "52",
+        "Graphs": "11",
+        "MatrixGraphs": "11",
+        "PrimMST": "17",
+        "Edge": "1"
+      },
+      "represantableInBarChart": false,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "WMC Max",
+      "results": {
+        "VALUE": "54"
+      },
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "TEST",
+      "results": {
+        "VALUE": "3"
+      },
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
+    }
+  ],
+  "timeOfAnalysis": "Jan 6, 2020, 5:08:50 PM"
+}

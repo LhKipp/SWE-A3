@@ -1,6 +1,61 @@
 {
-  "name": "Test",
+  "name": "Trees",
   "analysedMetrics": [
+    {
+      "metricName": "LOC",
+      "results": {
+        "AVLTree.java": "174",
+        "ValidBSTOrNot.java": "24",
+        "TreeTraversal.java": "88",
+        "BinaryTree.java": "152",
+        "TrieImp.java": "119",
+        "RedBlackBST.java": "304",
+        "LevelOrderTraversal.java": "38",
+        "GenericTree.java": "150",
+        "LevelOrderTraversalQueue.java": "29",
+        "PrintTopViewofTree.java": "63"
+      },
+      "represantableInBarChart": false,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "LOC Cumulated",
+      "results": {
+        "VALUE": "1141"
+      },
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "DIT",
+      "results": {
+        "LevelOrderTraversalQueue": "0",
+        "TreeTraversal": "0",
+        "GenericTree": "0",
+        "Node": "0",
+        "BinaryTree": "0",
+        "ValidBSTOrNot": "0",
+        "PrintTopViewofTree": "0",
+        "TreeNode": "0",
+        "LevelOrderTraversal": "0",
+        "TrieNode": "0",
+        "TrieImp": "0",
+        "AVLTree": "0",
+        "Tree": "0",
+        "RedBlackBST": "0",
+        "QItem": "0"
+      },
+      "represantableInBarChart": false,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "DIT Max",
+      "results": {
+        "VALUE": "0"
+      },
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
+    },
     {
       "metricName": "CC",
       "results": {
@@ -9,8 +64,8 @@
         "Node::Node(int k, Node p)": "1",
         "AVLTree::printBalance()": "2",
         "BinaryTree::getRoot()": "1",
-        "Node::printLevelOrder()": "11",
         "RedBlackBST::delete(Node z)": "13",
+        "Node::printLevelOrder()": "11",
         "AVLTree::delete(int delKey)": "5",
         "TrieNode::TrieNode()": "1",
         "LevelOrderTraversal::printGivenLevel(Node root, int level)": "7",
@@ -42,16 +97,16 @@
         "Node::printPostOrder()": "6",
         "GenericTree::findcall(int info)": "2",
         "BinaryTree::find(int key)": "6",
-        "RedBlackBST::insert(Node node)": "8",
-        "Tree::Tree(TreeNode n)": "1",
         "GenericTree::depth(Node node, int dep)": "7",
+        "Tree::Tree(TreeNode n)": "1",
+        "RedBlackBST::insert(Node node)": "8",
         "GenericTree::preordercall()": "3",
         "GenericTree::display_1(Node parent)": "11",
         "RedBlackBST::insertDemo()": "12",
         "GenericTree::postorder(Node node)": "6",
-        "Node::insert(int value)": "8",
         "AVLTree::height(Node n)": "2",
         "GenericTree::removeleaves(Node node)": "14",
+        "Node::insert(int value)": "8",
         "GenericTree::size2call()": "2",
         "GenericTree::create_treeG(Node node, int childindx, Scanner scn)": "11",
         "AVLTree::reheight(Node node)": "5",
@@ -59,9 +114,9 @@
         "LevelOrderTraversal::height(Node root)": "5",
         "RedBlackBST::printTreepre(Node node)": "5",
         "Node::Node(int item)": "1",
-        "Tree::printTopView()": "19",
         "GenericTree::GenericTree()": "3",
         "GenericTree::preorder(Node node)": "6",
+        "Tree::printTopView()": "19",
         "RedBlackBST::rotateLeft(Node node)": "4",
         "RedBlackBST::treeMinimum(Node subTreeRoot)": "2",
         "BinaryTree::findSuccessor(Node n)": "3",
@@ -70,9 +125,9 @@
         "LevelOrderTraversal::printLevelOrder()": "4",
         "BinaryTree::put(int value)": "5",
         "TrieImp::TrieImp()": "2",
-        "Node::printInOrder()": "6",
         "AVLTree::delete(Node node)": "10",
         "RedBlackBST::rotateRight(Node node)": "4",
+        "Node::printInOrder()": "6",
         "GenericTree::levelorder()": "15",
         "AVLTree::rotateLeftThenRight(Node n)": "3",
         "Node::Node(int value)": "1",
@@ -85,16 +140,25 @@
         "RedBlackBST::deleteFixup(Node x)": "17",
         "AVLTree::rebalance(Node n)": "16",
         "GenericTree::size2(Node roott)": "5",
-        "Node::Node(int data)": "1",
         "Node::Node(int key)": "1",
-        "TreeTraversal::main(String[] args)": "20",
+        "Node::Node(int data)": "1",
         "BinaryTree::postOrder(Node localRoot)": "5",
+        "TreeTraversal::main(String[] args)": "20",
         "GenericTree::find(Node node, int info)": "7",
         "GenericTree::maxcall()": "2",
         "GenericTree::removeleavescall()": "2",
         "Node::printPreOrder()": "6"
       },
-      "represantableInBarChart": false
+      "represantableInBarChart": false,
+      "hasNumericalValues": true
+    },
+    {
+      "metricName": "CC Max",
+      "results": {
+        "VALUE": "39"
+      },
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
     },
     {
       "metricName": "WMC",
@@ -106,81 +170,34 @@
         "BinaryTree": "47",
         "ValidBSTOrNot": "7",
         "PrintTopViewofTree": "10",
-        "LevelOrderTraversal": "17",
-        "TreeNode": "1",
         "TrieNode": "1",
+        "TreeNode": "1",
+        "LevelOrderTraversal": "17",
         "TrieImp": "63",
-        "AVLTree": "83",
         "Tree": "21",
+        "AVLTree": "83",
         "RedBlackBST": "107",
         "QItem": "1"
       },
-      "represantableInBarChart": false
+      "represantableInBarChart": false,
+      "hasNumericalValues": true
     },
     {
       "metricName": "WMC Max",
       "results": {
         "VALUE": "117"
       },
-      "represantableInBarChart": true
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
     },
     {
-      "metricName": "CC Max",
+      "metricName": "TEST",
       "results": {
-        "VALUE": "39"
+        "VALUE": "3"
       },
-      "represantableInBarChart": true
-    },
-    {
-      "metricName": "DIT",
-      "results": {
-        "LevelOrderTraversalQueue": "0",
-        "TreeTraversal": "0",
-        "GenericTree": "0",
-        "Node": "0",
-        "BinaryTree": "0",
-        "ValidBSTOrNot": "0",
-        "PrintTopViewofTree": "0",
-        "TrieNode": "0",
-        "LevelOrderTraversal": "0",
-        "TreeNode": "0",
-        "TrieImp": "0",
-        "Tree": "0",
-        "AVLTree": "0",
-        "RedBlackBST": "0",
-        "QItem": "0"
-      },
-      "represantableInBarChart": false
-    },
-    {
-      "metricName": "DIT Max",
-      "results": {
-        "VALUE": "0"
-      },
-      "represantableInBarChart": true
-    },
-    {
-      "metricName": "LOC",
-      "results": {
-        "Testdateien/Trees/TreeTraversal.java": "88",
-        "Testdateien/Trees/LevelOrderTraversal.java": "38",
-        "Testdateien/Trees/RedBlackBST.java": "304",
-        "Testdateien/Trees/GenericTree.java": "150",
-        "Testdateien/Trees/TrieImp.java": "119",
-        "Testdateien/Trees/PrintTopViewofTree.java": "63",
-        "Testdateien/Trees/AVLTree.java": "174",
-        "Testdateien/Trees/LevelOrderTraversalQueue.java": "29",
-        "Testdateien/Trees/ValidBSTOrNot.java": "24",
-        "Testdateien/Trees/BinaryTree.java": "152"
-      },
-      "represantableInBarChart": false
-    },
-    {
-      "metricName": "LOC Cumulated",
-      "results": {
-        "VALUE": "1141"
-      },
-      "represantableInBarChart": true
+      "represantableInBarChart": true,
+      "hasNumericalValues": true
     }
-  ]
+  ],
+  "timeOfAnalysis": "Jan 6, 2020, 5:08:50 PM"
 }

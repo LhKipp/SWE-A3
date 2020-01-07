@@ -25,6 +25,7 @@ public class GuiMain {
 		startScene.getStylesheets().addAll("gui/chart.css", "gui/detailChart.css");
 		primaryStage.setTitle("janalyzer");
 		primaryStage.setScene(startScene);
+		primaryStage.setResizable(false);
 		controller.init(primaryStage);
 		primaryStage.show();
 	}
