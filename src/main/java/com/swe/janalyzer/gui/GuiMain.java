@@ -8,9 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class GuiMain extends Application {
+public class GuiMain {
 
-    @Override
 	public void start(Stage primaryStage) {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/StartView.fxml"));
 		Parent root = null;
