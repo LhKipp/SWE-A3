@@ -160,6 +160,7 @@ public class StartController {
 		alert.showAndWait().ifPresent(type -> {
 			if(type == okButton) {
 				historyController.removeSelectedProjects();
+				this.init(this.stage);
 			}
 		});
 	}
