@@ -5,14 +5,20 @@ import com.swe.janalyzer.gui.util.ClickableProjectBox;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.FileUtil;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -135,4 +141,29 @@ public class HistoryController {
     public void setOnCheckBoxValueChange(ChangeListener<Boolean> onCheckBoxValueChange) {
         this.onCheckBoxValueChange = onCheckBoxValueChange;
     }
+    
+    public void selectNewProject(Project result) {
+		Node content = currentPane.getContent();
+        Pane pane = (Pane) content;
+        ObservableList<Node> historyBoxes = pane.getChildren();
+		for(Node curNode : historyBoxes) {
+			if(((ClickableProjectBox) curNode).getData() == result) {
+				((ClickableProjectBox) curNode).setSelected(true);
+			}
+			else if(((ClickableProjectBox) curNode).isSelected()) {
+				((ClickableProjectBox) curNode).setSelected(false);
+			}
+		}
+	}
+
+	public void clearAllBackground() {
+		Node content = currentPane.getContent();
+        Pane pane = (Pane) content;
+        ObservableList<Node> historyBoxes = pane.getChildren();
+        BackgroundFill bgf[] = {new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)};
+		Background background = new Background(bgf);
+		for(Node curNode : historyBoxes) {
+			((ClickableProjectBox) curNode).setBackground(background);
+		}
+	}
 }
