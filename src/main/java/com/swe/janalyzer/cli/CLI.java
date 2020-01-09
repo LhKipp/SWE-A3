@@ -1,14 +1,19 @@
 package com.swe.janalyzer.cli;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.github.javaparser.ParseProblemException;
 import com.swe.janalyzer.analysis.Analyser;
-import com.swe.janalyzer.data.metriken.MetricResult;
 import com.swe.janalyzer.data.metriken.Project;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.FileUtil;
@@ -152,14 +157,9 @@ public class CLI {
 	}
 
 	private void printHelpText() {
-	    List<String> lines;
-		try {
-			lines = Files.readAllLines(Paths.get("src/main/resources/cli_help_text.txt"));
-		} catch (IOException e) {
-			//This should NEVER happen
-			System.out.println("Internal Error :(");
-			return;
-		}
+	    Stream<String> lines;
+		InputStream resourceAsStream = getClass().getResourceAsStream("/cli/cli_help_text.txt");
+		lines = new BufferedReader(new InputStreamReader(resourceAsStream)).lines();
 		lines.forEach(System.out::println);
 	}
 
