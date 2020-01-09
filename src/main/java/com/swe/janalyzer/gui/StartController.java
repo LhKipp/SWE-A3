@@ -215,7 +215,7 @@ public class StartController {
 				a.setContentText("Das analysierte Projekt konnte nicht gespeichert werden.");
 				a.showAndWait();
 			}
-			historyController.add(result, path);
+			historyController.add(result, outputFile);
 		}
 	}
 

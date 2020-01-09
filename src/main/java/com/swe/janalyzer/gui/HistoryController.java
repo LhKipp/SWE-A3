@@ -110,8 +110,8 @@ public class HistoryController {
 
     }
 
-    public void add(Project result, Path path) {
-        ClickableProjectBox newProjectBox = getProjectBox(result, path);
+    public void add(Project result, Path outputPath) {
+        ClickableProjectBox newProjectBox = getProjectBox(result, outputPath);
 
         Node content = currentPane.getContent();
         Pane pane = (Pane) content;
