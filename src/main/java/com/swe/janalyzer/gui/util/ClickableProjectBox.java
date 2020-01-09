@@ -57,6 +57,10 @@ public class ClickableProjectBox extends HBox {
     public boolean isSelected(){
         return checkBox.isSelected();
     }
+    
+    public void setSelected(boolean check) {
+		this.checkBox.setSelected(check);
+	}
 
     public boolean removeStorageFile() {
         try {

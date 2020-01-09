@@ -17,14 +17,19 @@ import com.swe.janalyzer.util.FileUtil;
 import com.swe.janalyzer.util.IOExceptionWithFile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -78,10 +83,17 @@ public class StartController {
 			}
 			//Ok detailview for project now
 			detailView.setContent(buildDetailChart(source.getData()));
+			
+			//set Background Color to grey and all other history entries (back) to transparent
+			this.historyController.clearAllBackground();
+			BackgroundFill bgf[] = {new BackgroundFill(Color.LIGHTGREY, CornerRadii.EMPTY, Insets.EMPTY)};
+			Background background = new Background(bgf);
+			source.setBackground(background);
 		});
 
 		historyController.setOnCheckBoxValueChange((v, o, n)->{
 		    handleSelectedProjects();
+		    this.historyController.clearAllBackground();
 		});
 		//INIT History End
 
@@ -97,6 +109,7 @@ public class StartController {
 			historyBox.getChildren().add(historyController.getView(n.getPath()));
 		    //Let detailview according to selected Projects
 			handleSelectedProjects();
+			this.historyController.clearAllBackground();
 		});
 		//TODO Save lastChosenPath and fill in here
 		pathSelect.getSelectionModel().selectFirst();
@@ -217,6 +230,8 @@ public class StartController {
 				a.showAndWait();
 			}
 			historyController.add(result, outputFile);
+			//nach dem analysieren werden die Ergebnisse rechts angezeigt
+			historyController.selectNewProject(result);
 		}
 	}
 
@@ -233,10 +248,11 @@ public class StartController {
 		}else{
 			//set comparison chart
 			detailView.setContent(
-					ComparisonChart.build(
+					ComparisonChart.build( 
 							selectedProjects,
 							detailView.getWidth(),
 							optionController.getThresholds()));
 		}
+		this.historyController.clearAllBackground();
 	}
 }
