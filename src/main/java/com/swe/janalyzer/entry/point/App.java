@@ -1,4 +1,4 @@
-package com.swe.janalyzer;
+package com.swe.janalyzer.entry.point;
 
 import com.swe.janalyzer.cli.CLI;
 import com.swe.janalyzer.gui.GuiMain;
