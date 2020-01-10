@@ -131,28 +131,18 @@ public class StartController {
 	private void openOptions()  {
 	    optionController.showAndWait();
 
-		//Update DetailChart if it is displayed on right, ComparisonCharts are handled by callbacks
-		DetailChart currentDetailChart = null;
-		if(detailView.getContent() instanceof DetailChart){
-			currentDetailChart = (DetailChart) detailView.getContent();
-		}
-		//TODO make NamedPaths to ObjectProperty<NamedPath> add listeners, update list if namedPath updated
-		//But for now we do the cheap version
+	    //Copy the paths from option remembering the selected path
 		final int selectedIndex = pathSelect.getSelectionModel().getSelectedIndex();
 		pathSelect.getItems().clear();
 		final List<NamedPath> paths = optionController.getPaths();
 		pathSelect.getItems().setAll(paths);
-		//Here are comparisoncharts and detailView from single selected box handled, but not clicked once
+
+        //Correct views are set in callback
 		//if custom path was selected but is deleted
 		if(selectedIndex >= paths.size()){
 			pathSelect.getSelectionModel().selectFirst();
-			//Dont update detailChart is from path that is not considered anymore
-			detailView.setContent(null);
 		}else {
 			pathSelect.getSelectionModel().select(selectedIndex);
-			if(currentDetailChart != null){
-				detailView.setContent(buildDetailChart(currentDetailChart.getCurrentProject()));
-			}
 		}
 
 	}
