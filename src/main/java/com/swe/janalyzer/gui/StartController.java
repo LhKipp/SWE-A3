@@ -235,6 +235,7 @@ public class StartController {
 					a.setHeaderText("Fehlerhaftes Projekt");
 					a.setContentText("Das ausgewählte Projekt konnte nicht analysiert werden.");
 					a.showAndWait();
+					detailView.setContent(null);
 					return;
 				}
 
