@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.Problem;
 import com.swe.janalyzer.analysis.Analyser;
 import com.swe.janalyzer.data.metriken.Project;
 import com.swe.janalyzer.storage.JSONConverter;
@@ -82,6 +83,10 @@ public class CLI {
 			return 1;
 		} catch (ParseProblemException e){
 			System.out.println(SYNTAX_ERROR_MESSAGE);
+			System.out.println("But here is litte hint :)");
+			for (Problem problem : e.getProblems()) {
+				System.out.println(problem.getMessage() + "\n");
+			}
 			return 1;
 		}
 		if(verbose){
