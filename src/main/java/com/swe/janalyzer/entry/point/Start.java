@@ -1,5 +1,7 @@
 package com.swe.janalyzer.entry.point;
 
+import com.swe.janalyzer.cli.CLI;
+
 public class Start {
 
     /**
@@ -7,6 +9,10 @@ public class Start {
      * Befehl zum Starten mittels Maven: mvn clean javafx:run
      */
     public static void main(String[] args) {
-        App.main(args);
+        if(args.length == 0){
+            App.main(args);
+        }else{
+            new CLI().handle(args);
+        }
     }
 }
