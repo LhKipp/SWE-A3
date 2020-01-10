@@ -1,18 +1,18 @@
 #detailChart-metric-name-header{
-    -fx-font-size: 16pt;
+    -fx-font-size: 20pt;
     -fx-font-weight: bold;
     -fx-border-width: 2pt;
     -fx-border-color: black;
 }
 
 #detailChart-table-key{
-    -fx-font-size: 14;
+    -fx-font-size: 16pt;
     -fx-border-width: 1pt;
     -fx-border-color: grey;
 }
 
 #detailChart-table-value{
-    -fx-font-size: 14;
+    -fx-font-size: 16pt;
     -fx-border-width: 1pt;
     -fx-border-color: grey;
 }

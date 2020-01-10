@@ -17,6 +17,7 @@ import com.swe.janalyzer.util.FileUtil;
 import com.swe.janalyzer.util.IOExceptionWithFile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert;
@@ -41,9 +42,10 @@ public class StartController {
 
 	public StartController() {
 	}
-	
+
 	public void init(Stage stage) {
 		this.stage = stage;
+		detailView.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
 	    //INIT Options BEGIN
 		Pane option = null;
@@ -100,7 +102,7 @@ public class StartController {
 
 	private DetailChart buildDetailChart(Project data) {
 		return new DetailChart(data,
-				this.detailView.getWidth(),
+				this.detailView.getWidth() - 5,
 				optionController.getThresholds());
 	}
 
@@ -128,7 +130,7 @@ public class StartController {
 			detailView.setContent(buildDetailChart(currentDetailChart.getCurrentProject()));
 		}
 	}
-	
+
 	/**
 	 * Methode zum Löschen von ausgewählten Projekten
 	 */
@@ -160,7 +162,7 @@ public class StartController {
 			}
 		});
 	}
-	
+
 	@FXML
 	private void analyseProject() {
 		DirectoryChooser folderPicker = new DirectoryChooser();
@@ -232,9 +234,9 @@ public class StartController {
 		}else{
 			//set comparison chart
 			detailView.setContent(
-					ComparisonChart.build( 
+					ComparisonChart.build(
 							selectedProjects,
-							detailView.getWidth(),
+							detailView.getWidth() -5,
 							optionController.getThresholds()));
 		}
 	}
