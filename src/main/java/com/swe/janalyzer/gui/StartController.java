@@ -235,6 +235,15 @@ public class StartController {
 					a.setHeaderText("Fehlerhaftes Projekt");
 					a.setContentText("Das ausgewählte Projekt konnte nicht analysiert werden.");
 					a.showAndWait();
+
+
+					if(selectedPathOnStart.equals(pathSelect.getValue().getPath())){
+						detailView.setContent(null);
+					}
+					//Stop waiting animation
+					animater.interrupt();
+					isInWaitAnimation.remove(selectedPathOnStart);
+
 					return;
 				}
 
