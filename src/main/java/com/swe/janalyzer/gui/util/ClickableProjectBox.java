@@ -31,14 +31,11 @@ public class ClickableProjectBox extends HBox {
     }
 
     public ClickableProjectBox(Project project,
-                               Path storagePath,
-                               ChangeListener<Boolean> onCheckBoxValueChanged,
-                               EventHandler<MouseEvent> onBoxClicked) {
+                               Path storagePath){
         data = project;
         this.storagePath = storagePath;
 
         checkBox = new CheckBox();
-        checkBox.selectedProperty().addListener(onCheckBoxValueChanged);
 
         VBox labelContainer = new VBox();
         final Label projName = new Label(project.getName());
@@ -46,8 +43,6 @@ public class ClickableProjectBox extends HBox {
         labelContainer.getChildren().addAll(projName, timeOfAnalysis);
 
         this.getChildren().addAll(checkBox, labelContainer);
-
-        this.setOnMouseClicked(onBoxClicked);
     }
 
     public Project getData() {
@@ -81,5 +76,9 @@ public class ClickableProjectBox extends HBox {
                 return buttonType.get().equals(ButtonType.YES);
             }
         }
+    }
+
+    public CheckBox getCheckBox() {
+        return checkBox;
     }
 }

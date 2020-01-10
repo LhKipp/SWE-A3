@@ -17,19 +17,12 @@ import com.swe.janalyzer.util.FileUtil;
 import com.swe.janalyzer.util.IOExceptionWithFile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -45,6 +38,7 @@ public class StartController {
 	private Analyser analyser = new Analyser();
 	private OptionController optionController; //Init in initialize()
 	private HistoryController historyController = new HistoryController();
+
 	public StartController() {
 	}
 	
@@ -76,24 +70,13 @@ public class StartController {
 
 		//INIT History BEGIN
 		historyController.setOnBoxClicked(e ->{
-			ClickableProjectBox source = (ClickableProjectBox) e.getSource();
-			long selectedProjectsCount = historyController.getSelectedProjects().count();
-			if(selectedProjectsCount != 0){
-				return;
+		    if(!historyController.hasCheckedBoxes()){
+				handleSelectedProjects();
 			}
-			//Ok detailview for project now
-			detailView.setContent(buildDetailChart(source.getData()));
-			
-			//set Background Color to grey and all other history entries (back) to transparent
-			this.historyController.clearAllBackground();
-			BackgroundFill bgf[] = {new BackgroundFill(Color.LIGHTGREY, CornerRadii.EMPTY, Insets.EMPTY)};
-			Background background = new Background(bgf);
-			source.setBackground(background);
 		});
 
 		historyController.setOnCheckBoxValueChange((v, o, n)->{
 		    handleSelectedProjects();
-		    this.historyController.clearAllBackground();
 		});
 		//INIT History End
 
@@ -109,7 +92,6 @@ public class StartController {
 			historyBox.getChildren().add(historyController.getView(n.getPath()));
 		    //Let detailview according to selected Projects
 			handleSelectedProjects();
-			this.historyController.clearAllBackground();
 		});
 		//TODO Save lastChosenPath and fill in here
 		pathSelect.getSelectionModel().selectFirst();
@@ -173,7 +155,7 @@ public class StartController {
 		alert.setContentText(msg);
 		alert.showAndWait().ifPresent(type -> {
 			if(type == okButton) {
-				historyController.removeSelectedProjects();
+				historyController.removeCheckedProjects();
 			}
 		});
 	}
@@ -229,9 +211,9 @@ public class StartController {
 				a.setContentText("Das analysierte Projekt konnte nicht gespeichert werden.");
 				a.showAndWait();
 			}
-			historyController.add(result, outputFile);
+			ClickableProjectBox add = historyController.add(result, outputFile);
+			historyController.checkOnly(add);
 			//nach dem analysieren werden die Ergebnisse rechts angezeigt
-			historyController.selectNewProject(result);
 		}
 	}
 
@@ -253,6 +235,5 @@ public class StartController {
 							detailView.getWidth(),
 							optionController.getThresholds()));
 		}
-		this.historyController.clearAllBackground();
 	}
 }

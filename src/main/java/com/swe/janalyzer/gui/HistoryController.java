@@ -31,18 +31,26 @@ import java.util.stream.Stream;
 
 public class HistoryController {
 
-    private Map<Path, ScrollPane> storedHistories = new HashMap<>();
-    private ScrollPane currentPane;
+    class PaneWithInfo{
+        PaneWithInfo(ScrollPane pane) {
+            this.pane = pane;
+        }
+
+        ScrollPane pane;
+        ClickableProjectBox lastClickedBox;
+    }
+
+    private Map<Path, PaneWithInfo> storedHistories = new HashMap<>();
+    private PaneWithInfo currentPane;
 
     public ScrollPane getView(Path storageDir) {
         if (storedHistories.containsKey(storageDir)) {
             currentPane = storedHistories.get(storageDir);
         } else {
-            ScrollPane pane = buildPane(storageDir);
-            storedHistories.put(storageDir, pane);
-            currentPane = pane;
+            currentPane = new PaneWithInfo(buildPane(storageDir));
+            storedHistories.put(storageDir, currentPane);
         }
-        return currentPane;
+        return currentPane.pane;
     }
 
     private ScrollPane buildPane(Path storageDir) {
@@ -91,17 +99,31 @@ public class HistoryController {
         return root;
     }
 
-    public Stream<Project> getSelectedProjects(){
-        Pane p = (Pane) currentPane.getContent();
+    private Stream<ClickableProjectBox> getCheckedBoxes(){
+        Pane p = (Pane) currentPane.pane.getContent();
         return p.getChildren().stream()
                 .filter(n -> n instanceof ClickableProjectBox)
                 .map(n -> (ClickableProjectBox)n)
-                .filter(ClickableProjectBox::isSelected)
-                .map(ClickableProjectBox::getData);
+                .filter(ClickableProjectBox::isSelected);
     }
 
-    void removeSelectedProjects(){
-        Pane p = (Pane) currentPane.getContent();
+    private Stream<Project> getCheckedProjects(){
+        return getCheckedBoxes()
+                .map(ClickableProjectBox::getData);
+    }
+    public Stream<Project> getSelectedProjects(){
+        if(currentPane.lastClickedBox != null){
+            return Stream.of(currentPane.lastClickedBox.getData());
+        }else{
+            return getCheckedProjects();
+        }
+    }
+    public boolean hasCheckedBoxes(){
+        return getCheckedBoxes().count() > 0;
+    }
+
+    public void removeCheckedProjects(){
+        Pane p = (Pane) currentPane.pane.getContent();
         p.getChildren().removeIf(n ->{
             if(!(n instanceof ClickableProjectBox)){
                 return false;
@@ -116,22 +138,46 @@ public class HistoryController {
 
     }
 
-    public void add(Project result, Path outputPath) {
+    public ClickableProjectBox add(Project result, Path outputPath) {
         ClickableProjectBox newProjectBox = getProjectBox(result, outputPath);
 
-        Node content = currentPane.getContent();
+        Node content = currentPane.pane.getContent();
         Pane pane = (Pane) content;
         pane.getChildren().add(newProjectBox);
+
+        return newProjectBox;
     }
 
     private ChangeListener<Boolean> onCheckBoxValueChange;
     private EventHandler<MouseEvent> onBoxClicked;
 
     private ClickableProjectBox getProjectBox(Project p, Path storagePath){
-        return new ClickableProjectBox(p,
-                storagePath,
-                onCheckBoxValueChange,
-                onBoxClicked);
+        ClickableProjectBox newBox = new ClickableProjectBox(
+                p,
+                storagePath);
+        //Order is important here, because we need to remember selected Project first
+        //First add own
+        newBox.addEventHandler(MouseEvent.MOUSE_CLICKED, e ->{
+            if(getCheckedProjects().count() != 0){
+                //Projects are checked don't do anything
+                return;
+            }
+            clearLastSelected();
+            //Add a new background
+            BackgroundFill bgf[] = {new BackgroundFill(Color.LIGHTGREY, CornerRadii.EMPTY, Insets.EMPTY)};
+            Background background = new Background(bgf);
+            ((ClickableProjectBox)e.getSource()).setBackground(background);
+
+            currentPane.lastClickedBox = (ClickableProjectBox) e.getSource();
+        });
+        newBox.addEventHandler(MouseEvent.MOUSE_CLICKED, onBoxClicked);
+
+        newBox.getCheckBox().selectedProperty().addListener((v,o,n) ->{
+            clearLastSelected();
+            currentPane.lastClickedBox = null;
+        });
+        newBox.getCheckBox().selectedProperty().addListener(onCheckBoxValueChange);
+        return newBox;
     }
 
     public void setOnBoxClicked(EventHandler<MouseEvent> onBoxClicked) {
@@ -142,28 +188,18 @@ public class HistoryController {
         this.onCheckBoxValueChange = onCheckBoxValueChange;
     }
     
-    public void selectNewProject(Project result) {
-		Node content = currentPane.getContent();
-        Pane pane = (Pane) content;
-        ObservableList<Node> historyBoxes = pane.getChildren();
-		for(Node curNode : historyBoxes) {
-			if(((ClickableProjectBox) curNode).getData() == result) {
-				((ClickableProjectBox) curNode).setSelected(true);
-			}
-			else if(((ClickableProjectBox) curNode).isSelected()) {
-				((ClickableProjectBox) curNode).setSelected(false);
-			}
-		}
-	}
+	private void clearLastSelected(){
+        if(currentPane.lastClickedBox != null){
+            BackgroundFill bgf[] = {new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)};
+            Background background = new Background(bgf);
+            currentPane.lastClickedBox.setBackground(background);
+        }
+    }
 
-	public void clearAllBackground() {
-		Node content = currentPane.getContent();
-        Pane pane = (Pane) content;
-        ObservableList<Node> historyBoxes = pane.getChildren();
-        BackgroundFill bgf[] = {new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)};
-		Background background = new Background(bgf);
-		for(Node curNode : historyBoxes) {
-			((ClickableProjectBox) curNode).setBackground(background);
-		}
-	}
+    public void checkOnly(ClickableProjectBox box) {
+        clearLastSelected();
+        box.setSelected(true);
+        getCheckedBoxes().forEach(b -> b.setSelected(false));
+
+    }
 }
