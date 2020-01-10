@@ -22,10 +22,7 @@ import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -42,6 +39,17 @@ public class HistoryController {
 
     private Map<Path, PaneWithInfo> storedHistories = new HashMap<>();
     private PaneWithInfo currentPane;
+
+    private Comparator<Node> projectBoxesComparator;
+
+    HistoryController(){
+        projectBoxesComparator = Comparator.comparing(b ->
+                ((ClickableProjectBox) b)
+                        .getData().getName());
+        projectBoxesComparator  = projectBoxesComparator.thenComparing(b->
+                ((ClickableProjectBox) b)
+                        .getData().getTimeOfAnalysis());
+    }
 
     public ScrollPane getView(Path storageDir) {
         if (storedHistories.containsKey(storageDir)) {
@@ -75,11 +83,13 @@ public class HistoryController {
             Project project;
             try {
                 project = JSONConverter.loadSummary(file);
-                boxes.getChildren().addAll(getProjectBox(project, file));
+                boxes.getChildren().add(getProjectBox(project, file));
             } catch (Exception e) {
                 unloadablePaths.add(file);
             }
         }
+        sortBoxes(boxes.getChildren());
+
         //Give user info about unloaded files
         if(!unloadablePaths.isEmpty()){
             StringBuilder builder = new StringBuilder(unloadablePaths.size() * 30);
@@ -97,6 +107,13 @@ public class HistoryController {
         }
 
         return root;
+    }
+
+    private void sortBoxes(ObservableList<Node> boxes) {
+        List<Node> list = new ArrayList<>(boxes);
+        list.sort(projectBoxesComparator);
+        boxes.clear();
+        boxes.addAll(list);
     }
 
     private Stream<ClickableProjectBox> getCheckedBoxes(){
@@ -144,6 +161,7 @@ public class HistoryController {
         Node content = currentPane.pane.getContent();
         Pane pane = (Pane) content;
         pane.getChildren().add(newProjectBox);
+        sortBoxes(pane.getChildren());
 
         return newProjectBox;
     }
