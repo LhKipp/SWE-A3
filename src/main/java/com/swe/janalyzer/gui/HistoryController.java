@@ -28,6 +28,7 @@ import java.util.stream.Stream;
 
 public class HistoryController {
 
+
     class PaneWithInfo{
         PaneWithInfo(ScrollPane pane) {
             this.pane = pane;
@@ -51,13 +52,17 @@ public class HistoryController {
                         .getData().getTimeOfAnalysis());
     }
 
-    public ScrollPane getView(Path storageDir) {
+    public synchronized PaneWithInfo getPaneOrBuild(Path storageDir){
         if (storedHistories.containsKey(storageDir)) {
-            currentPane = storedHistories.get(storageDir);
+            return storedHistories.get(storageDir);
         } else {
-            currentPane = new PaneWithInfo(buildPane(storageDir));
-            storedHistories.put(storageDir, currentPane);
+            PaneWithInfo pane = new PaneWithInfo(buildPane(storageDir));
+            storedHistories.put(storageDir, pane);
+            return pane;
         }
+    }
+    public ScrollPane getView(Path storageDir) {
+        currentPane = getPaneOrBuild(storageDir);
         return currentPane.pane;
     }
 
@@ -117,7 +122,10 @@ public class HistoryController {
     }
 
     private Stream<ClickableProjectBox> getCheckedBoxes(){
-        Pane p = (Pane) currentPane.pane.getContent();
+        return getCheckedBoxes(currentPane);
+    }
+    private Stream<ClickableProjectBox> getCheckedBoxes(PaneWithInfo pane){
+        Pane p = (Pane) pane.pane.getContent();
         return p.getChildren().stream()
                 .filter(n -> n instanceof ClickableProjectBox)
                 .map(n -> (ClickableProjectBox)n)
@@ -155,14 +163,22 @@ public class HistoryController {
 
     }
 
-    public ClickableProjectBox add(Project result, Path outputPath) {
-        ClickableProjectBox newProjectBox = getProjectBox(result, outputPath);
+    public ClickableProjectBox add(Project result, Path outputFile, Path outputDir) {
+        PaneWithInfo pane = getPaneOrBuild(outputDir);
+        return add(result, outputFile, pane);
+    }
 
-        Node content = currentPane.pane.getContent();
+    public ClickableProjectBox add(Project result, Path outputPath) {
+        return add(result,outputPath, currentPane);
+
+    }
+
+    private ClickableProjectBox add(Project result, Path outputPath, PaneWithInfo onPane){
+        ClickableProjectBox newProjectBox = getProjectBox(result, outputPath);
+        Node content = onPane.pane.getContent();
         Pane pane = (Pane) content;
         pane.getChildren().add(newProjectBox);
         sortBoxes(pane.getChildren());
-
         return newProjectBox;
     }
 
@@ -205,18 +221,29 @@ public class HistoryController {
     public void setOnCheckBoxValueChange(ChangeListener<Boolean> onCheckBoxValueChange) {
         this.onCheckBoxValueChange = onCheckBoxValueChange;
     }
-    
-	private void clearLastSelected(){
-        if(currentPane.lastClickedBox != null){
+
+    private void clearLastSelected(){
+        clearLastSelected(currentPane);
+    }
+	private void clearLastSelected(PaneWithInfo pane){
+        if(pane.lastClickedBox != null){
             BackgroundFill bgf[] = {new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)};
             Background background = new Background(bgf);
-            currentPane.lastClickedBox.setBackground(background);
+            pane.lastClickedBox.setBackground(background);
         }
     }
 
-    public void checkOnly(ClickableProjectBox box) {
-        clearLastSelected();
-        getCheckedBoxes().forEach(b -> b.setSelected(false));
+    public void checkOnly(final ClickableProjectBox box) {
+        checkOnly(box, currentPane);
+    }
+
+    public void checkOnly(final ClickableProjectBox box, final Path outputDir) {
+        checkOnly(box, getPaneOrBuild(outputDir));
+    }
+
+    private void checkOnly(final ClickableProjectBox box, final PaneWithInfo pane){
+        clearLastSelected(pane);
+        getCheckedBoxes(pane).forEach(b -> b.setSelected(false));
         box.setSelected(true);
     }
 }

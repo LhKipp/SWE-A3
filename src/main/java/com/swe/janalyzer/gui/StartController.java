@@ -3,7 +3,7 @@ package com.swe.janalyzer.gui;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.github.javaparser.ParseProblemException;
@@ -12,9 +12,14 @@ import com.swe.janalyzer.data.metriken.*;
 //import com.swe.janalyzer.analysis.MetricCalculatorImpl;
 import com.swe.janalyzer.gui.data.NamedPath;
 import com.swe.janalyzer.gui.util.ClickableProjectBox;
+import com.swe.janalyzer.gui.util.WaitAnimation;
 import com.swe.janalyzer.storage.JSONConverter;
 import com.swe.janalyzer.util.FileUtil;
 import com.swe.janalyzer.util.IOExceptionWithFile;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -40,12 +46,18 @@ public class StartController {
 	private OptionController optionController; //Init in initialize()
 	private HistoryController historyController = new HistoryController();
 
+	private Set<Path> isInWaitAnimation = new HashSet<>(2);
+	private WaitAnimation waitAnimation;
 	public StartController() {
 	}
 
 	public void init(Stage stage) {
 		this.stage = stage;
 		detailView.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+		//Wait animation
+		waitAnimation = new WaitAnimation("Ihr Projekt wird analysiert");
+		waitAnimation.setPrefWidth(detailView.getPrefWidth());
 
 	    //INIT Options BEGIN
 		Pane option = null;
@@ -93,7 +105,13 @@ public class StartController {
 		    //Show new history
 			historyBox.getChildren().add(historyController.getView(n.getPath()));
 		    //Let detailview according to selected Projects
-			handleSelectedProjects();
+
+			//Every problem in Computer science can be solved simply by using one more if
+			if(isInWaitAnimation.contains(n.getPath())){
+			    detailView.setContent(waitAnimation);
+			}else {
+				handleSelectedProjects();
+			}
 		});
 		//TODO Save lastChosenPath and fill in here
 		pathSelect.getSelectionModel().selectFirst();
@@ -177,47 +195,91 @@ public class StartController {
             //return
 		} else {
 			Path path = selectedDirectory.toPath();
-			Project result;
-			try {
-				result = analyser.analyse(path);
-			} catch (ParseProblemException | IOExceptionWithFile e) {
-			    Alert a = new Alert(AlertType.ERROR);
-			    a.setTitle("janalyzer - Fehler");
-				a.setHeaderText("Fehlerhaftes Projekt");
-				a.setContentText("Das ausgewählte Projekt konnte nicht analysiert werden.");
-			    a.showAndWait();
-				return;
-			}
+			Task<Project> sleeper = new Task<Project>() {
+            @Override
+            protected Project call() throws Exception {
+				try {
+					return analyser.analyse(path);
+				} catch (ParseProblemException | IOExceptionWithFile e) {
+					return null;
+				}
+			}};
+
+			waitAnimation.reset();
+			detailView.setContent(waitAnimation);
+
+
+			Thread animater = new Thread(()->{
+				while(true){
+					try {
+						synchronized (sleeper){
+							sleeper.wait(500);
+						}
+					} catch (InterruptedException e) {
+					    return;
+					}
+					Platform.runLater(waitAnimation::nextState);
+				}
+			});
+			animater.start();
+
+
+			final Path selectedPathOnStart = pathSelect.getValue().getPath();
+			isInWaitAnimation.add(selectedPathOnStart);
+
+			sleeper.setOnSucceeded(e ->{
+				Project result = sleeper.getValue();
+				if(result == null){
+					Alert a = new Alert(AlertType.ERROR);
+					a.setTitle("janalyzer - Fehler");
+					a.setHeaderText("Fehlerhaftes Projekt");
+					a.setContentText("Das ausgewählte Projekt konnte nicht analysiert werden.");
+					a.showAndWait();
+					return;
+				}
 
 				final Path outputDir = pathSelect.getValue().getPath();
-			Path outputFile = null;
-			//path is: pathSelect.value() / project_name + _ + Count
-			try {
-				outputFile = outputDir.resolve(
-						result.getName() + "_" + FileUtil.analyzationNumber(path,outputDir));
-			} catch (IOException e) {
-				Alert a = new Alert(AlertType.ERROR);
-				a.setTitle("janalyzer - Fehler");
-				a.setHeaderText("Fehler beim Speichern");
-				a.setContentText("Es trat ein Fehler beim Speichern des Ergebnisses auf. Bitte bennenen Sie die Datei eigenständig um.");
-				a.showAndWait();
-				outputFile = outputDir.resolve(result.getName() + "_X");
+				Path outputFile = null;
+				//path is: pathSelect.value() / project_name + _ + Count
+				try {
+					outputFile = outputDir.resolve(
+							result.getName() + "_" + FileUtil.analyzationNumber(path,outputDir));
+				} catch (IOException ex) {
+					Alert a = new Alert(AlertType.ERROR);
+					a.setTitle("janalyzer - Fehler");
+					a.setHeaderText("Fehler beim Speichern");
+					a.setContentText("Es trat ein Fehler beim Speichern des Ergebnisses auf. Bitte bennenen Sie die Datei eigenständig um.");
+					a.showAndWait();
+					outputFile = outputDir.resolve(result.getName() + "_X");
 
-			}
+				}
 
-			try {
-				JSONConverter.saveSummary(result, outputFile);
-			} catch (IOException e) {
-				Alert a = new Alert(AlertType.ERROR);
-				a.setTitle("janalyzer - Fehler");
-				a.setHeaderText("Fehler beim Speichern");
-				a.setContentText("Das analysierte Projekt konnte nicht gespeichert werden.");
-				a.showAndWait();
-			}
-			ClickableProjectBox add = historyController.add(result, outputFile);
-			historyController.checkOnly(add);
-			//nach dem analysieren werden die Ergebnisse rechts angezeigt
-            detailView.setContent(buildDetailChart(result));
+				try {
+					JSONConverter.saveSummary(result, outputFile);
+				} catch (IOException exc) {
+					Alert a = new Alert(AlertType.ERROR);
+					a.setTitle("janalyzer - Fehler");
+					a.setHeaderText("Fehler beim Speichern");
+					a.setContentText("Das analysierte Projekt konnte nicht gespeichert werden.");
+					a.showAndWait();
+				}
+
+				ClickableProjectBox add = historyController.add(result, outputFile, selectedPathOnStart);
+				historyController.checkOnly(add, selectedPathOnStart);
+				//nach dem analysieren werden die Ergebnisse rechts angezeigt
+
+				//If the user didn't switch while loading
+
+				if(selectedPathOnStart.equals(pathSelect.getValue().getPath())){
+					detailView.setContent(buildDetailChart(result));
+                }
+
+				//Stop waiting animation
+				animater.interrupt();
+				isInWaitAnimation.remove(selectedPathOnStart);
+			});
+			new Thread(sleeper).start();
+
 		}
 	}
 
