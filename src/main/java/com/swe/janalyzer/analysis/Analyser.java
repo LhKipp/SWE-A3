@@ -1,7 +1,6 @@
 package com.swe.janalyzer.analysis;
 
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.*;
 import com.github.javaparser.ast.CompilationUnit;
 import com.swe.janalyzer.analysis.cc.CCCalculator;
 import com.swe.janalyzer.analysis.dit.DITCalculator;
@@ -30,6 +29,9 @@ public class Analyser {
     );
 
     public Analyser(){
+        ParserConfiguration parserConfiguration = new ParserConfiguration();
+        parserConfiguration.setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_11);
+        StaticJavaParser.setConfiguration(parserConfiguration);
     }
 
     /**
