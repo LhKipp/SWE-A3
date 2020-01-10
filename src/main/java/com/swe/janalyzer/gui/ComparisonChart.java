@@ -26,6 +26,7 @@ public class ComparisonChart {
         List<List<String>> listStream = projects.stream()
                 .map(Project::getAnalysedMetrics)
                 .map(l -> l.stream()
+                        .filter(MetricResult::isRepresantableInBarChart)
                         .map(MetricResult::getMetricName)
                         .collect(Collectors.toList()))
                 .collect(Collectors.toList());
