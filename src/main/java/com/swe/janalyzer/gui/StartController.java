@@ -214,6 +214,7 @@ public class StartController {
 			ClickableProjectBox add = historyController.add(result, outputFile);
 			historyController.checkOnly(add);
 			//nach dem analysieren werden die Ergebnisse rechts angezeigt
+            detailView.setContent(buildDetailChart(result));
 		}
 	}
 

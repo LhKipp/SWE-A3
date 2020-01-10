@@ -198,8 +198,7 @@ public class HistoryController {
 
     public void checkOnly(ClickableProjectBox box) {
         clearLastSelected();
-        box.setSelected(true);
         getCheckedBoxes().forEach(b -> b.setSelected(false));
-
+        box.setSelected(true);
     }
 }
