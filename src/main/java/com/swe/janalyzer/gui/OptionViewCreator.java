@@ -42,6 +42,9 @@ public class OptionViewCreator {
                 thresholdField.prefWidthProperty().bind(parentWidth.divide(2));
 
                 thresholdField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if(oldValue.equals(newValue)){
+                        return;
+                    }
                     if(newValue.isEmpty()){
 //                        thresholdField.setText("");
                         thresholds.remove(metricResult.getMetricName());
@@ -56,15 +59,15 @@ public class OptionViewCreator {
                     }
                 });
 
-                //Commit on focus lose
-                thresholdField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                    if (!newValue && !thresholdField.getText().isEmpty()) {
-                        thresholds.put(metricResult.getMetricName(), Double.parseDouble(
-                                thresholdField.getText().replace(',','.')
-                        ));
-                        changeHappend.setValue(true);
-                    }
-                });
+//                //Commit on focus lose
+//                thresholdField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+//                    if (!newValue && !thresholdField.getText().isEmpty()) {
+//                        thresholds.put(metricResult.getMetricName(), Double.parseDouble(
+//                                thresholdField.getText().replace(',','.')
+//                        ));
+//                        changeHappend.setValue(true);
+//                    }
+//                });
 
                 pane.getChildren().addAll(metricLabel, thresholdField);
                 createdBoxes.add(new ThresholdBoxes(metricLabel, thresholdField));
