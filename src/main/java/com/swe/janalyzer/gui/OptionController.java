@@ -267,7 +267,9 @@ public class OptionController{
 	}
 
 	private boolean checkInputField() {
-		if(!FileUtil.validateFolder(customPathPathBox.getText()) || customPathPathBox.getText().equals("")){
+		if(customPathNameBox.getText().equals("") && customPathPathBox.getText().equals("")){
+			return true;
+		}else if(!FileUtil.validateFolder(customPathPathBox.getText()) || customPathPathBox.getText().equals("")){
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Fehler");
 			alert.setHeaderText("Kein gültiger Pfad");
