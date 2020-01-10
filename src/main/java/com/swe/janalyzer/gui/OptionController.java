@@ -154,6 +154,8 @@ public class OptionController{
 		});
 
 		resetToSavedValues();
+
+		valuesAreChanged.setValue(false);
 	}
 
 	private void handleInputInPathPathBox(){
