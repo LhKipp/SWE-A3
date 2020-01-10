@@ -131,22 +131,30 @@ public class StartController {
 	private void openOptions()  {
 	    optionController.showAndWait();
 
-	    //Update DetailChart if it is displayed on right, ComparisonCharts are handled by callbacks
-	    DetailChart currentDetailChart = null;
-	    if(detailView.getContent() instanceof DetailChart){
-	    	currentDetailChart = (DetailChart) detailView.getContent();
+		//Update DetailChart if it is displayed on right, ComparisonCharts are handled by callbacks
+		DetailChart currentDetailChart = null;
+		if(detailView.getContent() instanceof DetailChart){
+			currentDetailChart = (DetailChart) detailView.getContent();
 		}
-	    //TODO make NamedPaths to ObjectProperty<NamedPath> add listeners, update list if namedPath updated
+		//TODO make NamedPaths to ObjectProperty<NamedPath> add listeners, update list if namedPath updated
 		//But for now we do the cheap version
 		final int selectedIndex = pathSelect.getSelectionModel().getSelectedIndex();
-	    pathSelect.getItems().clear();
-		pathSelect.getItems().setAll(optionController.getPaths());
+		pathSelect.getItems().clear();
+		final List<NamedPath> paths = optionController.getPaths();
+		pathSelect.getItems().setAll(paths);
 		//Here are comparisoncharts and detailView from single selected box handled, but not clicked once
-		pathSelect.getSelectionModel().select(selectedIndex);
-
-		if(currentDetailChart != null){
-			detailView.setContent(buildDetailChart(currentDetailChart.getCurrentProject()));
+		//if custom path was selected but is deleted
+		if(selectedIndex >= paths.size()){
+			pathSelect.getSelectionModel().selectFirst();
+			//Dont update detailChart is from path that is not considered anymore
+			detailView.setContent(null);
+		}else {
+			pathSelect.getSelectionModel().select(selectedIndex);
+			if(currentDetailChart != null){
+				detailView.setContent(buildDetailChart(currentDetailChart.getCurrentProject()));
+			}
 		}
+
 	}
 
 	/**

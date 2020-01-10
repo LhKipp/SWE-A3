@@ -259,7 +259,11 @@ public class OptionController{
 	 * @return
 	 */
 	public List<NamedPath> getPaths(){
-		return Arrays.asList(defaultPath, savedCustomPath);
+		if(savedCustomPath.getCustomName().isEmpty()){
+			return Collections.singletonList(defaultPath);
+		}else{
+			return Arrays.asList(defaultPath, savedCustomPath);
+		}
 	}
 
 	public void showAndWait() {
