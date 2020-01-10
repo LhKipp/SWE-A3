@@ -107,7 +107,9 @@ public class OptionController{
 					//okay reset and close
 					resetToSavedValues();
 				}else if(clicked.equals(closeAndSave)){
-					onSave();
+					if(!save()){
+						e.consume();
+					}
 				}else if(clicked.equals(ButtonType.CANCEL)){
 				    //Dont close the window
 					e.consume();
@@ -139,43 +141,26 @@ public class OptionController{
 		defaultPathNameBox.setText(defaultPath.getCustomName());
 		defaultPathPathBox.setText(defaultPath.getPath().toString());
 
-		customPathNameBox.setOnAction(e ->{
-			currentCustomPath.setCustomName(customPathNameBox.getText());
-			valuesAreChanged.setValue(true);
-		});
 		//Update on change
 		customPathNameBox.textProperty().addListener(((observable, oldValue, newValue) -> {
-			currentCustomPath.setCustomName(customPathNameBox.getText());
 			valuesAreChanged.setValue(true);
 		}));
 
 		customPathPathBox.setOnAction(e->{
 		    handleInputInPathPathBox();
 		});
-		//TODO Should be on textProperty change but might then be heavy calc
-		//Measure and change if needed
-//		customPathPathBox.focusedProperty().addListener((observable, oldValue, newValue) -> {
-//			if(!newValue){
-//				handleInputInPathPathBox();
-//			}
-//		});
+		customPathPathBox.textProperty().addListener((v, o , n) ->{
+			valuesAreChanged.setValue(true);
+		});
 
 		resetToSavedValues();
-
 	}
-	private void handleInputInPathPathBox(){
-		if(!FileUtil.validateFolder(customPathPathBox.getText())){
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Fehler");
-			alert.setHeaderText("Kein gültiger Pfad");
-			alert.setContentText("Der ausgesuchte Pfad ist kein Ordner.\n" +
-					"Bitte stellen Sie sicher, dass der Ordner existiert.");
-			alert.showAndWait();
-			return;
-		}
 
-		currentCustomPath.setPath(Paths.get(customPathPathBox.getText()));
-		valuesAreChanged.setValue(true);
+	private void handleInputInPathPathBox(){
+	    if(checkInputField()) {
+	        currentCustomPath.setPath(Paths.get(customPathPathBox.getText()));
+	        valuesAreChanged.setValue(true);
+		}
 	}
 
 	private List<NamedPath> loadCustomPaths() {
@@ -204,8 +189,18 @@ public class OptionController{
 		}
 	}
 
-	@FXML
-	public void onSave(){
+	/**
+	 *
+	 * @return - whether save has been successfull
+	 */
+	private boolean save(){
+		if(!checkInputField()) {
+			return false;
+		}
+		//Store given Path
+		currentCustomPath.setCustomName(customPathNameBox.getText());
+		currentCustomPath.setPath(Paths.get(customPathPathBox.getText()));
+
 		savedCustomPath.set(currentCustomPath);
 		savedThresholds.clear();
 		savedThresholds.putAll(currentThresholds);
@@ -221,11 +216,22 @@ public class OptionController{
 			alert.setHeaderText("");
 			alert.setContentText("Die Änderungen konnten nicht persisten abgespeicher werden. :[." +
 					"Bitte stellen Sie sicher, dass der Pfad " + Constants.GET_STORAGE_DIR().toString()
-			+ " existiert und Zugriffsrechte gewährt sind.");
+					+ " existiert und Zugriffsrechte gewährt sind.");
 			alert.showAndWait();
 		}
 		valuesAreChanged.setValue(false);
+		return true;
+	}
 
+
+	/**
+	 * Only close if save successfull
+	 */
+	@FXML
+	public void onSave(){
+		if(!save()){
+			return;
+		}
 		stage.close();
 	}
 
@@ -258,5 +264,26 @@ public class OptionController{
 
 	public void showAndWait() {
 		stage.showAndWait();
+	}
+
+	private boolean checkInputField() {
+		if(!FileUtil.validateFolder(customPathPathBox.getText()) || customPathPathBox.getText().equals("")){
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Fehler");
+			alert.setHeaderText("Kein gültiger Pfad");
+			alert.setContentText("Der ausgesuchte Pfad ist kein Ordner.\n" +
+					"Bitte stellen Sie sicher, dass der Ordner existiert.");
+			alert.showAndWait();
+			return false;
+		}else if(this.customPathNameBox.getText().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Fehler");
+			alert.setHeaderText("Kein gültiger Name");
+			alert.setContentText("Sie haben keinen Namen für Ihren gewählten Pfad angegeben.\n" +
+					"Bitte geben Sie einen Namen an.");
+			alert.showAndWait();
+			return false;
+		}
+		return true;
 	}
 }
