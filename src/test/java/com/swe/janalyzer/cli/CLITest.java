@@ -49,6 +49,7 @@ public class CLITest {
 //        assertEquals(expected, outContent.toString());
     }
 
+    /*
     @Test
     public void output() {
         String[] args = {"-v","Testdateien/Graphs", "--output", "hi"};
@@ -62,6 +63,7 @@ public class CLITest {
 //        System.out.println(outContent);
         assertEquals(0, c.handle(args));
     }
+    */
 
     @Test
     public void humanOpt(){

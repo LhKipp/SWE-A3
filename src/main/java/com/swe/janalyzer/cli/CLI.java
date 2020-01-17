@@ -101,7 +101,15 @@ public class CLI {
 		// set output
 		Path outputPath;
 		if (line.hasOption("o")) {
-			outputPath = Paths.get(line.getOptionValue("o"));
+			Path submittedPath = Paths.get(line.getOptionValue("o"));
+			try {
+				outputPath = Paths.get( submittedPath.toString(),
+						result.getName() + "_" + FileUtil.analyzationNumber(projectRoot, submittedPath));
+			} catch (IOException e) {
+				System.out.println("Failed to get information how often the Project has been analysed.\n"
+						+ "Please rename the result manualy");
+				outputPath = Paths.get(submittedPath.toString(), result.getName() + "_X");
+			}
 		}else{
 		    //Calc correct output path
 			//path is: user.home / project_name + _ + Count

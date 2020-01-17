@@ -36,10 +36,12 @@ public class OptionViewCreator {
                 metricLabel.setPadding(new Insets(0,0,0,8));
                 metricLabel.setId("option-threshold-label");
                 metricLabel.prefWidthProperty().bind(parentWidth.divide(2));
+                metricLabel.setMinWidth(250);
 
                 TextField thresholdField = new TextField();
                 thresholdField.setId("option-threshold-input");
                 thresholdField.prefWidthProperty().bind(parentWidth.divide(2));
+                thresholdField.setMinWidth(245);
 
                 thresholdField.textProperty().addListener((observable, oldValue, newValue) -> {
                     if(oldValue.equals(newValue)){
