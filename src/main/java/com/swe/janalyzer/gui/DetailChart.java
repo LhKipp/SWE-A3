@@ -2,14 +2,14 @@ package com.swe.janalyzer.gui;
 
 import com.swe.janalyzer.data.metriken.MetricResult;
 import com.swe.janalyzer.data.metriken.Project;
+import com.swe.janalyzer.util.KeyConverter;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -38,7 +38,8 @@ public class DetailChart extends VBox {
                 threshold = new SimpleDoubleProperty(thresholds.get(metric.getMetricName()));
             }
             final VBox table =
-                    tableFor(metric.getResults(),
+                    tableFor(metric.getMetricName(),
+                            metric.getResults(),
                             width * 0.75,
                             width * 0.25,
                             threshold);
@@ -48,7 +49,7 @@ public class DetailChart extends VBox {
     }
 
 
-    private VBox tableFor(final Map<String,String> map,
+    private VBox tableFor(String metricName, final Map<String,String> map,
                           double keyWidth,
                           double valueWidth,
                           DoubleProperty threshold){
@@ -68,7 +69,21 @@ public class DetailChart extends VBox {
             }catch (NumberFormatException | NullPointerException ignored){
 
             }
-            final Label key = new Label(e.getKey());
+
+            String labelText = "";
+            switch (metricName){
+                case "LOC":
+                    labelText = KeyConverter.convertPath(Paths.get(e.getKey()));
+                    break;
+                case "CC":
+                    labelText = KeyConverter.convertClass(e.getKey());
+                    break;
+                default:
+                    labelText = e.getKey();
+                    break;
+            }
+
+            final Label key = new Label(labelText);
             key.setPrefWidth(keyWidth);
             key.setId("detailChart-table-key");
             final Label value = new Label(e.getValue());
