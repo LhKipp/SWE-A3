@@ -6,6 +6,7 @@ import com.swe.janalyzer.gui.util.ColorProvider;
 import com.swe.janalyzer.gui.util.Percentage;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 
@@ -98,12 +99,13 @@ public class ComparisonChart {
             final double totalWidth,
             final String color){
 
-        final double textWidth = totalWidth * 0.25;
-        final double barWidth = totalWidth * 0.75;
+        final double textWidth = totalWidth * 0.35;
+        final double barWidth = totalWidth * 0.65;
 
         HBox root = new HBox();
 
-        Label label = new Label(projectName + ": " + Double.toString(metricValue));
+        final String projectNameWithValue = projectName + ": " + Double.toString(metricValue);
+        Label label = new Label(projectNameWithValue);
         //TODO set style for label
         label.setPrefWidth(textWidth);
         label.setMaxWidth(textWidth);
@@ -113,10 +115,20 @@ public class ComparisonChart {
         }else{
             label.setStyle("-fx-text-fill: " + color + ";");
         }
+        Tooltip fullNameWithValue = new Tooltip(projectNameWithValue);
+        Tooltip.install(label, fullNameWithValue);
         root.getChildren().add(label);
 
-        final double valueRelativeInPercentage = metricValue / maxValueFromProjects;
-        Label bar = new Label(Percentage.formatAsPercentage(valueRelativeInPercentage));
+
+        //Dont divide by 0
+        //If maxVal == 0, every metric is maxed out
+        final double valueRelativeInPercentage =
+          maxValueFromProjects == 0 ?
+                  1
+                  : metricValue / maxValueFromProjects;
+
+        final String percentageValue = Percentage.formatAsPercentage(valueRelativeInPercentage);
+        Label bar = new Label();
         bar.setPrefWidth(barWidth * valueRelativeInPercentage);
         bar.setMaxWidth(barWidth * valueRelativeInPercentage);
         bar.setId("chart-bar");
@@ -131,6 +143,17 @@ public class ComparisonChart {
         }
 
         root.getChildren().add(bar);
+        //Set text on bar or beside?
+        if(valueRelativeInPercentage > 0.30){
+            //Text fits in bar
+            bar.setText(percentageValue);
+        }else{
+            //Text goes on the right
+            Label percentage = new Label(percentageValue);
+            percentage.setId("chart-text-on-right");
+            root.getChildren().add(percentage);
+        }
+
 
         return root;
     }

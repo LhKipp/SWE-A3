@@ -121,12 +121,12 @@ public class CCCalculator extends VoidVisitorAdapter<Void> implements MetricCalc
     private String nameOf(Node decl) {
         if(decl.getClass() == MethodDeclaration.class){
             MethodDeclaration decl1 = (MethodDeclaration) decl;
-            String fullDecl = decl1.getDeclarationAsString(false, false, true);
+            String fullDecl = decl1.getDeclarationAsString(false, false, false);
             int endOfReturnType = fullDecl.indexOf(" ");
             return fullDecl.substring(endOfReturnType +1);
         }else if(decl.getClass() == ConstructorDeclaration.class){
             ConstructorDeclaration decl1 = (ConstructorDeclaration) decl;
-            return decl1.getDeclarationAsString(false, false , true);
+            return decl1.getDeclarationAsString(false, false , false);
         }
         throw new IllegalArgumentException("Node was of an unsupported type");
     }

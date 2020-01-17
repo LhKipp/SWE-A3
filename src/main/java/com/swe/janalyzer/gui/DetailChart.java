@@ -5,7 +5,9 @@ import com.swe.janalyzer.data.metriken.Project;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -71,6 +73,11 @@ public class DetailChart extends VBox {
             final Label key = new Label(e.getKey());
             key.setPrefWidth(keyWidth);
             key.setId("detailChart-table-key");
+            key.setTextOverrun(OverrunStyle.LEADING_ELLIPSIS);
+
+            Tooltip fullKeyName = new Tooltip(e.getKey());
+            Tooltip.install(key, fullKeyName);
+
             final Label value = new Label(e.getValue());
             value.setPrefWidth(valueWidth);
             value.setId("detailChart-table-value");
