@@ -12,6 +12,13 @@ public class KeyConverter {
     public static final int backslashBufferLen = 1;
     public static final int threeDotsBufferLen = 3;
 
+    public static String convertName(String name) {
+        if(name.length() > totalLength) {
+            return "..." + name.substring(name.length() - (totalLength - threeDotsBufferLen));
+        }
+        return name;
+    }
+
     public static String convertPath(Path pathName) {
         if (pathName.toString().length() > totalLength) {
             String name = pathName.getFileName().toString();

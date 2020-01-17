@@ -74,6 +74,7 @@ public class DetailChart extends VBox {
 
             }
 
+            // Hier kann die gesonderte Behandlung eines zu langen Bezeichners benutzt werden.
             String labelText = "";
             switch (metricName){
                 case "LOC":
@@ -83,7 +84,7 @@ public class DetailChart extends VBox {
                     labelText = KeyConverter.convertClass(e.getKey());
                     break;
                 default:
-                    labelText = e.getKey();
+                    labelText = KeyConverter.convertName(e.getKey());
                     break;
             }
 
