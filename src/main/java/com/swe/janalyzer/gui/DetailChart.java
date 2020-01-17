@@ -5,7 +5,11 @@ import com.swe.janalyzer.data.metriken.Project;
 import com.swe.janalyzer.util.KeyConverter;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -86,6 +90,8 @@ public class DetailChart extends VBox {
             final Label key = new Label(labelText);
             key.setPrefWidth(keyWidth);
             key.setId("detailChart-table-key");
+            key.setTooltip(new Tooltip(e.getKey()));
+
             final Label value = new Label(e.getValue());
             value.setPrefWidth(valueWidth);
             value.setId("detailChart-table-value");
