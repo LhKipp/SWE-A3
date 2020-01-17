@@ -55,7 +55,7 @@
                               <Insets left="15.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="defaultPathPathBox" minWidth="120.0">
+                        <TextField fx:id="defaultPathPathBox" editable="false" minWidth="120.0">
                            <VBox.margin>
                               <Insets left="15.0" />
                            </VBox.margin>

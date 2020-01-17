@@ -7,19 +7,23 @@
 
 #chart-project-and-value{
     -fx-font-size: 16;
-    -fx-font-style: oblique;
     -fx-border-width: 3pt;
     -fx-border-color: white black white white;
     -fx-padding: 0pt;
     -fx-border-insets: 0pt;
-
 }
 
 #chart-bar{
     -fx-font-size: 16;
-    -fx-font-style: oblique;
     -fx-border-width: 0pt;
     -fx-text-fill: white;
     -fx-text-alignment: right;
+}
 
+#chart-text-on-right{
+    -fx-font-size: 16;
+    -fx-border-width: 0pt;
+    -fx-text-fill: black;
+    -fx-text-alignment: right;
+    -fx-padding: 0 0 0 5;
 }

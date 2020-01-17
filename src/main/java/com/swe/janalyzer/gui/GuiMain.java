@@ -23,7 +23,7 @@ public class GuiMain {
 			return;
 		}
 		Scene startScene = new Scene(root, 900, 650);
-		startScene.getStylesheets().addAll("gui/chart.css", "gui/detailChart.css");
+		startScene.getStylesheets().addAll("gui/chart.css", "gui/detailChart.css", "gui/style.css");
 		primaryStage.setTitle("janalyzer");
 		primaryStage.setScene(startScene);
 		primaryStage.setResizable(false);

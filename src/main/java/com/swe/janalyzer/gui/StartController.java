@@ -72,7 +72,7 @@ public class StartController {
 
 		//TODO Move this code to optionController init ???
 		Scene optionScene = new Scene(option, 500, 430); // initiale Fenstergröße muss noch angepasst werden
-		optionScene.getStylesheets().add("gui/option.css");
+		optionScene.getStylesheets().addAll("gui/option.css", "gui/styles.css");
 		Stage optionWindow= new Stage();
 
 		optionWindow.initOwner(this.stage);
