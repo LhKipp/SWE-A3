@@ -71,8 +71,8 @@ public class StartController {
 	 	optionController = (OptionController) loader.getController();
 
 		//TODO Move this code to optionController init ???
-		Scene optionScene = new Scene(option, 530, 430); // initiale Fenstergröße muss noch angepasst werden
-		optionScene.getStylesheets().addAll("gui/option.css");
+		Scene optionScene = new Scene(option, 750, 430); // initiale Fenstergröße muss noch angepasst werden
+		optionScene.getStylesheets().addAll("gui/option.css" );
 		Stage optionWindow= new Stage();
 
 		optionWindow.initOwner(this.stage);
